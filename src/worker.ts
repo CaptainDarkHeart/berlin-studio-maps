@@ -202,9 +202,18 @@ async function handleSuggest(request: Request, env: Env, ip: string): Promise<Re
   });
 }
 
+const REDIRECTS: Record<string, string> = {
+  '/features/infinity-ciclorama-studios/': '/features/infinity-cyclorama-studios/',
+};
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    const redirectTo = REDIRECTS[url.pathname];
+    if (redirectTo) {
+      url.pathname = redirectTo;
+      return Response.redirect(url.toString(), 301);
+    }
     if (url.pathname === '/api/suggest' && request.method === 'POST') {
       const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
       return handleSuggest(request, env, ip);

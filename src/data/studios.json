@@ -27,7 +27,7 @@
     ],
     "web": "fotostyle-berlin.de",
     "v": 1,
-    "email": null,
+    "email": "fotostyle-berlin@hotmail.de",
     "badge": false
   },
   {
@@ -57,7 +57,7 @@
     ],
     "web": "sepistudio.de",
     "v": 1,
-    "email": null,
+    "email": "info@produktfoto-atelier.de",
     "badge": false
   },
   {
@@ -116,7 +116,7 @@
     ],
     "web": "sophiebrand-studio.de",
     "v": 1,
-    "email": null,
+    "email": "info@sophiebrand.de",
     "badge": false
   },
   {
@@ -144,7 +144,7 @@
     ],
     "web": "studio-location-berlin.de",
     "v": 1,
-    "email": null,
+    "email": "contact@studio-location-berlin.de",
     "badge": false
   },
   {
@@ -173,7 +173,7 @@
     ],
     "web": "prinzessinnenstudio.com",
     "v": 1,
-    "email": null,
+    "email": "mail@prinzessinnenstudio.com",
     "badge": false
   },
   {
@@ -201,7 +201,7 @@
     ],
     "web": "studioweissensee.berlin",
     "v": 1,
-    "email": null,
+    "email": "info@studioweissensee.berlin",
     "badge": false
   },
   {
@@ -229,7 +229,7 @@
     ],
     "web": "neonisland.studio",
     "v": 1,
-    "email": null,
+    "email": "hello@neonisland.studio",
     "badge": false
   },
   {
@@ -315,7 +315,7 @@
     ],
     "web": "letova.de",
     "v": 1,
-    "email": null,
+    "email": "lolitafedorovapro@gmail.com",
     "badge": false
   },
   {
@@ -371,7 +371,7 @@
     ],
     "web": "mietstudio-charlottenburg.de",
     "v": 1,
-    "email": null,
+    "email": "pdrozd@quintlabs.com",
     "badge": false
   },
   {
@@ -394,7 +394,7 @@
     "wifi": true,
     "facing": "Daylight + 6x6m butterfly system",
     "extras": [
-      "10×10m white infinity ciclorama (Hohlkehle)",
+      "10×10m white infinity cyclorama (Hohlkehle)",
       "Ground-level drive-in for vans, cars, motorbikes",
       "63A CEE power to ceiling, heavy-duty rigging",
       "Soundproofed, 15 free parking spaces",
@@ -433,7 +433,7 @@
     ],
     "web": "qre8.studio",
     "v": 1,
-    "email": null,
+    "email": "hello@qre8.studio",
     "badge": false
   },
   {
@@ -489,7 +489,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "hi@metastudio.berlin",
     "badge": false
   },
   {
@@ -514,7 +514,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "maja@e-picprojects.com",
     "badge": false
   },
   {
@@ -539,7 +539,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "info@allmostudio.com",
     "badge": false
   },
   {
@@ -591,7 +591,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "hello@visionary.berlin",
     "badge": false
   },
   {
@@ -666,7 +666,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "mail@studio65.berlin",
     "badge": false
   },
   {
@@ -691,7 +691,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "information@wavedots.de",
     "badge": false
   },
   {
@@ -716,7 +716,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "contact@thecontrol.studio",
     "badge": false
   },
   {
@@ -744,7 +744,7 @@
     ],
     "web": "studioberlin.eu",
     "v": 1,
-    "email": null,
+    "email": "mail@studioberlin.eu",
     "badge": false
   },
   {
@@ -775,7 +775,7 @@
     ],
     "web": "ikonic.studio",
     "v": 1,
-    "email": null,
+    "email": "contact@ikonic.studio",
     "badge": false
   },
   {
@@ -800,7 +800,7 @@
     "extras": [],
     "web": null,
     "v": 1,
-    "email": null,
+    "email": "info@sophiebrand.de",
     "badge": false
   },
   {
@@ -850,7 +850,7 @@
     "wifi": true,
     "facing": "North-facing windows",
     "extras": [
-      "6m-wide ciclorama lit by north-facing windows",
+      "6m-wide cyclorama lit by north-facing windows",
       "Industrial factory-location character"
     ],
     "web": "westudio.de",
@@ -869,9 +869,9 @@
     "ceil": "3m",
     "rate": "€35/hr · €280/day (10hr+)",
     "daylight": false,
-    "blackout": true,
+    "blackout": false,
     "ciclorama": false,
-    "driveIn": true,
+    "driveIn": false,
     "kitchen": true,
     "makeup": true,
     "greenRoom": true,
@@ -879,7 +879,6 @@
     "facing": null,
     "extras": [
       "56m² main studio, 72m² total",
-      "Floor-to-ceiling blackout curtains",
       "Extra-wide background rolls (3.5m+)",
       "4x professional flash units + video lighting",
       "Full furniture/props library, brick and wood-panel walls",
@@ -888,7 +887,7 @@
     ],
     "web": "birkenstudio.de",
     "v": 1,
-    "email": null,
+    "email": "mail@birkenstudio.de",
     "badge": false
   }
 ]

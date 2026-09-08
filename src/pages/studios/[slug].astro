@@ -39,7 +39,7 @@ const monthlyLight = months.map((m, i) => {
 });
 
 const title = `${s.name} — Photography Studio Hire, ${s.neighbourhood} | Berlin Studio Map`;
-const description = `${s.name} in ${s.neighbourhood}, ${s.area} Berlin. ${s.daylight ? 'Daylight studio' : 'Studio'}${s.ciclorama ? ' with infinity ciclorama' : ''}. ${s.rate}. View specs, facilities, and daylight hours.`;
+const description = `${s.name} in ${s.neighbourhood}, ${s.area} Berlin. ${s.daylight ? 'Daylight studio' : 'Studio'}${s.ciclorama ? ' with infinity cyclorama' : ''}. ${s.rate}. View specs, facilities, and daylight hours.`;
 const canonical = `https://berlinstudiomaps.com/studios/${slugify(s)}/`;
 
 const jsonLd = {
@@ -53,7 +53,7 @@ const jsonLd = {
   "amenityFeature": [
     { "@type": "LocationFeatureSpecification", "name": "Natural daylight", "value": s.daylight },
     { "@type": "LocationFeatureSpecification", "name": "Blackout capability", "value": s.blackout },
-    { "@type": "LocationFeatureSpecification", "name": "Infinity ciclorama / cyclorama", "value": s.ciclorama },
+    { "@type": "LocationFeatureSpecification", "name": "Infinity cyclorama", "value": s.ciclorama },
     { "@type": "LocationFeatureSpecification", "name": "Drive-in vehicle access", "value": s.driveIn },
     { "@type": "LocationFeatureSpecification", "name": "Kitchen", "value": s.kitchen },
     { "@type": "LocationFeatureSpecification", "name": "Makeup area", "value": s.makeup },
@@ -85,7 +85,7 @@ const breadcrumbLd = {
   <div style="margin:20px 0">
     {s.daylight && <span class="tag daylight">Daylight{s.facing ? ` · ${s.facing}` : ''}</span>}
     {s.blackout && <span class="tag">Blackout</span>}
-    {s.ciclorama && <span class="tag ciclorama">Ciclorama</span>}
+    {s.ciclorama && <span class="tag ciclorama">Cyclorama</span>}
     {s.driveIn && <span class="tag highlight">Drive-in</span>}
     {s.kitchen && <span class="tag">Kitchen</span>}
     {s.makeup && <span class="tag">Makeup</span>}
@@ -141,9 +141,9 @@ const breadcrumbLd = {
       var hours = document.getElementById('eq-hours').value;
       var message = document.getElementById('eq-message').value;
       var sendCopy = document.getElementById('eq-cc').checked;
-      var body = `From: ${name} (${email})\nDates: ${dates}\nHours: ${hours}\n\n${message}`;
+      var body = `From: ${name} (${email})\nDates: ${dates}\nHours: ${hours}\n\n${message}\n\n---\nSent via BerlinStudioMap.com`;
       var to = studioEmail || 'hello@berlinstudiomaps.com';
-      var mailto = `mailto:${to}?subject=${encodeURIComponent('Studio enquiry: ' + studioName)}&body=${encodeURIComponent(body)}`;
+      var mailto = `mailto:${to}?subject=${encodeURIComponent('Studio enquiry via BerlinStudioMap.com: ' + studioName)}&body=${encodeURIComponent(body)}`;
       if (sendCopy && email) {
         mailto += `&cc=${encodeURIComponent(email)}`;
       }
