@@ -10,7 +10,7 @@ a:hover{text-decoration:underline}
 .logo a{color:var(--text);text-decoration:none;font-weight:400;font-size:19px;font-family:'Alpaca Scarlett',var(--font);letter-spacing:0.01em;display:flex;align-items:baseline;gap:8px}
 .logo span{font-family:var(--mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em}
 .page-header nav{display:flex;align-items:center;gap:20px;justify-content:center}
-.page-header nav a{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.06em}
+.page-header nav a{font-family:'Alpaca Scarlett',var(--mono);font-size:13px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.06em}
 .page-header nav a:hover{color:var(--text);text-decoration:none}
 .header-right{display:flex;align-items:center;gap:12px;justify-content:flex-end}
 .theme-toggle{background:none;border:1px solid var(--border);border-radius:4px;color:var(--text-dim);cursor:pointer;padding:3px 9px;line-height:1.5}
@@ -21,7 +21,7 @@ html.light .theme-toggle::before{content:'☾'}
 .page-mobile-menu{display:none}
 
 .container{max-width:800px;margin:0 auto;padding:40px 20px}
-h1{font-size:28px;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em}
+h1{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em}
 h2{font-size:20px;font-weight:600;margin:32px 0 12px;letter-spacing:-0.01em}
 h3{font-size:16px;font-weight:600;margin:24px 0 8px}
 p{margin-bottom:16px;color:var(--text-dim);font-size:15px}
@@ -77,5 +77,5 @@ footer{padding:40px 20px;border-top:1px solid var(--border);text-align:center;fo
   .page-mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
   .page-mobile-menu-close{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .page-mobile-nav{display:flex;flex-direction:column;gap:8px}
-  .page-mobile-nav a{font-size:28px;font-weight:600;color:var(--text);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--border)}
+  .page-mobile-nav a{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:600;color:var(--text);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--border)}
 }
