@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # internal reference material, not part of the site
 beto/
+
+# playwright-cli session snapshots
+.playwright-cli/
