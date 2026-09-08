@@ -27,10 +27,17 @@ const personJsonLd = {
   <p>Every studio on this site has been reviewed and confirmed rather than left as a rough estimate. If you run one of these studios and something is wrong, or missing, please get in touch and I'll fix it.</p>
 
   <h2>Who Built This</h2>
-  <div class="builder">
-    <p>Berlin Studio Map was built by me, <a href="https://www.betoruizalonso.com/about/" target="_blank" rel="noopener">Beto Ruiz Alonso</a>, a Berlin-based photographer working across portrait, fashion, and event photography. I built this site as a personal solution to the same problem every visiting or local photographer runs into: comparing studios across daylight, coves, and facilities meant checking a dozen different listing sites. Follow me on <a href="https://www.instagram.com/betoruizalonso/" target="_blank" rel="noopener">Instagram</a>.</p>
-    <img src="/betoruizalonso.jpg" alt="Beto Ruiz Alonso" width="120" height="120" class="builder-photo" />
+  <div class="builder-pins">
+    <div class="builder-pin">
+      <span class="pin-shape"><img src="/betoruizalonso.jpg" alt="Beto Ruiz Alonso" width="72" height="72" /></span>
+      <p class="pin-name"><a href="https://www.betoruizalonso.com/about/" target="_blank" rel="noopener">Beto Ruiz Alonso</a><br /><span class="pin-role">Photographer</span></p>
+    </div>
+    <div class="builder-pin">
+      <span class="pin-shape"><img src="/dantaylor.jpg" alt="Dan Taylor" width="72" height="72" /></span>
+      <p class="pin-name"><a href="https://dantaylor.me" target="_blank" rel="noopener">Dan Taylor</a><br /><span class="pin-role">Builder</span></p>
+    </div>
   </div>
+  <p>Berlin Studio Map was built by <a href="https://www.betoruizalonso.com/about/" target="_blank" rel="noopener">Beto Ruiz Alonso</a>, a Berlin-based photographer working across portrait, fashion, and event photography, together with <a href="https://dantaylor.me" target="_blank" rel="noopener">Dan Taylor</a>, a web developer, photographer, and PR professional. We built this site as a personal solution to the same problem every visiting or local photographer runs into: comparing studios across daylight, coves, and facilities meant checking a dozen different listing sites. Follow Beto on <a href="https://www.instagram.com/betoruizalonso/" target="_blank" rel="noopener">Instagram</a>.</p>
   <p>The idea was inspired by <a href="https://studiomaps.io/" target="_blank" rel="noopener">Studio Map</a>, the equivalent directory for London. Same concept, built for Berlin.</p>
 
   <h2>Get in Touch</h2>
@@ -38,21 +45,48 @@ const personJsonLd = {
 </div>
 
 <style>
-  .builder {
+  .builder-pins {
     display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
+    gap: 2.5rem;
+    margin: 1.5rem 0;
   }
-  .builder-photo {
-    border-radius: 50%;
+  .builder-pin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.1rem;
+  }
+  .pin-shape {
+    display: block;
+    width: 72px;
+    height: 72px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    overflow: hidden;
+    border: 3px solid #1a1a1a;
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.25));
+  }
+  .pin-shape img {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    flex-shrink: 0;
+    transform: rotate(45deg) scale(1.4);
+  }
+  .pin-name {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .pin-role {
+    font-size: 0.8rem;
+    opacity: 0.7;
   }
   @media (max-width: 520px) {
-    .builder {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+    .builder-pins {
+      gap: 1.5rem;
+      justify-content: center;
     }
   }
 </style>

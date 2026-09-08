@@ -16,7 +16,7 @@ export const GET: APIRoute = () => {
   lines.push(`> Free, independent directory of ${list.length} photography studios for hire in Berlin. Every listing is manually fact-checked against the studio's own site, not AI-estimated. Filterable by daylight, blackout, infinity ciclorama, drive-in access, and facilities, with a build-time and live sunrise/sunset/golden-hour calculator for each studio's Berlin location. No booking system or commission: this site links directly to each studio's own contact channel.`);
   lines.push('');
   lines.push('## About');
-  lines.push(`- [About Berlin Studio Map](${base}/about/): what this directory is, data sourcing and accuracy policy, who built it (Berlin photographer Beto Ruiz Alonso), and contact.`);
+  lines.push(`- [About Berlin Studio Map](${base}/about/): what this directory is, data sourcing and accuracy policy, who built it (Berlin photographer Beto Ruiz Alonso together with Dan Taylor), and contact.`);
   lines.push(`- [Suggest a Studio](${base}/suggest/): add a missing studio or report a correction.`);
   lines.push('');
   lines.push('## Studios');
