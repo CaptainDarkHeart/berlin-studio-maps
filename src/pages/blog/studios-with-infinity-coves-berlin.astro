@@ -3,14 +3,14 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
 
-const list = (studios as any[]).filter(s => s.cove).sort((a,b) => a.name.localeCompare(b.name));
-const title = "Photography Studios with Infinity Coves in Berlin | Berlin Studio Map";
-const description = `${list.length} studios with infinity coves in Berlin. Dimensions, pricing, and specs compared.`;
+const list = (studios as any[]).filter(s => s.ciclorama).sort((a,b) => a.name.localeCompare(b.name));
+const title = "Photography Studios with Infinity Cicloramas in Berlin | Berlin Studio Map";
+const description = `${list.length} studios with infinity cicloramas in Berlin. Dimensions, pricing, and specs compared.`;
 const canonical = "https://berlinstudiomaps.com/blog/studios-with-infinity-coves-berlin/";
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Photography Studios with Infinity Coves in Berlin",
+  "headline": "Photography Studios with Infinity Cicloramas in Berlin",
   "description": description,
   "url": canonical,
   "author": { "@type": "Organization", "name": "Berlin Studio Map" },
@@ -20,9 +20,9 @@ const articleJsonLd = {
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 <div class="container">
-  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Infinity Cove Studios</div>
-  <h1>Photography Studios with Infinity Coves in Berlin</h1>
-  <p>{list.length} studios on Berlin Studio Map have a dedicated infinity cove or cyclorama. Sizes range widely, check ceiling height and drive-in access if you're shooting vehicles or need headroom for lighting rigs.</p>
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Infinity Ciclorama Studios</div>
+  <h1>Photography Studios with Infinity Cicloramas in Berlin</h1>
+  <p>{list.length} studios on Berlin Studio Map have a dedicated infinity ciclorama or cyclorama. Sizes range widely, check ceiling height and drive-in access if you're shooting vehicles or need headroom for lighting rigs.</p>
 
   <div class="studio-grid">
     {list.map((s: any) => (

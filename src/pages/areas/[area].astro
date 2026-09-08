@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { area, list } = Astro.props;
 const daylightCount = list.filter((s: any) => s.daylight).length;
-const coveCount = list.filter((s: any) => s.cove).length;
+const cicloramaCount = list.filter((s: any) => s.ciclorama).length;
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -27,7 +27,7 @@ const itemListJsonLd = {
 ---
 <PageLayout
   title={`Photography Studios in ${area}, Berlin | Berlin Studio Map`}
-  description={`${list.length} photography studios for hire in ${area}, Berlin. ${daylightCount} offer daylight, ${coveCount} have infinity coves.`}
+  description={`${list.length} photography studios for hire in ${area}, Berlin. ${daylightCount} offer daylight, ${cicloramaCount} have infinity cicloramas.`}
   canonical={`https://berlinstudiomaps.com/areas/${areaSlug(area)}/`}
 >
 <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
@@ -35,7 +35,7 @@ const itemListJsonLd = {
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/studios/">Studios</a> / {area}</div>
 
   <h1>Photography Studios in {area}</h1>
-  <p>{list.length} studio{list.length === 1 ? '' : 's'} available for hire in {area}, Berlin. {daylightCount} offer daylight, {coveCount} have infinity coves.</p>
+  <p>{list.length} studio{list.length === 1 ? '' : 's'} available for hire in {area}, Berlin. {daylightCount} offer daylight, {cicloramaCount} have infinity cicloramas.</p>
 
   <a href={`/?area=${encodeURIComponent(area)}`} class="cta-map">View on Map</a>
 
@@ -46,7 +46,7 @@ const itemListJsonLd = {
         <div class="meta">{s.neighbourhood} · {s.rate}</div>
         <div>
           {s.daylight && <span class="tag daylight">Daylight</span>}
-          {s.cove && <span class="tag cove">Cove</span>}
+          {s.ciclorama && <span class="tag ciclorama">Ciclorama</span>}
           {s.blackout && <span class="tag">Blackout</span>}
         </div>
       </a>

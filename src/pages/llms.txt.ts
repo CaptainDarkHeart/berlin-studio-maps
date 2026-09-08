@@ -7,13 +7,13 @@ export const GET: APIRoute = () => {
   const list = studios as any[];
   const areas = Array.from(new Set(list.map(s => s.area))).sort();
   const daylightCount = list.filter(s => s.daylight).length;
-  const coveCount = list.filter(s => s.cove).length;
+  const cicloramaCount = list.filter(s => s.ciclorama).length;
   const base = 'https://berlinstudiomaps.com';
 
   const lines: string[] = [];
   lines.push('# Berlin Studio Map');
   lines.push('');
-  lines.push(`> Free, independent directory of ${list.length} photography studios for hire in Berlin. Every listing is manually fact-checked against the studio's own site, not AI-estimated. Filterable by daylight, blackout, infinity cove, drive-in access, and facilities, with a build-time and live sunrise/sunset/golden-hour calculator for each studio's Berlin location. No booking system or commission: this site links directly to each studio's own contact channel.`);
+  lines.push(`> Free, independent directory of ${list.length} photography studios for hire in Berlin. Every listing is manually fact-checked against the studio's own site, not AI-estimated. Filterable by daylight, blackout, infinity ciclorama, drive-in access, and facilities, with a build-time and live sunrise/sunset/golden-hour calculator for each studio's Berlin location. No booking system or commission: this site links directly to each studio's own contact channel.`);
   lines.push('');
   lines.push('## About');
   lines.push(`- [About Berlin Studio Map](${base}/about/): what this directory is, data sourcing and accuracy policy, who built it (Berlin photographer Beto Ruiz Alonso), and contact.`);
@@ -24,7 +24,7 @@ export const GET: APIRoute = () => {
   for (const s of [...list].sort((a, b) => a.name.localeCompare(b.name))) {
     const feats = [
       s.daylight && 'daylight',
-      s.cove && 'infinity cove',
+      s.ciclorama && 'infinity ciclorama',
       s.blackout && 'blackout',
       s.driveIn && 'drive-in',
     ].filter(Boolean).join(', ');
@@ -46,7 +46,7 @@ export const GET: APIRoute = () => {
   lines.push('## Guides');
   lines.push(`- [The Complete Guide to Photography Studio Hire in Berlin](${base}/blog/complete-guide-photography-studio-hire-berlin/)`);
   lines.push(`- [Best Daylight Photography Studios in Berlin](${base}/blog/best-daylight-studios-berlin/): ${daylightCount} daylight studios compared.`);
-  lines.push(`- [Photography Studios with Infinity Coves in Berlin](${base}/blog/studios-with-infinity-coves-berlin/): ${coveCount} studios with infinity coves.`);
+  lines.push(`- [Photography Studios with Infinity Cicloramas in Berlin](${base}/blog/studios-with-infinity-coves-berlin/): ${cicloramaCount} studios with infinity cicloramas.`);
   lines.push('');
   lines.push('## Data');
   lines.push(`- [studios.json](${base}/studios.json): raw structured data backing every page on this site (id, name, area, neighbourhood, coordinates, rate, and feature flags).`);

@@ -8,11 +8,11 @@ Modeled on [studiomaps.io](https://studiomaps.io) (London), adapted for Berlin: 
 
 ## What's here
 
-- **`/`** — interactive map (Leaflet + CARTO Voyager tiles) with filters for daylight, blackout, infinity cove, drive-in access, kitchen, makeup, and green room, plus a live daylight/golden-hour bar computed from each studio's coordinates and today's date. Theme (light/dark UI chrome) switches automatically with Berlin's actual sunrise/sunset.
+- **`/`** — interactive map (Leaflet + CARTO Voyager tiles) with filters for daylight, blackout, infinity ciclorama, drive-in access, kitchen, makeup, and green room, plus a live daylight/golden-hour bar computed from each studio's coordinates and today's date. Theme (light/dark UI chrome) switches automatically with Berlin's actual sunrise/sunset.
 - **`/studios/`** — full A–Z list of studios, grouped by area.
 - **`/studios/{slug}/`** — one page per studio: stats, facilities, a build-time monthly sunrise/sunset table, JSON-LD structured data, and an enquiry form (currently opens the visitor's email client; no backend yet).
 - **`/areas/{area}/`** — one page per Berlin district represented in the current dataset.
-- **`/features/{feature}/`** — SEO landing pages for daylight, blackout, drive-in, infinity cove, and kitchen studios.
+- **`/features/{feature}/`** — SEO landing pages for daylight, blackout, drive-in, infinity ciclorama, and kitchen studios.
 - **`/blog/`** — a few guide/comparison posts generated from the live studio data.
 - **`/about/`**, **`/suggest/`** — project background and a studio-suggestion contact page.
 

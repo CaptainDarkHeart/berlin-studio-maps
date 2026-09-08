@@ -6,14 +6,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Berlin Studio Map | Photography Studios for Hire</title>
-<meta name="description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
+<meta name="description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, ciclorama, blackout, drive-in. Free daylight calculator.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://berlinstudiomaps.com/">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 <meta name="theme-color" content="#000000">
 <meta property="og:title" content="Berlin Studio Map | Photography Studios for Hire">
-<meta property="og:description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
+<meta property="og:description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, ciclorama, blackout, drive-in. Free daylight calculator.">
 <meta property="og:url" content="https://berlinstudiomaps.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Berlin Studio Map">
@@ -23,7 +23,7 @@
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Berlin Studio Map | Photography Studios for Hire">
-<meta name="twitter:description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
+<meta name="twitter:description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, ciclorama, blackout, drive-in. Free daylight calculator.">
 <meta name="twitter:image" content="https://berlinstudiomaps.com/og-image.png">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site summary">
 <script type="application/ld+json" set:html={JSON.stringify({
@@ -58,8 +58,8 @@
 <style is:global>
 *{margin:0;padding:0;box-sizing:border-box}
 @font-face{font-family:'Alpaca Scarlett';src:url('/fonts/AlpacaScarlett.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
-:root{--bg:#000000;--surface:#161616;--surface-2:#222222;--border:#333333;--text:#ffffff;--text-dim:#9a9a9a;--accent:#a855f7;--accent-dim:#8b3ee0;--daylight:#c084fc;--cove:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
-html.light{--bg:#ffffff;--surface:#f7f7f7;--surface-2:#ececec;--border:#dddddd;--text:#000000;--text-dim:#666666;--accent:#7c3aed;--accent-dim:#6d28d9;--daylight:#9333ea;--cove:#2a6898;--green:#3a7a30;--red:#c04040}
+:root{--bg:#000000;--surface:#161616;--surface-2:#222222;--border:#333333;--text:#ffffff;--text-dim:#9a9a9a;--accent:#a855f7;--accent-dim:#8b3ee0;--daylight:#c084fc;--ciclorama:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
+html.light{--bg:#ffffff;--surface:#f7f7f7;--surface-2:#ececec;--border:#dddddd;--text:#000000;--text-dim:#666666;--accent:#7c3aed;--accent-dim:#6d28d9;--daylight:#9333ea;--ciclorama:#2a6898;--green:#3a7a30;--red:#c04040}
 body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg);z-index:1000;flex-shrink:0;transition:background-color 2s ease,border-color 2s ease}
 .logo{display:flex;align-items:baseline;gap:8px}
@@ -105,9 +105,9 @@ nav a:hover{color:var(--text)}
 .studio-card .tags{display:flex;flex-wrap:wrap;gap:3px}
 .mini-tag{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:2px;background:var(--surface-2);color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em}
 .mini-tag.daylight{background:rgba(240,214,138,0.15);color:var(--daylight)}
-.mini-tag.cove{background:rgba(126,184,218,0.15);color:var(--cove)}
+.mini-tag.ciclorama{background:rgba(126,184,218,0.15);color:var(--ciclorama)}
 html.light .mini-tag.daylight{background:rgba(180,120,0,0.1);color:var(--daylight)}
-html.light .mini-tag.cove{background:rgba(42,104,152,0.1);color:var(--cove)}
+html.light .mini-tag.ciclorama{background:rgba(42,104,152,0.1);color:var(--ciclorama)}
 .daylight-indicator{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
 .daylight-indicator.good{background:var(--green);box-shadow:0 0 5px rgba(126,189,115,0.4)}
 .daylight-indicator.limited{background:var(--daylight);box-shadow:0 0 5px rgba(240,214,138,0.3)}
@@ -268,7 +268,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 <div class="filter-tags">
 <div class="filter-tag" data-filter="daylight">Daylight</div>
 <div class="filter-tag" data-filter="blackout">Blackout</div>
-<div class="filter-tag" data-filter="cove">Cove</div>
+<div class="filter-tag" data-filter="ciclorama">Ciclorama</div>
 <div class="filter-tag" data-filter="driveIn">Drive-in</div>
 </div>
 </div>
@@ -324,7 +324,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 <div class="filter-tags" style="margin-bottom:16px">
 <div class="filter-tag" data-filter="daylight" data-mobile="1">Daylight</div>
 <div class="filter-tag" data-filter="blackout" data-mobile="1">Blackout</div>
-<div class="filter-tag" data-filter="cove" data-mobile="1">Cove</div>
+<div class="filter-tag" data-filter="ciclorama" data-mobile="1">Ciclorama</div>
 <div class="filter-tag" data-filter="driveIn" data-mobile="1">Drive-in</div>
 </div>
 <p style="font-family:var(--mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Facilities</p>
@@ -499,7 +499,7 @@ function renderList(){
     const dl=sunTimes?getDaylightQuality(s,sunTimes):{quality:'na'};
     const tags=[];
     if(s.daylight)tags.push('<span class="mini-tag daylight">Daylight<\/span>');
-    if(s.cove)tags.push('<span class="mini-tag cove">Cove<\/span>');
+    if(s.ciclorama)tags.push('<span class="mini-tag ciclorama">Ciclorama<\/span>');
     if(s.blackout)tags.push('<span class="mini-tag">Blackout<\/span>');
     if(s.driveIn)tags.push('<span class="mini-tag">Drive-in<\/span>');
     return`<div class="studio-card ${selectedStudio===s.id?'selected':''}" data-id="${s.id}" onclick="window.selectStudio(${s.id})">
@@ -549,7 +549,7 @@ function selectStudio(id: number){
   const feats=[];
   if(s.daylight)feats.push(`<span class="feature-tag highlight">Daylight${s.facing?' · '+s.facing:''}</span>`);
   if(s.blackout)feats.push('<span class="feature-tag">Blackout</span>');
-  if(s.cove)feats.push('<span class="feature-tag highlight">Cove</span>');
+  if(s.ciclorama)feats.push('<span class="feature-tag highlight">Ciclorama</span>');
   if(s.driveIn)feats.push('<span class="feature-tag">Drive-in</span>');
   if(s.kitchen)feats.push('<span class="feature-tag">Kitchen</span>');
   if(s.makeup)feats.push('<span class="feature-tag">Makeup</span>');

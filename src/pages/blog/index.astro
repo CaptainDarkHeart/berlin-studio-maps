@@ -4,7 +4,7 @@ import studios from '../../data/studios.json';
 
 const total = studios.length;
 const daylight = (studios as any[]).filter(s => s.daylight).length;
-const cove = (studios as any[]).filter(s => s.cove).length;
+const ciclorama = (studios as any[]).filter(s => s.ciclorama).length;
 const areas = new Set((studios as any[]).map(s => s.area)).size;
 ---
 <PageLayout
@@ -27,8 +27,8 @@ const areas = new Set((studios as any[]).map(s => s.area)).size;
       <div class="meta">{daylight} daylight studios compared by orientation and facilities.</div>
     </a>
     <a href="/blog/studios-with-infinity-coves-berlin/" class="studio-link">
-      <h3>Photography Studios with Infinity Coves in Berlin</h3>
-      <div class="meta">{cove} studios with infinity coves. Dimensions and specs compared.</div>
+      <h3>Photography Studios with Infinity Cicloramas in Berlin</h3>
+      <div class="meta">{ciclorama} studios with infinity cicloramas. Dimensions and specs compared.</div>
     </a>
   </div>
 </div>
