@@ -11,7 +11,7 @@
 <link rel="canonical" href="https://berlinstudiomaps.com/">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="icon" type="image/jpeg" href="/favicon.jpg">
-<meta name="theme-color" content="#0e0e0e">
+<meta name="theme-color" content="#000000">
 <meta property="og:title" content="Berlin Studio Map | Photography Studios for Hire">
 <meta property="og:description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
 <meta property="og:url" content="https://berlinstudiomaps.com/">
@@ -57,8 +57,8 @@
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Sans+Caption:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
 <style is:global>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0e0e0e;--surface:#1a1a1a;--surface-2:#242424;--border:#2e2e2e;--text:#e8e4de;--text-dim:#8a8680;--accent:#e8a849;--accent-dim:#c48a2e;--daylight:#f0d68a;--cove:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
-html.light{--bg:#f8f6f2;--surface:#ffffff;--surface-2:#f0ede8;--border:#ddd8d0;--text:#1c1a17;--text-dim:#7a7570;--accent:#c47820;--accent-dim:#a06010;--daylight:#8a6808;--cove:#2a6898;--green:#3a7a30;--red:#c04040}
+:root{--bg:#000000;--surface:#161616;--surface-2:#222222;--border:#333333;--text:#ffffff;--text-dim:#9a9a9a;--accent:#a855f7;--accent-dim:#8b3ee0;--daylight:#c084fc;--cove:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
+html.light{--bg:#ffffff;--surface:#f7f7f7;--surface-2:#ececec;--border:#dddddd;--text:#000000;--text-dim:#666666;--accent:#7c3aed;--accent-dim:#6d28d9;--daylight:#9333ea;--cove:#2a6898;--green:#3a7a30;--red:#c04040}
 body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg);z-index:1000;flex-shrink:0;transition:background-color 2s ease,border-color 2s ease}
 .logo{display:flex;align-items:baseline;gap:8px}
@@ -114,8 +114,8 @@ html.light .mini-tag.cove{background:rgba(42,104,152,0.1);color:var(--cove)}
 .daylight-indicator.na{background:var(--text-dim);opacity:0.3}
 .map-container{flex:1;position:relative}
 #map{width:100%;height:100%}
-html.light .leaflet-container{background:#e8e4de}
-.leaflet-container{background:#1a1a1a}
+html.light .leaflet-container{background:#f7f7f7}
+.leaflet-container{background:#161616}
 .leaflet-control-zoom{border:1px solid var(--border)!important}
 .leaflet-control-zoom a{background:var(--surface)!important;color:var(--text)!important;border-color:var(--border)!important}
 .leaflet-control-zoom a:hover{background:var(--surface-2)!important}
@@ -400,12 +400,12 @@ function scheduleTheme() {
 }
 
 function mkIcon(s: any, active: boolean) {
-  const c = isDark ? '#e8a849' : '#a06010';
-  const bg = active ? c : (isDark ? '#0e0e0e' : '#ffffff');
+  const c = isDark ? '#a855f7' : '#7c3aed';
+  const bg = active ? c : (isDark ? '#000000' : '#ffffff');
   const size = active ? 22 : 18;
   const anchor = active ? 11 : 9;
   return L.divIcon({className:'', iconSize:[size,size], iconAnchor:[anchor,anchor],
-    html:`<div style="width:${size}px;height:${size}px;border-radius:50%;border:2px solid ${c};background:${bg};cursor:pointer;transition:all 0.2s;box-shadow:${active?'0 0 0 3px rgba(232,168,73,0.25)':'none'}"></div>`});
+    html:`<div style="width:${size}px;height:${size}px;border-radius:50%;border:2px solid ${c};background:${bg};cursor:pointer;transition:all 0.2s;box-shadow:${active?'0 0 0 3px rgba(168,85,247,0.25)':'none'}"></div>`});
 }
 
 function toRad(d: number){return d*Math.PI/180}
