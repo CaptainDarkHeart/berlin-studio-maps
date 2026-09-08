@@ -4,8 +4,10 @@
 	"account_id": "cd625a8a773318340cd24e10532aa135",
 	"compatibility_date": "2026-09-08",
 	"workers_dev": true,
+	"main": "src/worker.ts",
 	"assets": {
 		"directory": "./dist",
+		"binding": "ASSETS",
 		"not_found_handling": "404-page"
 	},
 	"routes": [
@@ -13,5 +15,15 @@
 		{ "pattern": "www.berlinstudiomaps.com", "custom_domain": true },
 		{ "pattern": "berlinstudiomap.com", "custom_domain": true },
 		{ "pattern": "www.berlinstudiomap.com", "custom_domain": true }
-	]
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "berlin-studio-suggestions",
+			"database_id": "d6cd0950-bb8d-4943-ab0f-858221ea327c"
+		}
+	],
+	"vars": {
+		"TURNSTILE_SITEKEY": "0x4AAAAAAEspIHOLsileoj7J"
+	}
 }

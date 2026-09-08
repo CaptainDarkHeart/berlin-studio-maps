@@ -28,3 +28,5 @@ beto/
 
 # playwright-cli session snapshots
 .playwright-cli/
+.dev.vars
+.wrangler/

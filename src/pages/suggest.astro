@@ -1,16 +1,105 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
 ---
 <PageLayout
   title="Suggest a Studio | Berlin Studio Map"
   description="Help me keep Berlin Studio Map complete and accurate."
   canonical="https://berlinstudiomaps.com/suggest/"
 >
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / Suggest a Studio</div>
   <h1>Suggest a Studio</h1>
-  <p>Know a photography studio in Berlin that isn't on my map? I'd love to add it.</p>
-  <p>Email me at <a href="mailto:hello@berlinstudiomaps.com?subject=Studio Suggestion">hello@berlinstudiomaps.com</a> with the studio name and website, and I'll get it added.</p>
-  <p>If you're a studio owner and your listing has incorrect information, please email me with corrections and I'll update it promptly.</p>
+  <p>Know a photography studio in Berlin that isn't on my map? Fill in what you know below. I fact-check every submission before it goes live, so it won't appear instantly, but you'll hear back if it doesn't make it.</p>
+
+  <form id="suggest-form">
+    <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp-field" />
+
+    <label>Studio name *<input type="text" name="name" required maxlength="120" /></label>
+    <label>Website *<input type="text" name="website" required maxlength="200" placeholder="studio-website.de" /></label>
+    <label>Neighbourhood *<input type="text" name="neighbourhood" required maxlength="80" placeholder="e.g. Kreuzberg" /></label>
+    <label>Rate<input type="text" name="rate" maxlength="80" placeholder="e.g. from €40/hr" /></label>
+    <label>Size (sqm)<input type="text" name="sqm" maxlength="40" /></label>
+    <label>Ceiling height<input type="text" name="ceil" maxlength="40" /></label>
+
+    <fieldset>
+      <legend>Features</legend>
+      <label class="checkbox"><input type="checkbox" name="daylight" /> Daylight</label>
+      <label class="checkbox"><input type="checkbox" name="blackout" /> Blackout</label>
+      <label class="checkbox"><input type="checkbox" name="ciclorama" /> Infinity ciclorama</label>
+      <label class="checkbox"><input type="checkbox" name="driveIn" /> Drive-in</label>
+      <label class="checkbox"><input type="checkbox" name="kitchen" /> Kitchen</label>
+      <label class="checkbox"><input type="checkbox" name="makeup" /> Makeup area</label>
+      <label class="checkbox"><input type="checkbox" name="greenRoom" /> Green room</label>
+      <label class="checkbox"><input type="checkbox" name="wifi" /> Wifi</label>
+    </fieldset>
+
+    <label>Anything else?<textarea name="notes" maxlength="500" rows="3"></textarea></label>
+    <label>Your email (optional, in case I have questions)<input type="email" name="submitterEmail" maxlength="200" /></label>
+
+    <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY}></div>
+
+    <button type="submit">Submit suggestion</button>
+    <p id="suggest-result" role="status"></p>
+  </form>
+
+  <p>If you're a studio owner and your listing has incorrect information, please email me at <a href="mailto:hello@berlinstudiomaps.com?subject=Studio Correction">hello@berlinstudiomaps.com</a> and I'll update it promptly.</p>
 </div>
+
+<style>
+  form { display: flex; flex-direction: column; gap: 1rem; max-width: 480px; margin: 2rem 0; }
+  form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem; }
+  form label.checkbox { flex-direction: row; align-items: center; gap: 0.5rem; }
+  form input[type="text"], form input[type="email"], form textarea { padding: 0.5rem; font: inherit; }
+  form fieldset { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; border: 1px solid currentColor; padding: 0.75rem; }
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  form button { padding: 0.6rem 1.2rem; cursor: pointer; width: fit-content; }
+  #suggest-result { font-size: 0.9rem; }
+</style>
+
+<script>
+  const form = document.getElementById('suggest-form') as HTMLFormElement;
+  const resultEl = document.getElementById('suggest-result') as HTMLParagraphElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    resultEl.textContent = 'Submitting...';
+    const fd = new FormData(form);
+    const turnstileToken = fd.get('cf-turnstile-response');
+    const payload: Record<string, unknown> = {
+      company: fd.get('company'),
+      name: fd.get('name'),
+      website: fd.get('website'),
+      neighbourhood: fd.get('neighbourhood'),
+      rate: fd.get('rate'),
+      sqm: fd.get('sqm'),
+      ceil: fd.get('ceil'),
+      daylight: fd.get('daylight') === 'on',
+      blackout: fd.get('blackout') === 'on',
+      ciclorama: fd.get('ciclorama') === 'on',
+      driveIn: fd.get('driveIn') === 'on',
+      kitchen: fd.get('kitchen') === 'on',
+      makeup: fd.get('makeup') === 'on',
+      greenRoom: fd.get('greenRoom') === 'on',
+      wifi: fd.get('wifi') === 'on',
+      notes: fd.get('notes'),
+      submitterEmail: fd.get('submitterEmail'),
+      turnstileToken,
+    };
+
+    try {
+      const res = await fetch('/api/suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      resultEl.textContent = data.message || data.error || 'Something went wrong.';
+      if (data.ok) form.reset();
+    } catch {
+      resultEl.textContent = 'Network error, please try again.';
+    }
+  });
+</script>
 </PageLayout>
