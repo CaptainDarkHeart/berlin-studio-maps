@@ -127,6 +127,7 @@ const breadcrumbLd = {
       </div>
       <label for="eq-message">Message</label>
       <textarea id="eq-message" placeholder="Tell the studio about your shoot…" required></textarea>
+      <label class="form-checkbox"><input type="checkbox" id="eq-cc"> Send a copy of this to my email</label>
       <button type="submit">Send Enquiry</button>
       <div id="form-msg" class="form-msg"></div>
     </form>
@@ -139,9 +140,13 @@ const breadcrumbLd = {
       var dates = document.getElementById('eq-dates').value;
       var hours = document.getElementById('eq-hours').value;
       var message = document.getElementById('eq-message').value;
+      var sendCopy = document.getElementById('eq-cc').checked;
       var body = `From: ${name} (${email})\nDates: ${dates}\nHours: ${hours}\n\n${message}`;
       var to = studioEmail || 'hello@berlinstudiomaps.com';
       var mailto = `mailto:${to}?subject=${encodeURIComponent('Studio enquiry: ' + studioName)}&body=${encodeURIComponent(body)}`;
+      if (sendCopy && email) {
+        mailto += `&cc=${encodeURIComponent(email)}`;
+      }
       window.location.href = mailto;
       var msg = document.getElementById('form-msg');
       msg.textContent = 'Opening your email client…';
