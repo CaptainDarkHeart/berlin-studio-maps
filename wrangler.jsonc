@@ -1,0 +1,10 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "berlin-studio-maps",
+	"account_id": "cd625a8a773318340cd24e10532aa135",
+	"compatibility_date": "2026-09-08",
+	"assets": {
+		"directory": "./dist",
+		"not_found_handling": "404-page"
+	}
+}
