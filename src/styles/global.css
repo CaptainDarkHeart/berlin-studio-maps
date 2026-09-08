@@ -21,9 +21,9 @@ html.light .theme-toggle::before{content:'☾'}
 .page-mobile-menu{display:none}
 
 .container{max-width:800px;margin:0 auto;padding:40px 20px}
-h1{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em}
-h2{font-size:20px;font-weight:600;margin:32px 0 12px;letter-spacing:-0.01em}
-h3{font-size:16px;font-weight:600;margin:24px 0 8px}
+h1{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:700;margin-bottom:16px;letter-spacing:-0.02em;text-transform:uppercase}
+h2{font-family:'Alpaca Scarlett',var(--font);font-size:20px;font-weight:600;margin:32px 0 12px;letter-spacing:-0.01em;text-transform:uppercase}
+h3{font-family:'Alpaca Scarlett',var(--font);font-size:16px;font-weight:600;margin:24px 0 8px;text-transform:uppercase}
 p{margin-bottom:16px;color:var(--text-dim);font-size:15px}
 .breadcrumb{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:24px}
 .breadcrumb a{color:var(--text-dim)}
