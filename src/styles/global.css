@@ -77,5 +77,5 @@ footer{padding:40px 20px;border-top:1px solid var(--border);text-align:center;fo
   .page-mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
   .page-mobile-menu-close{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .page-mobile-nav{display:flex;flex-direction:column;gap:8px}
-  .page-mobile-nav a{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:600;color:var(--text);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--border)}
+  .page-mobile-nav a{font-family:'Alpaca Scarlett',var(--font);font-size:28px;font-weight:600;color:var(--text);text-decoration:none;text-transform:uppercase;padding:8px 0;border-bottom:1px solid var(--border)}
 }
