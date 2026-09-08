@@ -1,0 +1,45 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify, areaSlug } from '../../lib/slug';
+
+export function getStaticPaths() {
+  const areas = Array.from(new Set((studios as any[]).map(s => s.area)));
+  return areas.map(a => ({
+    params: { area: areaSlug(a) },
+    props: { area: a, list: (studios as any[]).filter(s => s.area === a) },
+  }));
+}
+
+const { area, list } = Astro.props;
+const daylightCount = list.filter((s: any) => s.daylight).length;
+const coveCount = list.filter((s: any) => s.cove).length;
+---
+<PageLayout
+  title={`Photography Studios in ${area}, Berlin | Studio Map Berlin`}
+  description={`${list.length} photography studios for hire in ${area}, Berlin. ${daylightCount} offer daylight, ${coveCount} have infinity coves.`}
+  canonical={`https://berlinstudiomaps.io/areas/${areaSlug(area)}/`}
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/studios/">Studios</a> / {area}</div>
+
+  <h1>Photography Studios in {area}</h1>
+  <p>{list.length} studio{list.length === 1 ? '' : 's'} available for hire in {area}, Berlin. {daylightCount} offer daylight, {coveCount} have infinity coves.</p>
+
+  <a href={`/?area=${encodeURIComponent(area)}`} class="cta-map">View on Map</a>
+
+  <div class="studio-grid">
+    {list.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood} · {s.rate}</div>
+        <div>
+          {s.daylight && <span class="tag daylight">Daylight</span>}
+          {s.cove && <span class="tag cove">Cove</span>}
+          {s.blackout && <span class="tag">Blackout</span>}
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+</PageLayout>

@@ -1,0 +1,39 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+import { FEATURES } from '../../lib/features';
+
+export function getStaticPaths() {
+  return Object.keys(FEATURES).map(slug => ({
+    params: { feature: slug },
+    props: { slug, ...FEATURES[slug] },
+  }));
+}
+
+const { slug, key, label, noun } = Astro.props;
+const list = (studios as any[]).filter(s => s[key]).sort((a, b) => a.name.localeCompare(b.name));
+---
+<PageLayout
+  title={`${label} in Berlin | Studio Map Berlin`}
+  description={`${list.length} ${noun} for hire in Berlin.`}
+  canonical={`https://berlinstudiomaps.io/features/${slug}/`}
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / {label}</div>
+
+  <h1>{label} in Berlin</h1>
+  <p>{list.length} {noun} for hire in Berlin.</p>
+
+  <a href={`/?filter=${slug}`} class="cta-map">View on Map</a>
+
+  <div class="studio-grid">
+    {list.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood}, {s.area} Berlin · {s.rate}</div>
+      </a>
+    ))}
+  </div>
+</div>
+</PageLayout>

@@ -1,0 +1,43 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+const total = studios.length;
+const areas = Array.from(new Set((studios as any[]).map(s => s.area))).sort();
+const daylight = (studios as any[]).filter(s => s.daylight).length;
+const cove = (studios as any[]).filter(s => s.cove).length;
+const driveIn = (studios as any[]).filter(s => s.driveIn).length;
+---
+<PageLayout
+  title="The Complete Guide to Photography Studio Hire in Berlin | Studio Map Berlin"
+  description={`Everything you need to know about hiring a photography studio in Berlin. ${total} studios compared across ${areas.length} areas.`}
+  canonical="https://berlinstudiomaps.io/blog/complete-guide-photography-studio-hire-berlin/"
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Complete Guide</div>
+  <h1>The Complete Guide to Photography Studio Hire in Berlin</h1>
+  <p>Berlin has a huge spread of rental studios, from small daylight lofts in Kreuzberg to full production spaces with drive-in cycloramas out in Tempelhof and Lichtenberg. This guide covers what to look for and where to find it.</p>
+
+  <h2>What we're tracking</h2>
+  <p>{total} studios across {areas.length} areas: {areas.join(', ')}. {daylight} have natural daylight, {cove} have an infinity cove / cyclorama, and {driveIn} offer drive-in vehicle access.</p>
+
+  <h2>Daylight vs. blackout</h2>
+  <p>Daylight studios work well for editorial and lifestyle work but depend on the season, Berlin's winter daylight hours are short (as little as 7-8 hours in December). Blackout studios give you full control year-round. Every studio page on this site shows a build-time daylight hours table by month, and the map's detail panel calculates today's actual sunrise, sunset, and golden hour for that studio's location.</p>
+
+  <h2>Infinity coves</h2>
+  <p>If you need a seamless white or coloured background, look for a cove/cyclorama rather than paper. Berlin studios with a cove <a href="/features/infinity-cove-studios/">are listed here</a>, ranging from tight 6x6m setups to full 10x10m coves with drive-in access for car and motorbike shoots.</p>
+
+  <h2>Browse by area</h2>
+  <div class="studio-grid">
+    {areas.map(a => (
+      <a href={`/areas/${a.toLowerCase().replace(/[^a-z0-9]+/g,'-')}/`} class="studio-link">
+        <h3>{a}</h3>
+        <div class="meta">{(studios as any[]).filter(s => s.area === a).length} studios</div>
+      </a>
+    ))}
+  </div>
+
+  <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+</div>
+</PageLayout>

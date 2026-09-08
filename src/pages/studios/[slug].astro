@@ -1,0 +1,156 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+export function getStaticPaths() {
+  return (studios as any[]).map(s => ({
+    params: { slug: slugify(s) },
+    props: { s },
+  }));
+}
+
+const { s } = Astro.props;
+
+const areaSlug = s.area.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+
+// Build-time monthly daylight table for Berlin's latitude
+const BERLIN_LAT = 52.5200;
+function toRad(d: number){return d*Math.PI/180}
+function toDeg(r: number){return r*180/Math.PI}
+function calcSunTimes(date: Date){
+  const start = new Date(date.getFullYear(), 0, 1);
+  const doy = Math.floor((+date - +start) / 864e5) + 1;
+  const dec = 23.45 * Math.sin(toRad(360/365*(doy-81)));
+  const decR = toRad(dec);
+  const latR = toRad(BERLIN_LAT);
+  const cosH = -Math.tan(latR) * Math.tan(decR);
+  const H = toDeg(Math.acos(Math.max(-1, Math.min(1, cosH))));
+  const dst = date.getMonth() >= 2 && date.getMonth() <= 9 ? 1 : 0;
+  const noon = 12 + dst;
+  return { sunrise: noon - H/15, sunset: noon + H/15 };
+}
+function hourToStr(h: number){const hr=Math.floor(h);const mn=Math.round((h-hr)*60);return`${String(hr).padStart(2,'0')}:${String(mn).padStart(2,'0')}`}
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monthlyLight = months.map((m, i) => {
+  const t = calcSunTimes(new Date(2026, i, 15));
+  const hrs = t.sunset - t.sunrise;
+  return { m, sunrise: hourToStr(t.sunrise), sunset: hourToStr(t.sunset), hrs: hrs.toFixed(1) };
+});
+
+const title = `${s.name} — Photography Studio Hire, ${s.neighbourhood} | Studio Map Berlin`;
+const description = `${s.name} in ${s.neighbourhood}, ${s.area} Berlin. ${s.daylight ? 'Daylight studio' : 'Studio'}${s.cove ? ' with infinity cove' : ''}. ${s.rate}. View specs, facilities, and daylight hours.`;
+const canonical = `https://berlinstudiomaps.io/studios/${slugify(s)}/`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "PhotographyBusiness"],
+  "name": s.name,
+  "url": canonical,
+  "description": description,
+  "address": { "@type": "PostalAddress", "addressLocality": s.neighbourhood, "addressRegion": s.area + " Berlin", "addressCountry": "DE" },
+  "geo": { "@type": "GeoCoordinates", "latitude": s.lat, "longitude": s.lng },
+  "amenityFeature": [
+    { "@type": "LocationFeatureSpecification", "name": "Natural daylight", "value": s.daylight },
+    { "@type": "LocationFeatureSpecification", "name": "Blackout capability", "value": s.blackout },
+    { "@type": "LocationFeatureSpecification", "name": "Infinity cove / cyclorama", "value": s.cove },
+    { "@type": "LocationFeatureSpecification", "name": "Drive-in vehicle access", "value": s.driveIn },
+    { "@type": "LocationFeatureSpecification", "name": "Kitchen", "value": s.kitchen },
+    { "@type": "LocationFeatureSpecification", "name": "Makeup area", "value": s.makeup },
+    { "@type": "LocationFeatureSpecification", "name": "Green room", "value": s.greenRoom },
+    { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": s.wifi }
+  ],
+  "sameAs": s.web ? [s.web.startsWith('http') ? s.web : `https://${s.web}`] : []
+};
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://berlinstudiomaps.io/" },
+    { "@type": "ListItem", "position": 2, "name": "Studios", "item": "https://berlinstudiomaps.io/studios/" },
+    { "@type": "ListItem", "position": 3, "name": `${s.area} Berlin`, "item": `https://berlinstudiomaps.io/areas/${areaSlug}/` },
+    { "@type": "ListItem", "position": 4, "name": s.name, "item": canonical }
+  ]
+};
+---
+<PageLayout title={title} description={description} canonical={canonical}>
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/studios/">Studios</a> / <a href={`/areas/${areaSlug}/`}>{s.area} Berlin</a> / {s.name}</div>
+
+  <h1>{s.name}</h1>
+  <p style="font-family:var(--mono);font-size:13px;color:var(--text-dim)">{s.neighbourhood}, {s.area} Berlin</p>
+
+  <div style="margin:20px 0">
+    {s.daylight && <span class="tag daylight">Daylight{s.facing ? ` · ${s.facing}` : ''}</span>}
+    {s.blackout && <span class="tag">Blackout</span>}
+    {s.cove && <span class="tag cove">Cove</span>}
+    {s.driveIn && <span class="tag highlight">Drive-in</span>}
+    {s.kitchen && <span class="tag">Kitchen</span>}
+    {s.makeup && <span class="tag">Makeup</span>}
+    {s.greenRoom && <span class="tag">Green Room</span>}
+    {s.wifi && <span class="tag">WiFi</span>}
+  </div>
+
+  <h2>Details</h2>
+  <div class="stat-row"><span class="label">Day rate</span><span class="value price">{s.rate}</span></div>
+  {s.sqm && <div class="stat-row"><span class="label">Floor area</span><span class="value">{s.sqm.toLocaleString()} m²</span></div>}
+  {s.ceil && <div class="stat-row"><span class="label">Ceiling height</span><span class="value">{s.ceil}</span></div>}
+  {(s.extras || []).map((e: string) => (
+    <div class="stat-row"><span class="label">+</span><span class="value" style="font-weight:400">{e}</span></div>
+  ))}
+
+  <h2>Daylight Hours by Month</h2>
+  <p>Sunrise and sunset times for this studio's Berlin location.{s.facing ? ` This studio has ${s.facing.toLowerCase()} orientation.` : ''}</p>
+  {monthlyLight.map(row => (
+    <div class="stat-row"><span class="label">{row.m}</span><span class="value">{row.sunrise} – {row.sunset} ({row.hrs}h)</span></div>
+  ))}
+
+  {s.web && <p style="margin-top:24px"><a href={s.web.startsWith('http') ? s.web : `https://${s.web}`} target="_blank" rel="noopener" style="font-family:var(--mono);font-size:13px">{s.web.replace(/^https?:\/\//,'')} →</a></p>}
+
+  <div class="enquiry-form">
+    <h2>Send an enquiry</h2>
+    <p class="form-sub">
+      {s.email
+        ? `Send your enquiry directly to ${s.name}.`
+        : `No direct contact on file yet for ${s.name} — this will open your email client, or visit their website above.`}
+    </p>
+    <form id="enquiry-form">
+      <div class="form-row">
+        <div><label for="eq-name">Your name</label><input type="text" id="eq-name" required></div>
+        <div><label for="eq-email">Your email</label><input type="email" id="eq-email" required></div>
+      </div>
+      <div class="form-row">
+        <div><label for="eq-dates">Preferred dates</label><input type="text" id="eq-dates" placeholder="e.g. 15–17 May 2026"></div>
+        <div><label for="eq-hours">Hours needed</label><input type="text" id="eq-hours" placeholder="e.g. Full day, Half day"></div>
+      </div>
+      <label for="eq-message">Message</label>
+      <textarea id="eq-message" placeholder="Tell the studio about your shoot…" required></textarea>
+      <button type="submit">Send Enquiry</button>
+      <div id="form-msg" class="form-msg"></div>
+    </form>
+  </div>
+  <script define:vars={{ studioName: s.name, studioEmail: s.email }}>
+    document.getElementById('enquiry-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('eq-name').value;
+      var email = document.getElementById('eq-email').value;
+      var dates = document.getElementById('eq-dates').value;
+      var hours = document.getElementById('eq-hours').value;
+      var message = document.getElementById('eq-message').value;
+      var body = `From: ${name} (${email})\nDates: ${dates}\nHours: ${hours}\n\n${message}`;
+      var to = studioEmail || 'hello@berlinstudiomaps.io';
+      var mailto = `mailto:${to}?subject=${encodeURIComponent('Studio enquiry: ' + studioName)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+      var msg = document.getElementById('form-msg');
+      msg.textContent = 'Opening your email client…';
+      msg.className = 'form-msg success';
+    });
+  </script>
+
+  <a href={`/?studio=${s.id}`} class="cta-map">View on Map</a>
+
+  <p style="margin-top:32px;font-size:12px;color:var(--text-dim)">Data compiled from public studio listings, not yet verified with the studio. <a href={`mailto:hello@berlinstudiomaps.io?subject=${encodeURIComponent('Correction: ' + s.name)}`}>Report an error</a></p>
+</div>
+</PageLayout>

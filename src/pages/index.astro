@@ -1,0 +1,680 @@
+---
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Studio Map Berlin | Photography Studios for Hire</title>
+<meta name="description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
+<link rel="canonical" href="https://berlinstudiomaps.io/">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Sans+Caption:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
+<style is:global>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0e0e0e;--surface:#1a1a1a;--surface-2:#242424;--border:#2e2e2e;--text:#e8e4de;--text-dim:#8a8680;--accent:#e8a849;--accent-dim:#c48a2e;--daylight:#f0d68a;--cove:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
+html.light{--bg:#f8f6f2;--surface:#ffffff;--surface-2:#f0ede8;--border:#ddd8d0;--text:#1c1a17;--text-dim:#7a7570;--accent:#c47820;--accent-dim:#a06010;--daylight:#8a6808;--cove:#2a6898;--green:#3a7a30;--red:#c04040}
+body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
+header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg);z-index:1000;flex-shrink:0;transition:background-color 2s ease,border-color 2s ease}
+.logo{display:flex;align-items:baseline;gap:8px}
+.logo a{text-decoration:none;color:inherit;display:flex;align-items:baseline;gap:8px}
+.logo h1{font-size:17px;font-weight:600;letter-spacing:-0.02em}
+.logo span{font-family:var(--mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em}
+nav{display:flex;align-items:center;gap:20px;justify-content:center}
+nav a{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.06em;transition:color 0.15s}
+nav a:hover{color:var(--text)}
+.header-right{display:flex;align-items:center;gap:12px;justify-content:flex-end}
+.studio-count{font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.studio-count strong{color:var(--accent);font-weight:500}
+.theme-toggle{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:14px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--text-dim);color:var(--text)}
+.main{display:flex;flex:1;overflow:hidden}
+.sidebar{width:310px;flex-shrink:0;display:flex;flex-direction:column;border-right:1px solid var(--border);background:var(--bg);overflow:hidden;transition:background-color 2s ease,border-color 2s ease}
+.filters{padding:12px;border-bottom:1px solid var(--border);transition:border-color 2s ease}
+.filters-header{font-size:13px;font-weight:600;letter-spacing:-0.01em;color:var(--text);margin-bottom:10px}
+.filter-group{margin-bottom:10px}.filter-group:last-child{margin-bottom:0}
+.filter-group h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:7px}
+.filter-tags{display:flex;flex-wrap:wrap;gap:5px}
+.filter-tag{font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:all 0.15s;user-select:none}
+.filter-tag:hover{border-color:var(--text-dim);color:var(--text)}
+.filter-tag.active{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.area-select{width:100%;background:var(--surface-2);border:1px solid var(--border);color:var(--text);font-family:var(--font);font-size:13px;padding:6px 9px;border-radius:4px;outline:none;cursor:pointer}
+.area-select:focus{border-color:var(--accent)}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-input{width:100%;background:var(--surface-2);border:1px solid var(--border);color:var(--text);font-family:var(--font);font-size:13px;padding:7px 30px 7px 9px;border-radius:4px;outline:none;margin-bottom:0;box-sizing:border-box}
+.search-input::placeholder{color:var(--text-dim)}
+.search-input:focus{border-color:var(--accent)}
+.search-clear{position:absolute;right:7px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:16px;line-height:1;padding:2px;display:none}
+.search-clear:hover{color:var(--text)}
+.search-clear.visible{display:block}
+.studio-list{flex:1;overflow-y:auto;padding:6px}
+.studio-list::-webkit-scrollbar{width:4px}
+.studio-list::-webkit-scrollbar-track{background:transparent}
+.studio-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.studio-card{padding:10px;border-radius:5px;cursor:pointer;transition:background-color 0.15s,border-color 0.15s;border:1px solid transparent;margin-bottom:3px}
+.studio-card:hover{background:var(--surface);border-color:var(--border)}
+.studio-card.selected{background:var(--surface);border-color:var(--accent)}
+.studio-card .name{font-size:14px;font-weight:600;margin-bottom:3px;display:flex;align-items:center;gap:5px}
+.studio-card .area{font-family:var(--mono);font-size:11px;color:var(--text-dim);margin-bottom:5px}
+.studio-card .tags{display:flex;flex-wrap:wrap;gap:3px}
+.mini-tag{font-family:var(--mono);font-size:10px;padding:2px 6px;border-radius:2px;background:var(--surface-2);color:var(--text-dim);text-transform:uppercase;letter-spacing:0.04em}
+.mini-tag.daylight{background:rgba(240,214,138,0.15);color:var(--daylight)}
+.mini-tag.cove{background:rgba(126,184,218,0.15);color:var(--cove)}
+html.light .mini-tag.daylight{background:rgba(180,120,0,0.1);color:var(--daylight)}
+html.light .mini-tag.cove{background:rgba(42,104,152,0.1);color:var(--cove)}
+.daylight-indicator{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0}
+.daylight-indicator.good{background:var(--green);box-shadow:0 0 5px rgba(126,189,115,0.4)}
+.daylight-indicator.limited{background:var(--daylight);box-shadow:0 0 5px rgba(240,214,138,0.3)}
+.daylight-indicator.poor{background:var(--red);box-shadow:0 0 5px rgba(212,114,114,0.3)}
+.daylight-indicator.na{background:var(--text-dim);opacity:0.3}
+.map-container{flex:1;position:relative}
+#map{width:100%;height:100%}
+html.light .leaflet-container{background:#e8e4de}
+.leaflet-container{background:#1a1a1a}
+.leaflet-control-zoom{border:1px solid var(--border)!important}
+.leaflet-control-zoom a{background:var(--surface)!important;color:var(--text)!important;border-color:var(--border)!important}
+.leaflet-control-zoom a:hover{background:var(--surface-2)!important}
+.leaflet-control-attribution{background:rgba(14,14,14,0.8)!important;color:var(--text-dim)!important;font-size:9px!important}
+html.light .leaflet-control-attribution{background:rgba(248,246,242,0.8)!important}
+.leaflet-control-attribution a{color:var(--text-dim)!important}
+.detail-panel{position:absolute;right:16px;top:16px;width:350px;max-height:calc(100% - 32px);background:var(--surface);border:1px solid var(--border);border-radius:8px;z-index:800;overflow-y:auto;display:none;box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:background-color 2s ease,border-color 2s ease}
+html.light .detail-panel{box-shadow:0 20px 60px rgba(0,0,0,0.15)}
+.detail-panel.visible{display:block}
+.detail-panel::-webkit-scrollbar{width:4px}
+.detail-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.detail-header{padding:16px;border-bottom:1px solid var(--border);position:relative}
+.detail-close{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--text-dim);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.detail-close:hover{border-color:var(--text-dim);color:var(--text)}
+.detail-header h2{font-size:18px;font-weight:600;margin-bottom:4px;padding-right:32px}
+.detail-header .detail-area{font-family:var(--mono);font-size:12px;color:var(--text-dim)}
+.detail-body{padding:16px}
+.detail-section{margin-bottom:16px}.detail-section:last-child{margin-bottom:0}
+.detail-section h4{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:6px}
+.detail-features{display:flex;flex-wrap:wrap;gap:5px}
+.feature-tag{font-family:var(--mono);font-size:11px;padding:4px 8px;border-radius:3px;background:var(--surface-2);color:var(--text)}
+.feature-tag.highlight{background:rgba(232,168,73,0.15);color:var(--accent)}
+html.light .feature-tag.highlight{background:rgba(196,120,32,0.12)}
+.detail-stat{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.detail-stat:last-child{border-bottom:none}
+.detail-stat .label{color:var(--text-dim);font-size:12px}
+.detail-stat .value{font-family:var(--mono);font-weight:500;font-size:13px}
+.detail-stat .value.price{color:var(--accent)}
+.daylight-chart{background:var(--surface-2);border-radius:5px;padding:12px}
+.hours-bar{width:100%;height:20px;border-radius:3px;background:var(--surface);position:relative;overflow:hidden;margin-bottom:6px}
+html.light .hours-bar{background:#ddd8d0}
+.hours-bar .light-window{position:absolute;top:0;height:100%;border-radius:3px}
+.hours-bar .golden-window{background:rgba(240,214,138,0.4)}
+html.light .hours-bar .golden-window{background:rgba(180,120,0,0.25)}
+.hours-bar .daylight-window{background:rgba(255,255,255,0.08)}
+html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
+.daylight-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text-dim)}
+.website-link{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color 0.15s}
+.website-link:hover{border-bottom-color:var(--accent)}
+.verified-badge{font-family:var(--mono);font-size:8px;padding:1px 4px;border-radius:2px;background:rgba(126,189,115,0.15);color:var(--green);margin-left:4px}
+.estimated-badge{font-family:var(--mono);font-size:8px;padding:1px 4px;border-radius:2px;background:rgba(138,134,128,0.15);color:var(--text-dim);margin-left:4px}
+.hamburger{display:none}
+.mobile-menu{display:none}
+.mobile-shelf{display:none}
+.filter-sheet{display:none}
+@media(max-width:768px){
+  header{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top))}
+  nav{display:none}
+  .studio-count{display:none}
+  .header-right{gap:8px}
+  .hamburger{display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);color:var(--text-dim);font-size:16px;width:32px;height:32px;border-radius:6px;cursor:pointer;transition:all 0.15s;flex-shrink:0}
+  .hamburger:hover{border-color:var(--text-dim);color:var(--text)}
+  .main{flex:1;overflow:hidden}
+  .sidebar{display:none}
+  .map-container{width:100%;height:100%}
+  .leaflet-control-zoom{display:none!important}
+  .detail-panel{position:fixed!important;bottom:0!important;left:0!important;right:0!important;top:auto!important;width:100%!important;max-height:52vh;min-height:40vh;border-radius:16px 16px 0 0!important;border-left:none;border-right:none;border-bottom:none;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),background-color 2s ease,border-color 2s ease;display:block!important;overflow-y:auto;z-index:950}
+  .detail-panel.visible{transform:translateY(0)}
+  .detail-panel-handle{display:flex;justify-content:center;padding:10px 0 4px}
+  .detail-panel-handle-pill{width:36px;height:4px;background:var(--border);border-radius:2px}
+  .mobile-menu{position:fixed;inset:0;background:var(--bg);z-index:1100;flex-direction:column;padding:20px;display:none;transition:background-color 2s ease}
+  .mobile-menu.open{display:flex}
+  .mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+  .mobile-menu-close{background:none;border:1px solid var(--border);color:var(--text-dim);font-size:18px;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .mobile-nav{display:flex;flex-direction:column;gap:8px}
+  .mobile-nav a{font-size:28px;font-weight:600;color:var(--text);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--border);transition:color 0.15s}
+  .mobile-nav a:hover{color:var(--accent)}
+  .mobile-shelf{display:flex;flex-direction:column;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:16px 16px 0 0;border-top:1px solid var(--border);z-index:900;max-height:72vh;transform:translateY(calc(100% - 64px));transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),background-color 2s ease,border-color 2s ease;overflow:hidden}
+  .mobile-shelf.open{transform:translateY(0)}
+  .shelf-handle-area{display:flex;align-items:center;height:64px;padding:0 16px;cursor:pointer;flex-shrink:0;gap:12px;position:relative}
+  .shelf-pill{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:36px;height:4px;background:var(--border);border-radius:2px}
+  .shelf-count{font-family:var(--mono);font-size:12px;color:var(--text-dim);flex:1}
+  .shelf-count strong{color:var(--accent);font-weight:500}
+  .shelf-filter-btn{font-family:var(--mono);font-size:10px;padding:5px 10px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;transition:all 0.15s;text-transform:uppercase;letter-spacing:0.05em}
+  .shelf-filter-btn.active{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+  .shelf-body{display:flex;flex-direction:column;flex:1;overflow:hidden;padding:0 12px 16px}
+  .shelf-body .search-input{font-size:16px}
+  .shelf-filters{margin-bottom:10px;padding-top:4px}
+  .m-studio-list{flex:1;overflow-y:auto;padding:0 0 4px}
+  .studio-card{padding:12px 10px}
+  .studio-card .name{font-size:13px}
+  .studio-card .area{font-size:11px}
+  .filter-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:16px 16px 0 0;border-top:1px solid var(--border);z-index:1000;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1),background-color 2s ease,border-color 2s ease;max-height:70vh;overflow-y:auto}
+  .filter-sheet.open{transform:translateY(0)}
+  .filter-sheet-handle{display:flex;justify-content:center;padding:10px 0 4px}
+  .filter-sheet-pill{width:36px;height:4px;background:var(--border);border-radius:2px}
+  .filter-sheet-inner{padding:4px 20px 32px}
+  .filter-sheet-done{font-family:var(--mono);font-size:11px;padding:5px 14px;border-radius:4px;background:var(--accent);border:none;color:var(--bg);cursor:pointer;font-weight:600}
+  .shelf-filter-btn.has-filters{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+}
+</style>
+<script>
+(function(){
+  var stored=localStorage.getItem('sm_theme');
+  if(stored){document.documentElement.className=stored;return;}
+  function _calcSun(d: Date){
+    var doy=Math.floor((+d-+new Date(d.getFullYear(),0,1))/864e5)+1;
+    var dec=23.45*Math.sin((2*Math.PI/365)*(doy-81)*Math.PI/180);
+    var latR=52.5200*Math.PI/180;
+    var cosH=-Math.tan(latR)*Math.tan(dec*Math.PI/180);
+    cosH=Math.max(-1,Math.min(1,cosH));
+    var H=Math.acos(cosH)*180/Math.PI;
+    var dst=d.getMonth()>=2&&d.getMonth()<=9?1:0;
+    var noon=12+dst;
+    return{sunrise:noon-H/15,sunset:noon+H/15};
+  }
+  var now=new Date(),t=_calcSun(now);
+  var h=now.getHours()+now.getMinutes()/60+now.getSeconds()/3600;
+  var isDay=h>=t.sunrise&&h<t.sunset;
+  document.documentElement.classList.add(isDay?'light':'dark');
+})();
+</script>
+</head>
+<body>
+<header>
+<div class="logo"><a href="/"><h1>Studio Map</h1><span>Berlin</span></a></div>
+<nav>
+<a href="/studios/">All Studios</a>
+<a href="/blog/">Blog</a>
+<a href="/about/">About</a>
+<a href="/suggest/">Add Studio</a>
+</nav>
+<div class="header-right">
+<div class="studio-count"><strong id="visible-count">0</strong> / <span id="total-count">0</span> studios</div>
+<button class="theme-toggle" id="theme-toggle">☀</button>
+<button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+</div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu-header">
+<div class="logo"><a href="/"><h1>Studio Map</h1><span>Berlin</span></a></div>
+<button class="mobile-menu-close" id="mobile-menu-close">&#215;</button>
+</div>
+<nav class="mobile-nav">
+<a href="/studios/" onclick="document.getElementById('mobile-menu').classList.remove('open')">All Studios</a>
+<a href="/blog/" onclick="document.getElementById('mobile-menu').classList.remove('open')">Blog</a>
+<a href="/about/" onclick="document.getElementById('mobile-menu').classList.remove('open')">About</a>
+<a href="/suggest/" onclick="document.getElementById('mobile-menu').classList.remove('open')">Add Studio</a>
+</nav>
+</div>
+<div class="main">
+<div class="sidebar">
+<div id="viewport-hint" style="display:none;padding:8px 14px;font-size:11px;font-family:var(--mono);color:var(--text-dim);background:var(--surface-2);border-bottom:1px solid var(--border)"></div>
+<div class="filters">
+<div class="filters-header">Filter</div>
+<div class="search-wrap"><input type="text" class="search-input" id="search-input" placeholder="Search studios..."/><button class="search-clear" id="search-clear" aria-label="Clear search">&times;</button></div>
+<div class="filter-group">
+<h3>Features</h3>
+<div class="filter-tags">
+<div class="filter-tag" data-filter="daylight">Daylight</div>
+<div class="filter-tag" data-filter="blackout">Blackout</div>
+<div class="filter-tag" data-filter="cove">Cove</div>
+<div class="filter-tag" data-filter="driveIn">Drive-in</div>
+</div>
+</div>
+<div class="filter-group">
+<h3>Facilities</h3>
+<div class="filter-tags">
+<div class="filter-tag" data-filter="kitchen">Kitchen</div>
+<div class="filter-tag" data-filter="makeup">Makeup</div>
+<div class="filter-tag" data-filter="greenRoom">Green Room</div>
+</div>
+</div>
+<div class="filter-group">
+<h3>Area</h3>
+<select class="area-select" id="area-filter">
+<option value="">All areas</option>
+</select>
+</div>
+</div>
+<div class="studio-list" id="studio-list"></div>
+</div>
+<div class="map-container">
+<div id="map"></div>
+<div class="detail-panel" id="detail-panel">
+<div class="detail-panel-handle"><div class="detail-panel-handle-pill"></div></div>
+<div class="detail-header">
+<button class="detail-close" id="detail-close">&times;</button>
+<h2 id="detail-name"></h2>
+<div class="detail-area" id="detail-area"></div>
+</div>
+<div class="detail-body" id="detail-body"></div>
+</div>
+</div>
+</div>
+<div class="mobile-shelf" id="mobile-shelf">
+<div class="shelf-handle-area" id="shelf-toggle">
+<div class="shelf-pill"></div>
+<div class="shelf-count"><strong id="m-visible-count">0</strong> / <span id="m-total-count">0</span> studios</div>
+<button class="shelf-filter-btn" id="shelf-filter-btn">Filter</button>
+</div>
+<div class="shelf-body">
+<div class="search-wrap"><input type="text" class="search-input" id="m-search-input" placeholder="Search studios..."/><button class="search-clear" id="m-search-clear" aria-label="Clear search">&times;</button></div>
+<div class="m-studio-list" id="m-studio-list"></div>
+</div>
+</div>
+<div class="filter-sheet" id="filter-sheet">
+<div class="filter-sheet-handle"><div class="filter-sheet-pill"></div></div>
+<div class="filter-sheet-inner">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+<span style="font-size:15px;font-weight:600">Filter Studios</span>
+<button class="filter-sheet-done" id="filter-sheet-done">Done</button>
+</div>
+<p style="font-family:var(--mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Features</p>
+<div class="filter-tags" style="margin-bottom:16px">
+<div class="filter-tag" data-filter="daylight" data-mobile="1">Daylight</div>
+<div class="filter-tag" data-filter="blackout" data-mobile="1">Blackout</div>
+<div class="filter-tag" data-filter="cove" data-mobile="1">Cove</div>
+<div class="filter-tag" data-filter="driveIn" data-mobile="1">Drive-in</div>
+</div>
+<p style="font-family:var(--mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Facilities</p>
+<div class="filter-tags" style="margin-bottom:16px">
+<div class="filter-tag" data-filter="kitchen" data-mobile="1">Kitchen</div>
+<div class="filter-tag" data-filter="makeup" data-mobile="1">Makeup</div>
+<div class="filter-tag" data-filter="greenRoom" data-mobile="1">Green Room</div>
+</div>
+<p style="font-family:var(--mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px">Area</p>
+<select class="area-select" id="m-area-filter">
+<option value="">All areas</option>
+</select>
+</div>
+</div>
+<script>
+let isDark = document.documentElement.classList.contains('dark');
+let tileLayer: any = null, themeAuto = true;
+let studios: any[] = [], activeFilters = new Set<string>(), selectedArea = '', selectedStudio: number | null = null, markers: Record<number, any> = {}, sunTimes: any = null, searchQuery = '', mapBoundsActive = false;
+
+// @ts-ignore
+const L = (window as any).L;
+const map = L.map('map', {center:[52.5200,13.4050], zoom:11});
+
+const CARTO_KEY = import.meta.env.PUBLIC_CARTO_KEY as string;
+
+function updateMapTiles() {
+  if (tileLayer) return;
+  tileLayer = L.tileLayer(
+    'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY,
+    {attribution:'© OpenStreetMap © CARTO', maxZoom:18}
+  ).addTo(map);
+}
+updateMapTiles();
+
+function setTheme(dark: boolean, auto?: boolean) {
+  isDark = dark;
+  document.documentElement.classList.toggle('dark', dark);
+  document.documentElement.classList.toggle('light', !dark);
+  updateMapTiles();
+  Object.keys(markers).forEach(id => {
+    const s = studios.find(x => x.id === parseInt(id));
+    if (s) markers[+id].setIcon(mkIcon(s, s.id === selectedStudio));
+  });
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.textContent = dark ? '☀' : '☾';
+  if (!auto) localStorage.setItem('sm_theme', dark ? 'dark' : 'light');
+}
+
+const BERLIN_LAT = 52.5200;
+
+function calcSunTimesForTheme(d: Date) {
+  var doy = Math.floor((+d - +new Date(d.getFullYear(),0,1)) / 864e5) + 1;
+  var dec = 23.45 * Math.sin((2 * Math.PI / 365) * (doy - 81) * Math.PI / 180);
+  var latR = BERLIN_LAT * Math.PI / 180;
+  var cosH = -Math.tan(latR) * Math.tan(dec * Math.PI / 180);
+  cosH = Math.max(-1, Math.min(1, cosH));
+  var H = Math.acos(cosH) * 180 / Math.PI;
+  var dst = d.getMonth() >= 2 && d.getMonth() <= 9 ? 1 : 0;
+  var noon = 12 + dst;
+  return {sunrise: noon - H / 15, sunset: noon + H / 15};
+}
+
+function scheduleTheme() {
+  const now = new Date(), t = calcSunTimesForTheme(now);
+  const h = now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+  const isDay = h >= t.sunrise && h < t.sunset;
+  if (themeAuto && !localStorage.getItem('sm_theme') && isDay === isDark) setTheme(!isDay, true);
+  const nextH = isDay ? t.sunset : t.sunrise;
+  const msUntil = nextH > h ? (nextH - h) * 3.6e6 : (24 - h + nextH) * 3.6e6;
+  setTimeout(scheduleTheme, msUntil + 60000);
+}
+
+function mkIcon(s: any, active: boolean) {
+  const c = isDark ? '#e8a849' : '#a06010';
+  const bg = active ? c : (isDark ? '#0e0e0e' : '#ffffff');
+  const size = active ? 22 : 18;
+  const anchor = active ? 11 : 9;
+  return L.divIcon({className:'', iconSize:[size,size], iconAnchor:[anchor,anchor],
+    html:`<div style="width:${size}px;height:${size}px;border-radius:50%;border:2px solid ${c};background:${bg};cursor:pointer;transition:all 0.2s;box-shadow:${active?'0 0 0 3px rgba(232,168,73,0.25)':'none'}"></div>`});
+}
+
+function toRad(d: number){return d*Math.PI/180}
+function toDeg(r: number){return r*180/Math.PI}
+function calcSunTimes(date: Date){
+  const start=new Date(date.getFullYear(),0,1);const doy=Math.floor((+date-+start)/864e5)+1;
+  const dec=23.45*Math.sin(toRad(360/365*(doy-81)));const decR=toRad(dec);const latR=toRad(BERLIN_LAT);
+  const cosH=-Math.tan(latR)*Math.tan(decR);const H=toDeg(Math.acos(Math.max(-1,Math.min(1,cosH))));
+  const dst=date.getMonth()>=2&&date.getMonth()<=9?1:0;const noon=12+dst;
+  const sr=noon-H/15,ss=noon+H/15;
+  return{sunrise:sr,sunset:ss,goldenAM:[sr-0.75,sr+0.25],goldenPM:[ss-0.75,ss+0.25],daylightHours:ss-sr};
+}
+
+function hourToStr(h: number){const hr=Math.floor(h);const mn=Math.round((h-hr)*60);return`${String(hr).padStart(2,'0')}:${String(mn).padStart(2,'0')}`}
+
+function getDaylightQuality(s: any,st: any){
+  if(!s.daylight)return{quality:'na',label:'No daylight'};
+  const hrs=st.daylightHours;const f=(s.facing||'').toLowerCase();
+  let sc=hrs>12?3:hrs>9?2:1;
+  if(f.includes('south')||f.includes('süd')||f.includes('skylight')||f.includes('zenith')||f.includes('glass')||f.includes('window front'))sc+=1;
+  if(f.includes('north')||f.includes('nord'))sc+=0.5;if((f.includes('east')||f.includes('ost'))&&hrs>10)sc+=0.5;if((f.includes('west'))&&hrs>10)sc+=0.5;
+  if(sc>=3)return{quality:'good',label:`Good light · ${hourToStr(st.sunrise)}–${hourToStr(st.sunset)}`};
+  if(sc>=2)return{quality:'limited',label:`Usable · Best ${f.includes('east')||f.includes('ost')?'morning':f.includes('west')?'afternoon':'midday'}`};
+  return{quality:'poor',label:`Limited · Short day (${Math.round(hrs)}h)`};
+}
+
+function updateSun(date: Date){
+  sunTimes=calcSunTimes(date);
+  renderList();
+}
+
+function passesFilter(s: any){
+  for(const f of activeFilters)if(!s[f])return false;
+  if(selectedArea&&s.area!==selectedArea)return false;
+  if(searchQuery&&!s.name.toLowerCase().includes(searchQuery)&&!s.neighbourhood.toLowerCase().includes(searchQuery))return false;
+  return true;
+}
+
+function applyFilters(){
+  studios.forEach(s=>{if(passesFilter(s))markers[s.id].addTo(map);else map.removeLayer(markers[s.id])});
+  renderList();
+  const fb=document.getElementById('shelf-filter-btn');
+  if(fb){const hasF=activeFilters.size>0||selectedArea;fb.classList.toggle('has-filters',!!hasF);fb.textContent=hasF?`Filter (${activeFilters.size+(selectedArea?1:0)})`:'Filter';}
+}
+
+const AREA_BOUNDS: Record<string, [[number,number],[number,number]]> = {
+  'Mitte':          [[52.505,13.360],[52.545,13.430]],
+  'Kreuzberg':      [[52.485,13.390],[52.510,13.460]],
+  'Friedrichshain':  [[52.500,13.430],[52.535,13.480]],
+  'Neukölln':       [[52.450,13.400],[52.490,13.470]],
+  'Prenzlauer Berg': [[52.525,13.400],[52.560,13.450]],
+  'Charlottenburg': [[52.490,13.270],[52.530,13.330]],
+  'Wedding':        [[52.535,13.330],[52.565,13.400]],
+  'Weissensee':     [[52.545,13.440],[52.570,13.480]],
+  'Lichtenberg':    [[52.510,13.450],[52.555,13.510]],
+  'Tempelhof':      [[52.410,13.350],[52.450,13.410]]
+};
+function flyToArea(area: string){
+  if(area&&AREA_BOUNDS[area]){
+    mapBoundsActive=false;
+    map.flyToBounds(AREA_BOUNDS[area],{duration:0.6,padding:[20,20]});
+  } else if(!area){
+    mapBoundsActive=false;
+    map.flyToBounds([[52.40,13.20],[52.60,13.55]],{duration:0.6,padding:[20,20]});
+  }
+}
+
+function inMapBounds(s: any){
+  if(!map||!mapBoundsActive)return true;
+  try{const b=map.getBounds();return b.contains(L.latLng(s.lat,s.lng));}catch(e){return true;}
+}
+function renderList(){
+  const list=document.getElementById('studio-list');
+  const mList=document.getElementById('m-studio-list');
+  const filtered=studios.filter(passesFilter);
+  const visible=filtered.filter(inMapBounds).sort((a,b)=>a.name.localeCompare(b.name));
+  document.getElementById('visible-count')!.textContent=String(visible.length);
+  const mVis=document.getElementById('m-visible-count');if(mVis)mVis.textContent=String(visible.length);
+  const hint=document.getElementById('viewport-hint');
+  if(hint){
+    const hidden=filtered.length-visible.length;
+    if(mapBoundsActive&&hidden>0){
+      hint.innerHTML=`Showing pins in view · <a href="#" id="reset-view">Show all ${filtered.length}</a>`;
+      hint.style.display='block';
+      const rv=document.getElementById('reset-view');
+      if(rv)rv.addEventListener('click',e=>{e.preventDefault();mapBoundsActive=false;flyToArea('');renderList();});
+    }else{hint.style.display='none';}
+  }
+  const cards=visible.map(s=>{
+    const dl=sunTimes?getDaylightQuality(s,sunTimes):{quality:'na'};
+    const tags=[];
+    if(s.daylight)tags.push('<span class="mini-tag daylight">Daylight<\/span>');
+    if(s.cove)tags.push('<span class="mini-tag cove">Cove<\/span>');
+    if(s.blackout)tags.push('<span class="mini-tag">Blackout<\/span>');
+    if(s.driveIn)tags.push('<span class="mini-tag">Drive-in<\/span>');
+    return`<div class="studio-card ${selectedStudio===s.id?'selected':''}" data-id="${s.id}" onclick="window.selectStudio(${s.id})">
+<div class="name"><span class="daylight-indicator ${dl.quality}"></span>${s.name}</div>
+<div class="area">${s.neighbourhood} · ${s.rate}</div>
+<div class="tags">${tags.join('')}</div></div>`;
+  }).join('');
+  if(list)list.innerHTML=cards;
+  if(mList)mList.innerHTML=cards;
+}
+
+function deumlaut(s: string){
+  return s.replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/Ä/g,'Ae').replace(/Ö/g,'Oe').replace(/Ü/g,'Ue');
+}
+function toSlug(s: string){
+  return deumlaut(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function slugify(s: any){
+  return toSlug(s.name)+'-'+toSlug(s.neighbourhood);
+}
+
+function selectStudio(id: number){
+  if(selectedStudio)markers[selectedStudio].setIcon(mkIcon(studios.find(s=>s.id===selectedStudio),false));
+  selectedStudio=id;const s=studios.find(x=>x.id===id);if(!s)return;
+  markers[id].setIcon(mkIcon(s,true));
+  (function(){
+    var isMob=window.innerWidth<=768;
+    var mapH=map.getContainer().clientHeight;
+    var mapW=map.getContainer().clientWidth;
+    var pinLL=L.latLng(s.lat,s.lng);
+    var pinPt=map.latLngToContainerPoint(pinLL);
+    var visibleTop=60, visibleBottom=isMob?mapH*0.48:mapH-20;
+    var visibleLeft=isMob?20:20, visibleRight=isMob?mapW-20:mapW-360;
+    var inView = pinPt.x>=visibleLeft && pinPt.x<=visibleRight && pinPt.y>=visibleTop && pinPt.y<=visibleBottom;
+    if(!inView){
+      var targetX=(visibleLeft+visibleRight)/2;
+      var targetY=visibleTop+(visibleBottom-visibleTop)*0.33;
+      var currentCenter=map.latLngToContainerPoint(map.getCenter());
+      var newCenterPt=L.point(currentCenter.x+(pinPt.x-targetX),currentCenter.y+(pinPt.y-targetY));
+      map.panTo(map.containerPointToLatLng(newCenterPt),{duration:0.5,animate:true});
+    }
+  })();
+  document.querySelectorAll('.studio-card').forEach(c=>c.classList.toggle('selected',parseInt((c as HTMLElement).dataset.id!)===id));
+  const dl=sunTimes?getDaylightQuality(s,sunTimes):{quality:'na',label:''};
+  document.getElementById('detail-name')!.textContent=s.name;
+  document.getElementById('detail-area')!.textContent=`${s.neighbourhood}, Berlin`;
+  const feats=[];
+  if(s.daylight)feats.push(`<span class="feature-tag highlight">Daylight${s.facing?' · '+s.facing:''}</span>`);
+  if(s.blackout)feats.push('<span class="feature-tag">Blackout</span>');
+  if(s.cove)feats.push('<span class="feature-tag highlight">Cove</span>');
+  if(s.driveIn)feats.push('<span class="feature-tag">Drive-in</span>');
+  if(s.kitchen)feats.push('<span class="feature-tag">Kitchen</span>');
+  if(s.makeup)feats.push('<span class="feature-tag">Makeup</span>');
+  if(s.greenRoom)feats.push('<span class="feature-tag">Green Room</span>');
+  let dlHTML='';
+  if(s.daylight&&sunTimes){
+    const bs=5,be=21,br=be-bs;
+    const dlL=((sunTimes.sunrise-bs)/br)*100,dlW=((sunTimes.sunset-sunTimes.sunrise)/br)*100;
+    const gpL=((sunTimes.goldenPM[0]-bs)/br)*100,gpW=(0.75/br)*100;
+    const gaL=((sunTimes.goldenAM[0]-bs)/br)*100,gaW=(1.0/br)*100;
+    dlHTML=`<div class="detail-section"><h4>Light today</h4>
+<div class="daylight-chart"><div class="hours-bar">
+<div class="light-window daylight-window" style="left:${dlL}%;width:${dlW}%"></div>
+<div class="light-window golden-window" style="left:${gaL}%;width:${gaW}%"></div>
+<div class="light-window golden-window" style="left:${gpL}%;width:${gpW}%"></div>
+</div><div class="daylight-meta"><span>5am</span><span>${hourToStr(sunTimes.sunrise)} sunrise</span><span>${hourToStr(sunTimes.sunset)} sunset</span><span>9pm</span></div></div>
+<div style="margin-top:8px;font-size:12px;color:var(--text-dim);line-height:1.5">
+Golden hour: <span style="color:var(--accent);font-family:var(--mono);font-size:11px">${hourToStr(sunTimes.goldenAM[0])}–${hourToStr(sunTimes.goldenAM[1])}</span> &amp; <span style="color:var(--accent);font-family:var(--mono);font-size:11px">${hourToStr(sunTimes.goldenPM[0])}–${hourToStr(sunTimes.goldenPM[1])}</span>
+</div>
+<div style="margin-top:6px;font-size:12px;display:flex;align-items:center;gap:6px">
+<span class="daylight-indicator ${dl.quality}"></span><span style="color:var(--text-dim)">${dl.label}</span></div></div>`;
+  }
+  const badge=s.v===1?'<span class="verified-badge">Verified</span>':'<span class="estimated-badge">Estimated</span>';
+  const webLink=s.web?`<a href="${s.web.startsWith('http')?s.web:'https://'+s.web}" target="_blank" class="website-link">${s.web.replace(/^https?:\/\//,'').replace(/^www\./,'').split('/')[0]} →</a>`:'';
+  document.getElementById('detail-body')!.innerHTML=`
+<div class="detail-section"><h4>Features</h4><div class="detail-features">${feats.join('')}</div></div>
+${dlHTML}
+<div class="detail-section"><h4>Details ${badge}</h4>
+<div class="detail-stat"><span class="label">Day rate</span><span class="value price">${s.rate}</span></div>
+${s.sqm?`<div class="detail-stat"><span class="label">Floor area</span><span class="value">${s.sqm.toLocaleString()} m²</span></div>`:''}
+${s.ceil?`<div class="detail-stat"><span class="label">Ceiling</span><span class="value">${s.ceil}</span></div>`:''}
+${(s.extras||[]).map((e: string)=>`<div class="detail-stat"><span class="label">+</span><span class="value" style="font-family:var(--font);font-weight:400;font-size:11px">${e}</span></div>`).join('')}
+</div>
+${webLink}
+<a href="/studios/${slugify(s)}/" style="display:inline-block;margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--text-dim);text-decoration:none">View full details →</a>`;
+  document.getElementById('detail-panel')!.classList.add('visible');
+  const shelf=document.getElementById('mobile-shelf');
+  if(shelf)shelf.classList.remove('open');
+  const fs=document.getElementById('filter-sheet');
+  if(fs&&fs.classList.contains('open')){fs.classList.remove('open');setTimeout(()=>{if(!fs.classList.contains('open'))(fs as HTMLElement).style.display='none';},340);}
+}
+(window as any).selectStudio = selectStudio;
+
+function closeDetail(){
+  document.getElementById('detail-panel')!.classList.remove('visible');
+  if(selectedStudio)markers[selectedStudio].setIcon(mkIcon(studios.find(s=>s.id===selectedStudio),false));
+  selectedStudio=null;document.querySelectorAll('.studio-card').forEach(c=>c.classList.remove('selected'));
+}
+
+function bindEvents(){
+  document.querySelectorAll('.filter-tag:not([data-mobile])').forEach(t=>t.addEventListener('click',()=>{
+    const f=(t as HTMLElement).dataset.filter!;if(activeFilters.has(f)){activeFilters.delete(f);t.classList.remove('active')}else{activeFilters.add(f);t.classList.add('active')}
+    document.querySelectorAll(`.filter-tag[data-mobile][data-filter="${f}"]`).forEach(m=>m.classList.toggle('active',activeFilters.has(f)));
+    applyFilters()}));
+  document.getElementById('area-filter')!.addEventListener('change',(e: any)=>{selectedArea=e.target.value;const ma=document.getElementById('m-area-filter') as HTMLSelectElement;if(ma)ma.value=e.target.value;flyToArea(selectedArea);applyFilters()});
+  function setSearch(val: string){
+    searchQuery=val.toLowerCase();
+    var si=document.getElementById('search-input') as HTMLInputElement;
+    var mi=document.getElementById('m-search-input') as HTMLInputElement;
+    var sc=document.getElementById('search-clear');
+    var mc=document.getElementById('m-search-clear');
+    if(si)si.value=val;
+    if(mi)mi.value=val;
+    if(sc)sc.classList.toggle('visible',val.length>0);
+    if(mc)mc.classList.toggle('visible',val.length>0);
+    applyFilters();
+  }
+  function selectFirstResult(){
+    var first=studios.filter(passesFilter)[0];
+    if(!first)return;
+    selectStudio(first.id);
+    map.setView([first.lat,first.lng],15,{animate:true});
+    if(window.innerWidth<=768){
+      setTimeout(function(){
+        var mapH=map.getContainer().clientHeight;
+        map.panBy([0,Math.round(mapH*0.22)],{animate:false});
+      },350);
+    }
+  }
+  document.getElementById('search-input')!.addEventListener('input',(e: any)=>setSearch(e.target.value));
+  document.getElementById('search-input')!.addEventListener('keydown',(e: any)=>{if(e.key==='Enter'){e.preventDefault();selectFirstResult();}});
+  var sc=document.getElementById('search-clear');
+  if(sc)sc.addEventListener('click',()=>setSearch(''));
+  document.getElementById('detail-close')!.addEventListener('click',closeDetail);
+  document.getElementById('theme-toggle')!.addEventListener('click',()=>{themeAuto=false;setTheme(!isDark);});
+  const hamburger=document.getElementById('hamburger');
+  const mMenu=document.getElementById('mobile-menu')!;
+  const mClose=document.getElementById('mobile-menu-close');
+  if(hamburger)hamburger.addEventListener('click',()=>mMenu.classList.add('open'));
+  if(mClose)mClose.addEventListener('click',()=>mMenu.classList.remove('open'));
+  const shelf=document.getElementById('mobile-shelf');
+  const shelfToggle=document.getElementById('shelf-toggle');
+  if(shelfToggle)shelfToggle.addEventListener('click',()=>shelf!.classList.toggle('open'));
+  if(shelf){
+    let ty=0,startOpen=false;
+    shelf.addEventListener('touchstart',(e: any)=>{ty=e.touches[0].clientY;startOpen=shelf.classList.contains('open');},{passive:true});
+    shelf.addEventListener('touchend',(e: any)=>{
+      const dy=e.changedTouches[0].clientY-ty;
+      if(dy>60&&startOpen)shelf.classList.remove('open');
+      if(dy<-60&&!startOpen)shelf.classList.add('open');
+    },{passive:true});
+  }
+  const filterBtn=document.getElementById('shelf-filter-btn');
+  const filterSheet=document.getElementById('filter-sheet');
+  const filterDone=document.getElementById('filter-sheet-done');
+  function openFilterSheet(){if(filterSheet){(filterSheet as HTMLElement).style.display='block';requestAnimationFrame(()=>filterSheet.classList.add('open'));}}
+  function closeFilterSheet(){if(filterSheet){filterSheet.classList.remove('open');setTimeout(()=>{if(!filterSheet.classList.contains('open'))(filterSheet as HTMLElement).style.display='none';},340);}}
+  if(filterBtn)filterBtn.addEventListener('click',e=>{e.stopPropagation();openFilterSheet();});
+  if(filterDone)filterDone.addEventListener('click',closeFilterSheet);
+  if(filterSheet){
+    let fty=0;
+    filterSheet.addEventListener('touchstart',(e: any)=>{fty=e.touches[0].clientY;},{passive:true});
+    filterSheet.addEventListener('touchend',(e: any)=>{if(e.changedTouches[0].clientY-fty>60)closeFilterSheet();},{passive:true});
+  }
+  document.querySelectorAll('.filter-tag[data-mobile]').forEach(t=>t.addEventListener('click',()=>{
+    const f=(t as HTMLElement).dataset.filter!;if(activeFilters.has(f)){activeFilters.delete(f);t.classList.remove('active')}else{activeFilters.add(f);t.classList.add('active')}
+    document.querySelectorAll(`.filter-tag:not([data-mobile])[data-filter="${f}"]`).forEach(d=>d.classList.toggle('active',activeFilters.has(f)));
+    applyFilters()}));
+  const mArea=document.getElementById('m-area-filter');
+  if(mArea)mArea.addEventListener('change',(e: any)=>{selectedArea=e.target.value;(document.getElementById('area-filter') as HTMLSelectElement).value=e.target.value;flyToArea(selectedArea);applyFilters()});
+  const mSearch=document.getElementById('m-search-input') as HTMLInputElement;
+  if(mSearch){
+    mSearch.addEventListener('input',(e: any)=>setSearch(e.target.value));
+    mSearch.addEventListener('keydown',(e: any)=>{if(e.key==='Enter'){e.preventDefault();mSearch.blur();selectFirstResult();}});
+  }
+  var mc=document.getElementById('m-search-clear');
+  if(mc)mc.addEventListener('click',()=>setSearch(''));
+  const dp=document.getElementById('detail-panel');
+  if(dp){
+    let dty=0;
+    dp.addEventListener('touchstart',(e: any)=>{dty=e.touches[0].clientY;},{passive:true});
+    dp.addEventListener('touchend',(e: any)=>{if(e.changedTouches[0].clientY-dty>80)closeDetail();},{passive:true});
+  }
+}
+
+function populateAreas(){
+  const areas = Array.from(new Set(studios.map(s=>s.area))).sort();
+  [document.getElementById('area-filter'), document.getElementById('m-area-filter')].forEach(sel=>{
+    if(!sel) return;
+    areas.forEach(a=>{
+      const opt = document.createElement('option');
+      opt.value = a; opt.textContent = a + ' Berlin';
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function init(data: any[]){
+  studios = data;
+  populateAreas();
+  const today=new Date();
+  updateSun(today);
+  studios.forEach(s=>{const m=L.marker([s.lat,s.lng],{icon:mkIcon(s,false)}).addTo(map);m.on('click',()=>selectStudio(s.id));markers[s.id]=m});
+  let moveCount=0;
+  map.on('movestart',()=>{moveCount++;});
+  map.on('moveend',()=>{
+    if(moveCount>=1)mapBoundsActive=true;
+    renderList();
+  });
+  renderList();bindEvents();
+  document.getElementById('total-count')!.textContent=String(studios.length);
+  const mTot=document.getElementById('m-total-count');if(mTot)mTot.textContent=String(studios.length);
+  scheduleTheme();
+  const _p=new URLSearchParams(window.location.search),_sid=parseInt(_p.get('studio')||'0');
+  if(_sid&&studios.find(s=>s.id===_sid))setTimeout(()=>selectStudio(_sid),400);
+  const btn=document.getElementById('theme-toggle');
+  if(btn)btn.textContent=isDark?'☀':'☾';
+}
+
+fetch('/studios.json').then(r=>r.json()).then(init).catch(()=>{
+  document.getElementById('studio-list')!.innerHTML='<p style="padding:16px;color:var(--text-dim);font-size:12px">Failed to load studios. Please refresh.</p>';
+});
+</script>
+</body>
+</html>

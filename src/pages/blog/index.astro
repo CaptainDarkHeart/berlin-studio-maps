@@ -1,0 +1,35 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+
+const total = studios.length;
+const daylight = (studios as any[]).filter(s => s.daylight).length;
+const cove = (studios as any[]).filter(s => s.cove).length;
+const areas = new Set((studios as any[]).map(s => s.area)).size;
+---
+<PageLayout
+  title="Blog | Studio Map Berlin"
+  description="Guides, comparisons, and tips for finding the right photography studio in Berlin."
+  canonical="https://berlinstudiomaps.io/blog/"
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Blog</div>
+  <h1>Blog</h1>
+  <p>Guides, comparisons, and tips for finding the right photography studio in Berlin.</p>
+
+  <div class="studio-grid">
+    <a href="/blog/complete-guide-photography-studio-hire-berlin/" class="studio-link">
+      <h3>The Complete Guide to Photography Studio Hire in Berlin</h3>
+      <div class="meta">Everything you need to know. {total} studios compared across {areas} areas.</div>
+    </a>
+    <a href="/blog/best-daylight-studios-berlin/" class="studio-link">
+      <h3>Best Daylight Photography Studios in Berlin</h3>
+      <div class="meta">{daylight} daylight studios compared by orientation and facilities.</div>
+    </a>
+    <a href="/blog/studios-with-infinity-coves-berlin/" class="studio-link">
+      <h3>Photography Studios with Infinity Coves in Berlin</h3>
+      <div class="meta">{cove} studios with infinity coves. Dimensions and specs compared.</div>
+    </a>
+  </div>
+</div>
+</PageLayout>

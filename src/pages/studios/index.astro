@@ -1,0 +1,47 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+const areas = Array.from(new Set(studios.map((s: any) => s.area))).sort();
+const byArea: Record<string, any[]> = {};
+areas.forEach(a => { byArea[a] = studios.filter((s: any) => s.area === a); });
+const sorted = [...studios].sort((a: any, b: any) => a.name.localeCompare(b.name));
+---
+<PageLayout
+  title="All Photography Studios in Berlin | Studio Map Berlin"
+  description={`${studios.length} photography studios for hire in Berlin, listed across ${areas.length} areas.`}
+  canonical="https://berlinstudiomaps.io/studios/"
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Studios</div>
+  <h1>Photography Studios in Berlin</h1>
+  <p>{studios.length} studios available for hire, across {areas.length} areas.</p>
+  <a href="/" class="cta-map">View Map</a>
+
+  <h2>By Area</h2>
+  <div class="studio-grid">
+    {areas.map(a => (
+      <a href={`/areas/${a.toLowerCase().replace(/[^a-z0-9]+/g,'-')}/`} class="studio-link">
+        <h3>{a}</h3>
+        <div class="meta">{byArea[a].length} studios</div>
+      </a>
+    ))}
+  </div>
+
+  <h2>A–Z</h2>
+  <div class="studio-grid">
+    {sorted.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood} · {s.rate}</div>
+        <div>
+          {s.daylight && <span class="tag daylight">Daylight</span>}
+          {s.cove && <span class="tag cove">Cove</span>}
+          {s.blackout && <span class="tag">Blackout</span>}
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+</PageLayout>
