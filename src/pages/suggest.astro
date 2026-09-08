@@ -37,6 +37,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
 
     <label>Anything else?<textarea name="notes" maxlength="500" rows="3"></textarea></label>
     <label>Your email (optional, in case I have questions)<input type="email" name="submitterEmail" maxlength="200" /></label>
+    <label class="checkbox"><input type="checkbox" name="sendCopy" /> Send a copy of this to my email</label>
 
     <div class="cf-turnstile" data-sitekey={TURNSTILE_SITEKEY}></div>
 
@@ -87,6 +88,8 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
       submitterEmail: fd.get('submitterEmail'),
       turnstileToken,
     };
+    const sendCopy = fd.get('sendCopy') === 'on';
+    const submitterEmail = String(payload.submitterEmail || '');
 
     try {
       const res = await fetch('/api/suggest', {
@@ -96,7 +99,24 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
       });
       const data = await res.json();
       resultEl.textContent = data.message || data.error || 'Something went wrong.';
-      if (data.ok) form.reset();
+      if (data.ok) {
+        if (sendCopy && submitterEmail) {
+          const body = [
+            `Studio name: ${payload.name}`,
+            `Website: ${payload.website}`,
+            `Neighbourhood: ${payload.neighbourhood}`,
+            payload.rate ? `Rate: ${payload.rate}` : null,
+            payload.sqm ? `Size: ${payload.sqm}` : null,
+            payload.ceil ? `Ceiling: ${payload.ceil}` : null,
+            payload.notes ? `Notes: ${payload.notes}` : null,
+            '',
+            'Submitted to berlinstudiomaps.com/suggest/',
+          ].filter(Boolean).join('\n');
+          const mailto = `mailto:${encodeURIComponent(submitterEmail)}?subject=${encodeURIComponent('Your studio suggestion: ' + payload.name)}&body=${encodeURIComponent(body)}`;
+          window.location.href = mailto;
+        }
+        form.reset();
+      }
     } catch {
       resultEl.textContent = 'Network error, please try again.';
     }
