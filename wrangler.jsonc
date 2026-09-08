@@ -10,6 +10,8 @@
 	},
 	"routes": [
 		{ "pattern": "berlinstudiomaps.com", "custom_domain": true },
-		{ "pattern": "www.berlinstudiomaps.com", "custom_domain": true }
+		{ "pattern": "www.berlinstudiomaps.com", "custom_domain": true },
+		{ "pattern": "berlinstudiomap.com", "custom_domain": true },
+		{ "pattern": "www.berlinstudiomap.com", "custom_domain": true }
 	]
 }
