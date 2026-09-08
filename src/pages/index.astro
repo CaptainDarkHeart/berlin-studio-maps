@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Studio Map Berlin | Photography Studios for Hire</title>
+<title>Berlin Studio Map | Photography Studios for Hire</title>
 <meta name="description" content="Interactive map of every photography studio for hire in Berlin. Filter by daylight, cove, blackout, drive-in. Free daylight calculator.">
 <link rel="canonical" href="https://berlinstudiomaps.com/">
 <link rel="shortcut icon" href="/favicon.ico">
@@ -188,7 +188,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 </head>
 <body>
 <header>
-<div class="logo"><a href="/"><h1>Studio Map</h1><span>Berlin</span></a></div>
+<div class="logo"><a href="/"><h1>Berlin Studio</h1><span>map</span></a></div>
 <nav>
 <a href="/studios/">All Studios</a>
 <a href="/blog/">Blog</a>
@@ -203,7 +203,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 </header>
 <div class="mobile-menu" id="mobile-menu">
 <div class="mobile-menu-header">
-<div class="logo"><a href="/"><h1>Studio Map</h1><span>Berlin</span></a></div>
+<div class="logo"><a href="/"><h1>Berlin Studio</h1><span>map</span></a></div>
 <button class="mobile-menu-close" id="mobile-menu-close">&#215;</button>
 </div>
 <nav class="mobile-nav">
@@ -307,11 +307,14 @@ const map = L.map('map', {center:[52.5200,13.4050], zoom:11});
 const CARTO_KEY = import.meta.env.PUBLIC_CARTO_KEY as string;
 
 function updateMapTiles() {
-  if (tileLayer) return;
+  const style = isDark ? 'dark_all' : 'voyager';
+  if (tileLayer && tileLayer._smStyle === style) return;
+  if (tileLayer) map.removeLayer(tileLayer);
   tileLayer = L.tileLayer(
-    'https://basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY,
+    `https://basemaps.cartocdn.com/rastertiles/${style}/{z}/{x}/{y}{r}.png?key=` + CARTO_KEY,
     {attribution:'© OpenStreetMap © CARTO', maxZoom:18}
   ).addTo(map);
+  tileLayer._smStyle = style;
 }
 updateMapTiles();
 

@@ -38,7 +38,7 @@ const monthlyLight = months.map((m, i) => {
   return { m, sunrise: hourToStr(t.sunrise), sunset: hourToStr(t.sunset), hrs: hrs.toFixed(1) };
 });
 
-const title = `${s.name} — Photography Studio Hire, ${s.neighbourhood} | Studio Map Berlin`;
+const title = `${s.name} — Photography Studio Hire, ${s.neighbourhood} | Berlin Studio Map`;
 const description = `${s.name} in ${s.neighbourhood}, ${s.area} Berlin. ${s.daylight ? 'Daylight studio' : 'Studio'}${s.cove ? ' with infinity cove' : ''}. ${s.rate}. View specs, facilities, and daylight hours.`;
 const canonical = `https://berlinstudiomaps.com/studios/${slugify(s)}/`;
 

@@ -6,14 +6,14 @@ import { slugify } from '../../lib/slug';
 const list = (studios as any[]).filter(s => s.daylight).sort((a,b) => a.name.localeCompare(b.name));
 ---
 <PageLayout
-  title="Best Daylight Photography Studios in Berlin | Studio Map Berlin"
+  title="Best Daylight Photography Studios in Berlin | Berlin Studio Map"
   description={`${list.length} daylight studios for hire in Berlin. Compared by orientation and facilities.`}
   canonical="https://berlinstudiomaps.com/blog/best-daylight-studios-berlin/"
 >
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Best Daylight Studios</div>
   <h1>Best Daylight Photography Studios in Berlin</h1>
-  <p>{list.length} studios on Studio Map Berlin offer natural daylight. Window orientation matters more than square footage: south-facing and skylight studios hold usable light longest through the day, especially in winter.</p>
+  <p>{list.length} studios on Berlin Studio Map offer natural daylight. Window orientation matters more than square footage: south-facing and skylight studios hold usable light longest through the day, especially in winter.</p>
 
   <div class="studio-grid">
     {list.map((s: any) => (
