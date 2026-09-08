@@ -8,12 +8,21 @@ const areas = Array.from(new Set((studios as any[]).map(s => s.area))).sort();
 const daylight = (studios as any[]).filter(s => s.daylight).length;
 const cove = (studios as any[]).filter(s => s.cove).length;
 const driveIn = (studios as any[]).filter(s => s.driveIn).length;
+const title = "The Complete Guide to Photography Studio Hire in Berlin | Berlin Studio Map";
+const description = `Everything you need to know about hiring a photography studio in Berlin. ${total} studios compared across ${areas.length} areas.`;
+const canonical = "https://berlinstudiomaps.com/blog/complete-guide-photography-studio-hire-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The Complete Guide to Photography Studio Hire in Berlin",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
 ---
-<PageLayout
-  title="The Complete Guide to Photography Studio Hire in Berlin | Berlin Studio Map"
-  description={`Everything you need to know about hiring a photography studio in Berlin. ${total} studios compared across ${areas.length} areas.`}
-  canonical="https://berlinstudiomaps.com/blog/complete-guide-photography-studio-hire-berlin/"
->
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Complete Guide</div>
   <h1>The Complete Guide to Photography Studio Hire in Berlin</h1>

@@ -13,12 +13,23 @@ export function getStaticPaths() {
 
 const { slug, key, label, noun } = Astro.props;
 const list = (studios as any[]).filter(s => s[key]).sort((a, b) => a.name.localeCompare(b.name));
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": list.map((s: any, i: number) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": s.name,
+    "url": `https://berlinstudiomaps.com/studios/${slugify(s)}/`
+  }))
+};
 ---
 <PageLayout
   title={`${label} in Berlin | Berlin Studio Map`}
   description={`${list.length} ${noun} for hire in Berlin.`}
   canonical={`https://berlinstudiomaps.com/features/${slug}/`}
 >
+<script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / {label}</div>
 

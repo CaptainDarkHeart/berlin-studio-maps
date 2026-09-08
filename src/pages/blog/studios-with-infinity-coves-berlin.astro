@@ -4,12 +4,21 @@ import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
 
 const list = (studios as any[]).filter(s => s.cove).sort((a,b) => a.name.localeCompare(b.name));
+const title = "Photography Studios with Infinity Coves in Berlin | Berlin Studio Map";
+const description = `${list.length} studios with infinity coves in Berlin. Dimensions, pricing, and specs compared.`;
+const canonical = "https://berlinstudiomaps.com/blog/studios-with-infinity-coves-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Photography Studios with Infinity Coves in Berlin",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
 ---
-<PageLayout
-  title="Photography Studios with Infinity Coves in Berlin | Berlin Studio Map"
-  description={`${list.length} studios with infinity coves in Berlin. Dimensions, pricing, and specs compared.`}
-  canonical="https://berlinstudiomaps.com/blog/studios-with-infinity-coves-berlin/"
->
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Infinity Cove Studios</div>
   <h1>Photography Studios with Infinity Coves in Berlin</h1>

@@ -14,12 +14,23 @@ export function getStaticPaths() {
 const { area, list } = Astro.props;
 const daylightCount = list.filter((s: any) => s.daylight).length;
 const coveCount = list.filter((s: any) => s.cove).length;
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": list.map((s: any, i: number) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": s.name,
+    "url": `https://berlinstudiomaps.com/studios/${slugify(s)}/`
+  }))
+};
 ---
 <PageLayout
   title={`Photography Studios in ${area}, Berlin | Berlin Studio Map`}
   description={`${list.length} photography studios for hire in ${area}, Berlin. ${daylightCount} offer daylight, ${coveCount} have infinity coves.`}
   canonical={`https://berlinstudiomaps.com/areas/${areaSlug(area)}/`}
 >
+<script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/studios/">Studios</a> / {area}</div>
 

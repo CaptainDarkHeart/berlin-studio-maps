@@ -4,12 +4,21 @@ import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
 
 const list = (studios as any[]).filter(s => s.daylight).sort((a,b) => a.name.localeCompare(b.name));
+const title = "Best Daylight Photography Studios in Berlin | Berlin Studio Map";
+const description = `${list.length} daylight studios for hire in Berlin. Compared by orientation and facilities.`;
+const canonical = "https://berlinstudiomaps.com/blog/best-daylight-studios-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Best Daylight Photography Studios in Berlin",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
 ---
-<PageLayout
-  title="Best Daylight Photography Studios in Berlin | Berlin Studio Map"
-  description={`${list.length} daylight studios for hire in Berlin. Compared by orientation and facilities.`}
-  canonical="https://berlinstudiomaps.com/blog/best-daylight-studios-berlin/"
->
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Best Daylight Studios</div>
   <h1>Best Daylight Photography Studios in Berlin</h1>

@@ -7,12 +7,23 @@ const areas = Array.from(new Set(studios.map((s: any) => s.area))).sort();
 const byArea: Record<string, any[]> = {};
 areas.forEach(a => { byArea[a] = studios.filter((s: any) => s.area === a); });
 const sorted = [...studios].sort((a: any, b: any) => a.name.localeCompare(b.name));
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": sorted.map((s: any, i: number) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": s.name,
+    "url": `https://berlinstudiomaps.com/studios/${slugify(s)}/`
+  }))
+};
 ---
 <PageLayout
   title="All Photography Studios in Berlin | Berlin Studio Map"
   description={`${studios.length} photography studios for hire in Berlin, listed across ${areas.length} areas.`}
   canonical="https://berlinstudiomaps.com/studios/"
 >
+<script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / Studios</div>
   <h1>Photography Studios in Berlin</h1>
