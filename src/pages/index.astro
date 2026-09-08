@@ -54,16 +54,17 @@
 })} />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Sans+Caption:wght@400;700&family=PT+Mono&family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Sans+Caption:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
 <style is:global>
 *{margin:0;padding:0;box-sizing:border-box}
+@font-face{font-family:'Piescese';src:url('/fonts/Piescese.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 :root{--bg:#000000;--surface:#161616;--surface-2:#222222;--border:#333333;--text:#ffffff;--text-dim:#9a9a9a;--accent:#a855f7;--accent-dim:#8b3ee0;--daylight:#c084fc;--cove:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
 html.light{--bg:#ffffff;--surface:#f7f7f7;--surface-2:#ececec;--border:#dddddd;--text:#000000;--text-dim:#666666;--accent:#7c3aed;--accent-dim:#6d28d9;--daylight:#9333ea;--cove:#2a6898;--green:#3a7a30;--red:#c04040}
 body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg);z-index:1000;flex-shrink:0;transition:background-color 2s ease,border-color 2s ease}
 .logo{display:flex;align-items:baseline;gap:8px}
 .logo a{text-decoration:none;color:inherit;display:flex;align-items:baseline;gap:8px}
-.logo h1{font-size:18px;font-weight:700;font-family:'League Spartan',var(--font);letter-spacing:-0.01em}
+.logo h1{font-size:19px;font-weight:400;font-family:'Piescese',var(--font);letter-spacing:0.01em}
 .logo span{font-family:var(--mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em}
 nav{display:flex;align-items:center;gap:20px;justify-content:center}
 nav a{font-family:var(--mono);font-size:12px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;letter-spacing:0.06em;transition:color 0.15s}
@@ -231,7 +232,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 </head>
 <body>
 <header>
-<div class="logo"><a href="/"><h1>Berlin Studio</h1><span>map</span></a></div>
+<div class="logo"><a href="/"><h1>BERLIN STUDIO</h1><span>map</span></a></div>
 <nav>
 <a href="/studios/">All Studios</a>
 <a href="/blog/">Blog</a>
@@ -246,7 +247,7 @@ html.light .hours-bar .daylight-window{background:rgba(0,0,0,0.08)}
 </header>
 <div class="mobile-menu" id="mobile-menu">
 <div class="mobile-menu-header">
-<div class="logo"><a href="/"><h1>Berlin Studio</h1><span>map</span></a></div>
+<div class="logo"><a href="/"><h1>BERLIN STUDIO</h1><span>map</span></a></div>
 <button class="mobile-menu-close" id="mobile-menu-close">&#215;</button>
 </div>
 <nav class="mobile-nav">
