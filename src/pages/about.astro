@@ -1,11 +1,22 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Beto Ruiz Alonso",
+  "jobTitle": "Photographer",
+  "url": "https://www.betoruizalonso.com/about/",
+  "sameAs": ["https://www.instagram.com/betoruizalonso/"],
+  "worksFor": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomaps.com/" }
+};
 ---
 <PageLayout
   title="About | Berlin Studio Map"
-  description="A free, independent directory of photography studios for hire in Berlin."
+  description="A free, independent directory of photography studios for hire in Berlin, built by Berlin photographer Beto Ruiz Alonso."
   canonical="https://berlinstudiomaps.com/about/"
 >
+<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / About</div>
   <h1>About Berlin Studio Map</h1>
@@ -18,6 +29,7 @@ import PageLayout from '../layouts/PageLayout.astro';
   <h2>Who Built This</h2>
   <div class="builder">
     <p>Berlin Studio Map was built by me, <a href="https://www.betoruizalonso.com/about/" target="_blank" rel="noopener">Beto Ruiz Alonso</a>, a Berlin-based photographer working across portrait, fashion, and event photography. I built this site as a personal solution to the same problem every visiting or local photographer runs into: comparing studios across daylight, coves, and facilities meant checking a dozen different listing sites. Follow me on <a href="https://www.instagram.com/betoruizalonso/" target="_blank" rel="noopener">Instagram</a>.</p>
+    <p>The idea was inspired by <a href="https://studiomaps.io/" target="_blank" rel="noopener">Studio Map</a>, the equivalent directory for London. Same concept, built for Berlin.</p>
     <img src="/betoruizalonso.jpg" alt="Beto Ruiz Alonso" width="120" height="120" class="builder-photo" />
   </div>
 
