@@ -857,5 +857,38 @@
     "v": 1,
     "email": "info@westudio.de",
     "badge": false
+  },
+  {
+    "id": 36,
+    "name": "Birkenstudio",
+    "area": "Mitte",
+    "neighbourhood": "Moabit",
+    "lat": 52.5283,
+    "lng": 13.3403,
+    "sqm": 56,
+    "ceil": "3m",
+    "rate": "€35/hr · €280/day (10hr+)",
+    "daylight": false,
+    "blackout": true,
+    "cove": false,
+    "driveIn": true,
+    "kitchen": true,
+    "makeup": true,
+    "greenRoom": true,
+    "wifi": true,
+    "facing": null,
+    "extras": [
+      "56m² main studio, 72m² total",
+      "Floor-to-ceiling blackout curtains",
+      "Extra-wide background rolls (3.5m+)",
+      "4x professional flash units + video lighting",
+      "Full furniture/props library, brick and wood-panel walls",
+      "Fast wifi (100/40 Mb/s)",
+      "Open 7am-11pm daily, 12hr advance booking"
+    ],
+    "web": "birkenstudio.de",
+    "v": 1,
+    "email": null,
+    "badge": false
   }
 ]
