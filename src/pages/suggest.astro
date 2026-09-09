@@ -5,7 +5,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
 <PageLayout
   title="Suggest a Studio | Berlin Studio Map"
   description="Help me keep Berlin Studio Map complete and accurate."
-  canonical="https://berlinstudiomaps.com/suggest/"
+  canonical="https://berlinstudiomap.com/suggest/"
 >
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <div class="container">
@@ -45,7 +45,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
     <p id="suggest-result" role="status"></p>
   </form>
 
-  <p>If you're a studio owner and your listing has incorrect information, please email me at <a href="mailto:hello@berlinstudiomaps.com?subject=Studio Correction">hello@berlinstudiomaps.com</a> and I'll update it promptly.</p>
+  <p>If you're a studio owner and your listing has incorrect information, please email me at <a href="mailto:hello@berlinstudiomap.com?subject=Studio Correction">hello@berlinstudiomap.com</a> and I'll update it promptly.</p>
 </div>
 
 <style>
@@ -110,7 +110,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAEspIHOLsileoj7J';
             payload.ceil ? `Ceiling: ${payload.ceil}` : null,
             payload.notes ? `Notes: ${payload.notes}` : null,
             '',
-            'Submitted to berlinstudiomaps.com/suggest/',
+            'Submitted to berlinstudiomap.com/suggest/',
           ].filter(Boolean).join('\n');
           const mailto = `mailto:${encodeURIComponent(submitterEmail)}?subject=${encodeURIComponent('Your studio suggestion: ' + payload.name)}&body=${encodeURIComponent(body)}`;
           window.location.href = mailto;

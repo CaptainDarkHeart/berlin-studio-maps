@@ -8,7 +8,7 @@ export const GET: APIRoute = () => {
   const areas = Array.from(new Set(list.map(s => s.area))).sort();
   const daylightCount = list.filter(s => s.daylight).length;
   const cicloramaCount = list.filter(s => s.ciclorama).length;
-  const base = 'https://berlinstudiomaps.com';
+  const base = 'https://berlinstudiomap.com';
 
   const lines: string[] = [];
   lines.push('# Berlin Studio Map');

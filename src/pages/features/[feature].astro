@@ -20,14 +20,14 @@ const itemListJsonLd = {
     "@type": "ListItem",
     "position": i + 1,
     "name": s.name,
-    "url": `https://berlinstudiomaps.com/studios/${slugify(s)}/`
+    "url": `https://berlinstudiomap.com/studios/${slugify(s)}/`
   }))
 };
 ---
 <PageLayout
   title={`${label} in Berlin | Berlin Studio Map`}
   description={`${list.length} ${noun} for hire in Berlin.`}
-  canonical={`https://berlinstudiomaps.com/features/${slug}/`}
+  canonical={`https://berlinstudiomap.com/features/${slug}/`}
 >
 <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
 <div class="container">

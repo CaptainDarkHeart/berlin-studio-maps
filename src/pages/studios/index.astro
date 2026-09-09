@@ -14,14 +14,14 @@ const itemListJsonLd = {
     "@type": "ListItem",
     "position": i + 1,
     "name": s.name,
-    "url": `https://berlinstudiomaps.com/studios/${slugify(s)}/`
+    "url": `https://berlinstudiomap.com/studios/${slugify(s)}/`
   }))
 };
 ---
 <PageLayout
   title="All Photography Studios in Berlin | Berlin Studio Map"
   description={`${studios.length} photography studios for hire in Berlin, listed across ${areas.length} areas.`}
-  canonical="https://berlinstudiomaps.com/studios/"
+  canonical="https://berlinstudiomap.com/studios/"
 >
 <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
 <div class="container">

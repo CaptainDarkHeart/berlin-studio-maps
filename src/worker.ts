@@ -68,7 +68,7 @@ async function checkWebsiteReachable(url: string): Promise<boolean> {
       method: 'GET',
       redirect: 'follow',
       signal: controller.signal,
-      headers: { 'User-Agent': 'BerlinStudioMapBot/1.0 (+https://berlinstudiomaps.com)' },
+      headers: { 'User-Agent': 'BerlinStudioMapBot/1.0 (+https://berlinstudiomap.com)' },
     });
     clearTimeout(timeout);
     return res.status >= 200 && res.status < 400;
@@ -83,7 +83,7 @@ async function geocode(query: string): Promise<{ lat: number; lng: number } | nu
       `${query}, Berlin, Germany`
     )}`;
     const res = await fetch(url, {
-      headers: { 'User-Agent': 'BerlinStudioMap/1.0 (hello@berlinstudiomaps.com)' },
+      headers: { 'User-Agent': 'BerlinStudioMap/1.0 (hello@berlinstudiomap.com)' },
     });
     if (!res.ok) return null;
     const data: Array<{ lat: string; lon: string }> = await res.json();
@@ -165,7 +165,7 @@ async function handleContact(request: Request, env: Env, ip: string): Promise<Re
   const sent = await sendEmail(env, {
     to: CONTACT_ADDRESS,
     subject: `Contact form: ${name}`,
-    text: `${message}\n\n---\nFrom: ${name} (${email})\nSent via berlinstudiomaps.com/contact/`,
+    text: `${message}\n\n---\nFrom: ${name} (${email})\nSent via berlinstudiomap.com/contact/`,
     replyTo: email,
   });
 
@@ -177,7 +177,7 @@ async function handleContact(request: Request, env: Env, ip: string): Promise<Re
     await sendEmail(env, {
       to: email,
       subject: `Your message to Berlin Studio Map`,
-      text: `Here's a copy of the message you sent:\n\n${message}\n\n---\nSent via berlinstudiomaps.com/contact/`,
+      text: `Here's a copy of the message you sent:\n\n${message}\n\n---\nSent via berlinstudiomap.com/contact/`,
     });
   }
 
@@ -303,7 +303,7 @@ async function handleSuggest(request: Request, env: Env, ip: string): Promise<Re
       payload.ceil ? `Ceiling: ${payload.ceil}` : null,
       typeof payload.notes === 'string' && payload.notes ? `Notes: ${payload.notes}` : null,
       '',
-      'Submitted to berlinstudiomaps.com/suggest/',
+      'Submitted to berlinstudiomap.com/suggest/',
     ].filter(Boolean);
     await sendEmail(env, {
       to: submitterEmail,
@@ -326,9 +326,16 @@ const REDIRECTS: Record<string, string> = {
   '/features/infinity-ciclorama-studios/': '/features/infinity-cyclorama-studios/',
 };
 
+const CANONICAL_HOST = 'berlinstudiomap.com';
+const OLD_HOSTS = new Set(['berlinstudiomaps.com', 'www.berlinstudiomaps.com']);
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (OLD_HOSTS.has(url.hostname)) {
+      url.hostname = CANONICAL_HOST;
+      return Response.redirect(url.toString(), 301);
+    }
     const redirectTo = REDIRECTS[url.pathname];
     if (redirectTo) {
       url.pathname = redirectTo;

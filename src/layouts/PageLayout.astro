@@ -11,11 +11,11 @@ const siteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Berlin Studio Map",
-  "url": "https://berlinstudiomaps.com/",
+  "url": "https://berlinstudiomap.com/",
   "description": "A free, independent directory of photography studios for hire in Berlin.",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": { "@type": "EntryPoint", "urlTemplate": "https://berlinstudiomaps.com/studios/?q={search_term_string}" },
+    "target": { "@type": "EntryPoint", "urlTemplate": "https://berlinstudiomap.com/studios/?q={search_term_string}" },
     "query-input": "required name=search_term_string"
   }
 };
@@ -23,9 +23,9 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "Berlin Studio Map",
-  "url": "https://berlinstudiomaps.com/",
-  "logo": "https://berlinstudiomaps.com/favicon.jpg",
-  "email": "hello@berlinstudiomaps.com",
+  "url": "https://berlinstudiomap.com/",
+  "logo": "https://berlinstudiomap.com/favicon.jpg",
+  "email": "hello@berlinstudiomap.com",
   "founder": {
     "@type": "Person",
     "name": "Beto Ruiz Alonso",
@@ -51,19 +51,19 @@ const orgJsonLd = {
 <meta property="og:url" content={canonical}>
 <meta property="og:type" content={type}>
 <meta property="og:site_name" content="Berlin Studio Map">
-<meta property="og:image" content="https://berlinstudiomaps.com/og-image.png">
+<meta property="og:image" content="https://berlinstudiomap.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content={title}>
 <meta name="twitter:description" content={description}>
-<meta name="twitter:image" content="https://berlinstudiomaps.com/og-image.png">
+<meta name="twitter:image" content="https://berlinstudiomap.com/og-image.png">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable site summary">
 <script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
 <script type="application/ld+json" set:html={JSON.stringify(orgJsonLd)} />
 <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Sans+Caption:wght@400;700&family=PT+Mono&display=swap" rel="stylesheet">
-<script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "81c806aebf894126933c983633d0580f"}'></script>
+<script is:inline type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e0b75bf1c3a24fb3a7c508a2ef2ec1a5"}'></script>
 <script>
 (function(){var s=localStorage.getItem('sm_theme');if(s){document.documentElement.className=s;return;}var d=new Date(),doy=Math.floor((d-new Date(d.getFullYear(),0,1))/864e5)+1;var dec=23.45*Math.sin((360/365*(doy-81))*Math.PI/180);var cosH=-Math.tan(52.5200*Math.PI/180)*Math.tan(dec*Math.PI/180);var H=Math.abs(cosH)>=1?0:Math.acos(cosH)*180/Math.PI;var dst=d.getMonth()>=2&&d.getMonth()<=9?1:0;var sr=12+dst-H/15,ss=12+dst+H/15;var h=d.getHours()+d.getMinutes()/60;document.documentElement.className=(h>=sr&&h<ss)?'light':'dark';})();
 </script>
