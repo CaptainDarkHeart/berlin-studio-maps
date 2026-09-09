@@ -62,7 +62,8 @@ const jsonLd = {
   ],
   "sameAs": [
     ...(s.web ? [s.web.startsWith('http') ? s.web : `https://${s.web}`] : []),
-    ...(s.instagram ? [s.instagram] : [])
+    ...(s.instagram ? [s.instagram] : []),
+    ...(s.tiktok ? [s.tiktok] : [])
   ]
 };
 const breadcrumbLd = {
@@ -87,14 +88,38 @@ const breadcrumbLd = {
     <p style="font-family:var(--mono);font-size:13px;color:var(--text-dim)">{s.neighbourhood}, {s.area} Berlin</p>
     <a href={`/?studio=${s.id}`} style="font-family:var(--mono);font-size:13px;color:var(--accent);white-space:nowrap">View on Map →</a>
   </div>
-  {s.instagram && (
-    <a href={s.instagram} target="_blank" rel="noopener" aria-label={`${s.name} on Instagram`} style="display:inline-flex;margin-top:8px;color:var(--text-dim)">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-        <circle cx="12" cy="12" r="4.5"></circle>
-        <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle>
+  {(s.instagram || s.tiktok) && (
+    <div class="social-links">
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+          <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#FFDC80" />
+            <stop offset="25%" stop-color="#F56040" />
+            <stop offset="50%" stop-color="#C13584" />
+            <stop offset="75%" stop-color="#5851DB" />
+            <stop offset="100%" stop-color="#405DE6" />
+          </linearGradient>
+        </defs>
       </svg>
-    </a>
+      {s.instagram && (
+        <a href={s.instagram} target="_blank" rel="noopener" aria-label={`${s.name} on Instagram`} class="social-icon ig">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect class="ig-bg" x="2" y="2" width="20" height="20" rx="5"></rect>
+            <circle class="ig-ring" cx="12" cy="12" r="4.5"></circle>
+            <circle class="ig-dot" cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </a>
+      )}
+      {s.tiktok && (
+        <a href={s.tiktok} target="_blank" rel="noopener" aria-label={`${s.name} on TikTok`} class="social-icon tt">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path class="tt-shadow tt-cyan" transform="translate(-0.8,0.8)" d="M16.6 5.82c-.9-.78-1.47-1.9-1.6-3.14V2h-3.4v13.4a2.6 2.6 0 1 1-1.86-2.49v-3.5A6 6 0 1 0 15 15.4V8.65a7.5 7.5 0 0 0 4.4 1.42v-3.4a4.7 4.7 0 0 1-2.8-.85z"></path>
+            <path class="tt-shadow tt-pink" transform="translate(0.8,-0.8)" d="M16.6 5.82c-.9-.78-1.47-1.9-1.6-3.14V2h-3.4v13.4a2.6 2.6 0 1 1-1.86-2.49v-3.5A6 6 0 1 0 15 15.4V8.65a7.5 7.5 0 0 0 4.4 1.42v-3.4a4.7 4.7 0 0 1-2.8-.85z"></path>
+            <path class="tt-main" d="M16.6 5.82c-.9-.78-1.47-1.9-1.6-3.14V2h-3.4v13.4a2.6 2.6 0 1 1-1.86-2.49v-3.5A6 6 0 1 0 15 15.4V8.65a7.5 7.5 0 0 0 4.4 1.42v-3.4a4.7 4.7 0 0 1-2.8-.85z"></path>
+          </svg>
+        </a>
+      )}
+    </div>
   )}
 
   <div style="margin:20px 0">
@@ -172,3 +197,21 @@ const breadcrumbLd = {
   <p style="margin-top:32px;font-size:12px;color:var(--text-dim)">Data compiled from public studio listings, not yet verified with the studio. <a href={`mailto:hello@berlinstudiomaps.com?subject=${encodeURIComponent('Correction: ' + s.name)}`}>Report an error</a></p>
 </div>
 </PageLayout>
+
+<style>
+  .social-links { display: flex; gap: 12px; margin-top: 8px; }
+  .social-icon { display: inline-flex; color: var(--text-dim); }
+
+  .social-icon.ig .ig-bg { transition: fill .15s, stroke .15s; }
+  .social-icon.ig .ig-ring { transition: stroke .15s; }
+  .social-icon.ig .ig-dot { transition: fill .15s; }
+  .social-icon.ig:hover .ig-bg { fill: url(#ig-gradient); stroke: none; }
+  .social-icon.ig:hover .ig-ring { stroke: #fff; }
+  .social-icon.ig:hover .ig-dot { fill: #fff; }
+
+  .social-icon.tt .tt-shadow { opacity: 0; transition: opacity .15s; }
+  .social-icon.tt .tt-main { transition: fill .15s; }
+  .social-icon.tt:hover .tt-cyan { opacity: 1; fill: #25F4EE; }
+  .social-icon.tt:hover .tt-pink { opacity: 1; fill: #FE2C55; }
+  .social-icon.tt:hover .tt-main { fill: #000; }
+</style>
