@@ -889,5 +889,36 @@
     "v": 1,
     "email": "mail@birkenstudio.de",
     "badge": false
+  },
+  {
+    "id": 37,
+    "name": "Studio Stellar",
+    "area": "Kreuzberg",
+    "neighbourhood": "Kreuzberg",
+    "lat": 52.4909419,
+    "lng": 13.4169674,
+    "sqm": 132,
+    "ceil": "3.5m",
+    "rate": "from €300 (2.5hr min)",
+    "daylight": true,
+    "blackout": true,
+    "ciclorama": true,
+    "driveIn": false,
+    "kitchen": true,
+    "makeup": true,
+    "greenRoom": false,
+    "wifi": true,
+    "facing": null,
+    "extras": [
+      "132m² daylight studio, Urbanstr. 124",
+      "L-shaped cyclorama: 22m², 4.5×5m",
+      "3 makeup stations, styling area",
+      "2.2×2.5m street-level entrance for equipment",
+      "2 restrooms and shower"
+    ],
+    "web": "studiostellar.berlin",
+    "v": 1,
+    "email": "contact@studiostellar.berlin",
+    "badge": false
   }
 ]
