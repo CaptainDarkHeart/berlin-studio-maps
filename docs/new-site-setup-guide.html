@@ -1,0 +1,415 @@
+<meta charset="utf-8">
+<title>New Site Setup Guide — Studio Map Clone</title>
+<style>
+  :root{
+    --bg-1:#04070a; --bg-2:#0a1420;
+    --glow-1:rgba(45,212,168,.42); --glow-2:rgba(59,130,246,.34); --glow-3:rgba(139,92,246,.30);
+    --surface:rgba(255,255,255,.045); --surface-strong:rgba(255,255,255,.075);
+    --border:rgba(255,255,255,.10); --border-strong:rgba(255,255,255,.18);
+    --ink:#f2f6f4; --ink-dim:#8d98a3;
+    --accent:#2fe0ac; --blur:22px;
+    --shadow-card:0 24px 48px -28px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+    --body:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg-1:#eef3f2; --bg-2:#e2edec;
+      --glow-1:rgba(0,145,95,.20); --glow-2:rgba(59,130,246,.16); --glow-3:rgba(139,92,246,.14);
+      --surface:rgba(255,255,255,.62); --surface-strong:rgba(255,255,255,.88);
+      --border:rgba(14,21,18,.09); --border-strong:rgba(14,21,18,.16);
+      --ink:#0e1512; --ink-dim:#5a655f; --accent:#00915f;
+      --shadow-card:0 24px 48px -28px rgba(14,21,18,.22), inset 0 1px 0 rgba(255,255,255,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg-1:#04070a; --bg-2:#0a1420; --glow-1:rgba(45,212,168,.42); --glow-2:rgba(59,130,246,.34); --glow-3:rgba(139,92,246,.30);
+    --surface:rgba(255,255,255,.045); --surface-strong:rgba(255,255,255,.075);
+    --border:rgba(255,255,255,.10); --border-strong:rgba(255,255,255,.18);
+    --ink:#f2f6f4; --ink-dim:#8d98a3; --accent:#2fe0ac;
+    --shadow-card:0 24px 48px -28px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  :root[data-theme="light"]{
+    --bg-1:#eef3f2; --bg-2:#e2edec; --glow-1:rgba(0,145,95,.20); --glow-2:rgba(59,130,246,.16); --glow-3:rgba(139,92,246,.14);
+    --surface:rgba(255,255,255,.62); --surface-strong:rgba(255,255,255,.88);
+    --border:rgba(14,21,18,.09); --border-strong:rgba(14,21,18,.16);
+    --ink:#0e1512; --ink-dim:#5a655f; --accent:#00915f;
+    --shadow-card:0 24px 48px -28px rgba(14,21,18,.22), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg-1)}
+  body{
+    margin:0; color:var(--ink); font-family:var(--body); line-height:1.6; font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(900px 900px at 8% 4%, var(--glow-3), transparent 62%),
+      radial-gradient(1000px 1000px at 62% 2%, var(--glow-2), transparent 60%),
+      radial-gradient(900px 900px at 92% 88%, var(--glow-1), transparent 58%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2) 40%, var(--bg-1));
+    background-attachment:fixed;
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px 96px}
+
+  .cover{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:20px; padding:56px 24px 24px; position:relative}
+  .cover > *{position:relative; z-index:1}
+  .mark-panel{
+    width:min(760px,88vw); background:linear-gradient(160deg,var(--surface-strong),var(--surface));
+    -webkit-backdrop-filter:blur(var(--blur)); backdrop-filter:blur(var(--blur));
+    border:1px solid var(--border-strong); border-radius:28px; padding:56px 48px; box-shadow:var(--shadow-card);
+  }
+  @media (max-width:600px){.mark-panel{padding:40px 24px}}
+  .eyebrow{font-family:var(--mono); font-size:.75rem; letter-spacing:.26em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:18px}
+  .mark{font-weight:700; letter-spacing:-.02em; font-size:clamp(2.2rem,7vw,3.6rem); color:var(--ink); line-height:1.1}
+  .cover .tag{font-size:1.05rem; color:var(--ink-dim); margin-top:16px}
+  .meta{font-family:var(--mono); font-size:.82rem; color:var(--ink-dim)}
+  .meta b{color:var(--ink); font-weight:500; font-family:var(--body)}
+
+  h1,h2,h3{font-weight:700; text-wrap:balance; color:var(--ink); letter-spacing:-.01em}
+  h2{font-size:clamp(1.35rem,3vw,1.7rem); margin:76px 0 16px; display:flex; flex-direction:column; gap:8px}
+  h2 .no{order:-1; font-family:var(--mono); font-size:.68rem; letter-spacing:.22em; color:var(--accent); font-weight:600; text-transform:uppercase}
+  h3{font-size:1.02rem; margin:0 0 6px; font-weight:600}
+  p{margin:0 0 14px; max-width:70ch}
+  .section-intro{color:var(--ink-dim); max-width:66ch; margin:0 0 12px; font-size:.94rem}
+  a{color:var(--accent); font-weight:500}
+  code{font-family:var(--mono); font-size:.86em; background:rgba(255,255,255,.06); padding:1px 6px; border-radius:4px}
+  :root[data-theme="light"] code, @media (prefers-color-scheme:light){code{background:rgba(0,0,0,.05)}}
+  pre{background:rgba(0,0,0,.32); border:1px solid var(--border); padding:14px 16px; border-radius:10px; overflow-x:auto; max-width:100%; font-size:.83rem}
+  :root[data-theme="light"] pre{background:rgba(0,0,0,.04)}
+  pre code{background:none; padding:0}
+
+  ul.plain{list-style:none; margin:0 0 14px; padding:0; display:grid; gap:9px}
+  ul.plain li{padding-left:20px; position:relative; max-width:66ch}
+  ul.plain li::before{content:"→"; position:absolute; left:0; color:var(--accent); font-weight:700}
+
+  /* phase overview timeline */
+  .timeline{display:grid; gap:0; margin:0 0 12px; border-left:1px solid var(--border-strong); padding-left:26px}
+  .tl-item{position:relative; padding-bottom:18px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{content:""; position:absolute; left:-31px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--glow-1)}
+  .tl-item a{font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); text-decoration:none}
+  .tl-item a:hover{color:var(--accent)}
+  .tl-item .no{color:var(--accent); margin-right:8px}
+
+  /* step cards */
+  .cards{display:grid; gap:14px; margin:18px 0 10px}
+  .card{
+    background:linear-gradient(160deg,var(--surface-strong),var(--surface));
+    -webkit-backdrop-filter:blur(var(--blur)); backdrop-filter:blur(var(--blur));
+    border:1px solid var(--border); border-radius:18px; padding:20px 24px; box-shadow:var(--shadow-card);
+    display:grid; grid-template-columns:96px minmax(0,1fr); gap:18px; align-items:start;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .card > div{min-width:0}
+  @media (max-width:560px){.card{grid-template-columns:1fr}}
+  .card:hover{border-color:var(--tag-hue,var(--accent)); transform:translateY(-3px)}
+  .card--llm{--tag-hue:#2fd66c}
+  .card--manual{--tag-hue:#3b9dff}
+  .card .tag{font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:var(--tag-hue,var(--accent)); font-weight:700; padding-top:2px}
+  .card p{font-size:.92rem; color:var(--ink-dim); margin:0 0 6px}
+  .card p:last-child{margin-bottom:0}
+  .card .example{font-size:.82rem; color:var(--ink-dim); font-style:italic}
+
+  .warn{
+    background:linear-gradient(160deg,var(--surface-strong),var(--surface));
+    border:1px solid rgba(220,110,90,.4); border-radius:16px; padding:18px 22px; margin:18px 0;
+    box-shadow:var(--shadow-card);
+  }
+  .warn .tag{font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:#e0836a; font-weight:700; display:block; margin-bottom:8px}
+  .warn p{margin:0; font-size:.92rem; color:var(--ink-dim)}
+
+  .table-panel{
+    background:linear-gradient(160deg,var(--surface-strong),var(--surface));
+    -webkit-backdrop-filter:blur(var(--blur)); backdrop-filter:blur(var(--blur));
+    border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow-card);
+    padding:6px 22px; margin:18px 0; overflow-x:auto;
+  }
+  table{width:100%; border-collapse:collapse; font-size:.88rem}
+  th,td{text-align:left; padding:11px 6px; border-bottom:1px solid var(--border); vertical-align:top}
+  th{font-family:var(--mono); font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); font-weight:700}
+
+  .checklist{list-style:none; margin:0; padding:0; display:grid; gap:0}
+  .checklist li{padding:9px 0; border-bottom:1px solid var(--border); font-size:.92rem; padding-left:22px; position:relative}
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{content:"—"; position:absolute; left:0; color:var(--accent)}
+
+  .foot{margin-top:70px; padding-top:24px; border-top:1px solid var(--border-strong); font-size:.82rem; color:var(--ink-dim); font-family:var(--mono)}
+</style>
+
+<div class="cover">
+  <div class="mark-panel">
+    <div class="eyebrow">Setup guide</div>
+    <div class="mark">New City, New Site</div>
+    <div class="tag">Cloning the Studio Map pattern for a new city, worked example: Paris</div>
+  </div>
+  <div class="meta">Reference build: <b>Berlin Studio Map</b> (berlinstudiomap.com) · Updated <b>9 September 2026</b></div>
+</div>
+
+<div class="wrap">
+
+<p class="section-intro">Every step needed to take Berlin Studio Map's codebase and stand up a new city site, e.g. Paris. Each step is tagged <span style="color:#2fd66c;font-family:var(--mono);font-size:.8em">LLM</span> (Claude does it in the repo) or <span style="color:#7eb8da;font-family:var(--mono);font-size:.8em">MANUAL</span> (Dan does it by hand, usually a dashboard somewhere). One domain only, no plural variant, no local front-person required unless the site is a personal favour like Berlin's.</p>
+
+<div class="timeline">
+  <div class="tl-item"><a href="#p1"><span class="no">01</span>Pick city, gather facts</a></div>
+  <div class="tl-item"><a href="#p2"><span class="no">02</span>Fork / copy repo</a></div>
+  <div class="tl-item"><a href="#p3"><span class="no">03</span>Global find/replace pass</a></div>
+  <div class="tl-item"><a href="#p4"><span class="no">04</span>Geography: coords, area boundaries, solar calc</a></div>
+  <div class="tl-item"><a href="#p5"><span class="no">05</span>Studio data</a></div>
+  <div class="tl-item"><a href="#p6"><span class="no">06</span>Branding: name, favicon, OG image</a></div>
+  <div class="tl-item"><a href="#p7"><span class="no">07</span>Cloudflare: domain, D1, Turnstile, Email Routing, Analytics</a></div>
+  <div class="tl-item"><a href="#p8"><span class="no">08</span>Resend (email sending)</a></div>
+  <div class="tl-item"><a href="#p9"><span class="no">09</span>Deploy: Workers Builds git integration</a></div>
+  <div class="tl-item"><a href="#p10"><span class="no">10</span>Test checklist</a></div>
+</div>
+
+<h2 id="p1"><span class="no">01</span>Pick city, gather facts</h2>
+<p class="section-intro">Manual, before any code is touched.</p>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Buy one domain, singular.</b> e.g. <code>parisstudiomap.com</code>. Berlin owning both a singular and plural variant (<code>berlinstudiomap.com</code> + <code>berlinstudiomaps.com</code>) was a mistake from the first build, not a pattern to repeat: it meant a 301-redirect layer, a canonical-host check in the Worker, and four custom-domain routes instead of one. Buy via Cloudflare Registrar, keeps DNS + domain + Worker on one account.</p>
+    </div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Get city centre lat/lng and an area/district list.</b> Hand the LLM: city centre coordinates (map default view + solar calc), a list of named districts to use as filter categories (5-12 is a good count, Berlin uses 10), and a rough lat/lng bounding box per district if the auto-detect-area-from-pin feature is wanted (optional, can hardcode area per studio instead).</p>
+      <p class="example">Paris example: centre ~48.8566, 2.3522. Areas: Le Marais, Montmartre, Belleville, Bastille, Canal Saint-Martin, Pigalle, Batignolles, Les Gobelins.</p>
+    </div>
+  </div>
+</div>
+
+<h2 id="p2"><span class="no">02</span>Fork / copy repo</h2>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Create a new GitHub repo.</b> <code>gh repo create paris-studio-map --public</code> (or private). Don't fork Berlin's repo directly if the two need to diverge independently, a plain copy is cleaner.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Copy the codebase.</b></p>
+      <pre><code>cp -R ~/Claude/berlin-studio-maps ~/Claude/paris-studio-map
+cd ~/Claude/paris-studio-map
+rm -rf .git node_modules dist .astro .wrangler beto
+git init
+npm install</code></pre>
+      <p><code>beto/</code> is Berlin's gitignored build-log folder written for a specific friend, not needed in the clone.</p>
+    </div>
+  </div>
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div><p><b>Point the LLM at the new folder.</b> Open a session in <code>~/Claude/paris-studio-map</code> with a new project CLAUDE.md (copy Berlin's, strip the workspace table to this project). Every step below happens in that folder.</p></div>
+  </div>
+</div>
+
+<h2 id="p3"><span class="no">03</span>Global find/replace pass</h2>
+<p class="section-intro">LLM task. Berlin Studio Map hardcodes the city name and domain in ~15 files, not one config constant. Grep, don't guess.</p>
+
+<div class="cards">
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div>
+      <p><b>Grep for every hardcoded reference first.</b></p>
+      <pre><code>grep -rniE "berlin|52\.5|13\.4" --include="*.astro" --include="*.ts" --include="*.mjs" --include="*.jsonc" --include="*.json" . | grep -v node_modules</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="table-panel">
+<table>
+<tr><th>File</th><th>What's in it</th></tr>
+<tr><td><code>astro.config.mjs</code></td><td><code>site:</code> canonical URL</td></tr>
+<tr><td><code>wrangler.jsonc</code></td><td>worker name, single domain route, D1 database name</td></tr>
+<tr><td><code>package.json</code></td><td><code>name</code> field</td></tr>
+<tr><td><code>src/worker.ts</code></td><td><code>FROM_ADDRESS</code>, geocode query suffix (<code>", Berlin, Germany"</code>), User-Agent strings, email copy text. Delete the <code>CANONICAL_HOST</code>/<code>OLD_HOSTS</code> redirect block entirely, a single-domain site doesn't need it</td></tr>
+<tr><td><code>src/layouts/PageLayout.astro</code></td><td>JSON-LD Organization/WebSite, OG/Twitter meta, logo text, footer copyright, sun-position dark-mode calc (lat hardcoded)</td></tr>
+<tr><td><code>src/pages/index.astro</code></td><td>title/meta/OG/JSON-LD (duplicated from layout, this page has its own <code>&lt;head&gt;</code>), map center coords, city-lat const, area boundary boxes, logo text</td></tr>
+<tr><td><code>src/pages/llms.txt.ts</code></td><td><code>base</code> URL, every generated line of city-name copy</td></tr>
+<tr><td><code>src/pages/about.astro</code>, <code>contact.astro</code></td><td>title/canonical/JSON-LD, founder bio copy</td></tr>
+<tr><td><code>src/pages/studios/index.astro</code>, <code>studios/[slug].astro</code></td><td>meta/JSON-LD referencing city</td></tr>
+<tr><td><code>src/pages/areas/[area].astro</code>, <code>features/[feature].astro</code></td><td>meta/JSON-LD referencing city</td></tr>
+<tr><td><code>src/pages/blog/*.astro</code> (6 files)</td><td>filenames themselves are city-suffixed, plus all body copy, titles, meta</td></tr>
+</table>
+</div>
+
+<div class="cards">
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div>
+      <p><b>Do the replace, file by file.</b> Not a blind sed of "Berlin", too many false positives (blog filenames, area names like "Prenzlauer Berg" containing "Berg" not "Berlin", German-language copy). Swap:</p>
+      <ul class="plain">
+        <li>"Berlin Studio Map" → "Paris Studio Map" (site name, everywhere)</li>
+        <li>domain strings → new domain</li>
+        <li>"in Berlin" / ", Berlin" copy fragments → "in Paris" / ", Paris"</li>
+        <li>"Berlin, Germany" geocode suffix in <code>worker.ts</code> → "Paris, France"</li>
+        <li><code>hello@berlinstudiomap.com</code> → <code>hello@parisstudiomap.com</code>, must match the Email Routing address in <a href="#p7">phase 07</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div><p><b>Rename blog post files and their slugs.</b> <code>*-berlin.astro</code> → <code>*-paris.astro</code>, update internal links between them and <code>blog/index.astro</code>'s listing.</p></div>
+  </div>
+</div>
+
+<h2 id="p4"><span class="no">04</span>Geography: coords, area boundaries, solar calc</h2>
+
+<div class="cards">
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div><p><b>Update map center + solar calc latitude.</b> In <code>src/pages/index.astro</code>: <code>L.map('map', {center:[48.8566,2.3522], zoom:11})</code> and the city-lat constant (Berlin calls it <code>BERLIN_LAT</code>, rename it, cosmetic but avoids confusion). The same latitude value is duplicated inline in the dark-mode sun-position script in <code>PageLayout.astro</code>, keep both in sync.</p></div>
+  </div>
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div><p><b>Replace the AREAS bounding-box table.</b> Same file, the object keyed by district name with <code>[[lat,lng],[lat,lng]]</code> boxes, used to auto-detect which area a pin falls in. Approximate from a map if exact boxes aren't available, it's a filter convenience, not precision GIS.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Sanity-check the solar calculator once live.</b> Sunrise/sunset/golden-hour numbers on a studio page should look right for the new latitude and timezone. Paris shares Berlin's DST window so the hardcoded DST month range (Mar-Oct) needs no change; a non-European city would need that checked.</p></div>
+  </div>
+</div>
+
+<h2 id="p5"><span class="no">05</span>Studio data</h2>
+<p class="section-intro">The single most time-consuming phase. Everything else is mechanical, this is real research.</p>
+
+<div class="cards">
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div>
+      <p><b>Research real studios, one at a time, fact-checked.</b> Populate <code>src/data/studios.json</code>:</p>
+      <pre><code>{ id, name, area, neighbourhood, lat, lng, sqft, ceil, rate,
+  daylight, blackout, cove, driveIn, kitchen, makeup, greenRoom, wifi,
+  facing, extras: [], web, v: 0|1, email, badge }</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">Lesson from Berlin's data audit</span>
+  <p>Studios researched without a live <code>web</code> URL to verify against were disproportionately wrong on amenity flags (kitchen/makeup/cove/wifi/daylight) and rates. Don't add a studio unless its own website or a live listing (Google Maps, Instagram) confirms it's a real, currently-operating, rentable photo studio, not a photography agency, not an audio studio, not a permanently-closed venue. Mark <code>"v": 1</code> only once checked against its own site.</p>
+</div>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Sync to public/.</b></p>
+      <pre><code>cp src/data/studios.json public/studios.json</code></pre>
+      <p>Two copies, must match, nothing auto-syncs them. Do this after every data edit, forgetting it is the single most common way this site drifts (the client-side map reads the <code>public/</code> copy, everything else reads <code>src/data/</code>).</p>
+    </div>
+  </div>
+</div>
+
+<h2 id="p6"><span class="no">06</span>Branding: name, favicon, OG image</h2>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Favicon/logo.</b> Berlin's favicon was Beto Ruiz Alonso's own avatar, a marketing favour for a friend, not a required pattern. Paris doesn't need a credited local photographer or their imagery, a neutral generated icon is fine.</p></div>
+  </div>
+  <div class="card card--llm">
+    <div class="tag">LLM</div>
+    <div><p><b>Regenerate the OG image.</b> <code>scripts/og/og-image.html</code> is the source template (SVG-based, brand colours <code>#0e0e0e</code> bg / <code>#e8a849</code> accent / <code>#7eb8da</code> cove-blue, reused as-is unless rebranding colours too), rendered via <code>rsvg-convert -w 1200 -h 630</code> to <code>public/og-image.png</code>. Swap the city name text, rerun.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Get a Carto Basemaps API key.</b> <code>PUBLIC_CARTO_KEY</code> in <code>.env</code> (copy <code>.env.example</code>). One key covers any number of sites, reuse Berlin's or get a new one at <a href="https://cartodb.com">carto.com</a>.</p></div>
+  </div>
+</div>
+
+<h2 id="p7"><span class="no">07</span>Cloudflare: domain, D1, Turnstile, Email Routing, Analytics</h2>
+<p class="section-intro">All manual, done once in the Cloudflare dashboard (or API).</p>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Add the domain to Cloudflare, note the account_id.</b> Automatic if bought via Cloudflare Registrar. The <code>account_id</code> is needed for <code>wrangler.jsonc</code>.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Create the D1 database.</b></p>
+      <pre><code>npx wrangler d1 create paris-studio-suggestions</code></pre>
+      <p>Copy the returned <code>database_id</code> into <code>wrangler.jsonc</code>, then create both tables (<code>contact_messages</code>, <code>suggestions</code>) via <code>wrangler d1 execute</code>. Berlin's <code>scripts/create-contact-messages-table.sql</code> has the <code>contact_messages</code> schema. The <code>suggestions</code> table has no migration file in the repo, pull its schema from Berlin's live D1 first (<code>wrangler d1 execute berlin-studio-suggestions --command ".schema suggestions"</code>), and consider adding a migration file this time so the next city doesn't repeat the gap.</p>
+    </div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Create a Turnstile widget.</b> Dashboard → Turnstile → add site, get sitekey + secret. Sitekey goes in <code>wrangler.jsonc</code> <code>vars.TURNSTILE_SITEKEY</code> (public, fine to commit). Secret is a Worker secret, never committed:</p>
+      <pre><code>npx wrangler secret put TURNSTILE_SECRET</code></pre>
+    </div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Set up Cloudflare Email Routing.</b> Forward <code>hello@parisstudiomap.com</code> to Dan's real inbox. Dashboard → Email → Email Routing, add destination + routing rule. Free, no hosted mailbox needed.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Set up Cloudflare Web Analytics.</b> One site for the one domain, <code>auto_install: false</code>, zone-level RUM auto-inject left off (avoids double-counting against the manual beacon in <code>PageLayout.astro</code>). Note the new site_tag + token, update the beacon snippet with them.</p></div>
+  </div>
+</div>
+
+<h2 id="p8"><span class="no">08</span>Resend (email sending)</h2>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div>
+      <p><b>Verify the domain in Resend, get an API key.</b> Resend dashboard → Domains → add <code>parisstudiomap.com</code>, add the DNS records it gives you in Cloudflare DNS, then generate an API key scoped to that domain.</p>
+      <pre><code>npx wrangler secret put RESEND_API_KEY</code></pre>
+    </div>
+  </div>
+</div>
+
+<h2 id="p9"><span class="no">09</span>Deploy: Workers Builds git integration</h2>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Update wrangler.jsonc identifiers.</b> Worker <code>name</code>, <code>account_id</code>, the single domain route, <code>d1_databases</code> block, <code>vars.TURNSTILE_SITEKEY</code>, all from the steps above.</p></div>
+  </div>
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Connect the Worker to the new GitHub repo.</b> Dashboard → Workers → create → connect to Git, point at the new repo's <code>main</code> branch. Every push then auto-deploys, no GitHub Actions needed.</p></div>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">API gotcha, if scripting this instead of using the dashboard</span>
+  <p><code>POST /accounts/{account_id}/builds/workers</code> rejects an otherwise-valid request unless <code>previews_enabled</code> and <code>previews_base_config</code> are included, despite neither being in Cloudflare's own documented schema. If wiring this via API, <code>GET</code> an existing working config first (e.g. Berlin's) and match its shape exactly rather than trusting the docs.</p>
+</div>
+
+<div class="cards">
+  <div class="card card--manual">
+    <div class="tag">Manual</div>
+    <div><p><b>Add the custom domain route in Cloudflare, push to deploy.</b> One route: <code>{ "pattern": "parisstudiomap.com", "custom_domain": true }</code>. Once it matches a live Cloudflare custom-domain route and secrets are set, <code>git push origin main</code> triggers the first live deploy.</p></div>
+  </div>
+</div>
+
+<h2 id="p10"><span class="no">10</span>Test checklist</h2>
+
+<div class="table-panel">
+<ul class="checklist">
+<li>Map loads, centered on new city, correct zoom</li>
+<li>Dark/light auto-toggle matches actual local sunrise/sunset</li>
+<li>Every studio pin sits in the correct district/area</li>
+<li>Area filter dropdown lists new city's districts, correct counts</li>
+<li>Studio detail page sunrise/sunset table looks right for the new latitude</li>
+<li>Contact form sends and arrives (Turnstile passes, D1 row written)</li>
+<li>Suggest-a-studio form: valid submission goes to <code>pending</code>, dupe/unreachable-site submission auto-rejects</li>
+<li><code>/llms.txt</code> renders with correct city name and studio/area/blog links</li>
+<li><code>/sitemap-index.xml</code> generates</li>
+<li><code>robots.txt</code> points at correct sitemap URL</li>
+<li>OG image/meta correct when link is shared</li>
+<li>Cloudflare Web Analytics dashboard shows traffic after a real visit</li>
+<li>No leftover "Berlin" string anywhere: rerun the phase 03 grep as a final check</li>
+</ul>
+</div>
+
+<div class="foot">Written 2026-09-09 for berlin-studio-maps, the reference build. Keep this file updated if the Berlin codebase's setup steps change.</div>
+
+</div>
