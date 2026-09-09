@@ -20,11 +20,14 @@ interface Env {
   DB: D1Database;
   TURNSTILE_SITEKEY: string;
   TURNSTILE_SECRET: string;
+  RESEND_API_KEY: string;
 }
 
 const RATE_LIMIT_WINDOW_MINUTES = 60;
 const RATE_LIMIT_MAX = 3;
 const DUPE_DISTANCE_METERS = 300;
+const CONTACT_ADDRESS = 'dantaylormedia@gmail.com';
+const FROM_ADDRESS = 'Berlin Studio Map <hello@berlinstudiomap.com>';
 
 function normalizeName(s: string): string {
   return s
@@ -91,6 +94,102 @@ async function geocode(query: string): Promise<{ lat: number; lng: number } | nu
   }
 }
 
+async function sendEmail(
+  env: Env,
+  opts: { to: string; subject: string; text: string; replyTo?: string }
+): Promise<boolean> {
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: FROM_ADDRESS,
+        to: opts.to,
+        subject: opts.subject,
+        text: opts.text,
+        ...(opts.replyTo ? { reply_to: opts.replyTo } : {}),
+      }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+async function handleContact(request: Request, env: Env, ip: string): Promise<Response> {
+  let payload: Record<string, unknown>;
+  try {
+    payload = await request.json();
+  } catch {
+    return Response.json({ ok: false, error: 'Invalid request body.' }, { status: 400 });
+  }
+
+  // Honeypot: real visitors never fill this hidden field.
+  if (typeof payload.company === 'string' && payload.company.trim() !== '') {
+    return Response.json({ ok: true, message: 'Message sent.' });
+  }
+
+  const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+  const email = typeof payload.email === 'string' ? payload.email.trim() : '';
+  const message = typeof payload.message === 'string' ? payload.message.trim() : '';
+  const sendCopy = payload.sendCopy === true;
+  const turnstileToken = typeof payload.turnstileToken === 'string' ? payload.turnstileToken : '';
+
+  if (!name || !email || !message) {
+    return Response.json({ ok: false, error: 'Name, email, and message are required.' }, { status: 400 });
+  }
+  if (!isValidEmail(email)) {
+    return Response.json({ ok: false, error: 'Please enter a valid email address.' }, { status: 400 });
+  }
+
+  if (!turnstileToken || !(await verifyTurnstile(turnstileToken, env.TURNSTILE_SECRET, ip))) {
+    return Response.json({ ok: false, error: 'Captcha verification failed.' }, { status: 400 });
+  }
+
+  const { results: rateRows } = await env.DB.prepare(
+    `SELECT COUNT(*) as n FROM contact_messages WHERE submitter_ip = ? AND created_at > datetime('now', ?)`
+  )
+    .bind(ip, `-${RATE_LIMIT_WINDOW_MINUTES} minutes`)
+    .all<{ n: number }>();
+  if ((rateRows?.[0]?.n ?? 0) >= RATE_LIMIT_MAX) {
+    return Response.json({ ok: false, error: 'Too many submissions, please try again later.' }, { status: 429 });
+  }
+
+  const sent = await sendEmail(env, {
+    to: CONTACT_ADDRESS,
+    subject: `Contact form: ${name}`,
+    text: `${message}\n\n---\nFrom: ${name} (${email})\nSent via berlinstudiomaps.com/contact/`,
+    replyTo: email,
+  });
+
+  if (!sent) {
+    return Response.json({ ok: false, error: 'Could not send message, please try again later.' }, { status: 502 });
+  }
+
+  if (sendCopy) {
+    await sendEmail(env, {
+      to: email,
+      subject: `Your message to Berlin Studio Map`,
+      text: `Here's a copy of the message you sent:\n\n${message}\n\n---\nSent via berlinstudiomaps.com/contact/`,
+    });
+  }
+
+  await env.DB.prepare(
+    `INSERT INTO contact_messages (name, email, message, submitter_ip, sent_copy) VALUES (?,?,?,?,?)`
+  )
+    .bind(name, email, message, ip, sendCopy ? 1 : 0)
+    .run();
+
+  return Response.json({ ok: true, message: 'Message sent, thanks, I\'ll get back to you soon.' });
+}
+
 function findDedupeMatch(name: string, geo: { lat: number; lng: number } | null): string | null {
   const normalized = normalizeName(name);
   for (const s of studios as Array<{ name: string; lat: number; lng: number }>) {
@@ -146,6 +245,8 @@ async function handleSuggest(request: Request, env: Env, ip: string): Promise<Re
   ]);
 
   const dedupeMatch = findDedupeMatch(name, geo);
+  const submitterEmail = typeof payload.submitterEmail === 'string' ? payload.submitterEmail.trim() : '';
+  const sendCopy = payload.sendCopy === true;
 
   let status = 'pending';
   let rejectReason: string | null = null;
@@ -192,6 +293,25 @@ async function handleSuggest(request: Request, env: Env, ip: string): Promise<Re
     )
     .run();
 
+  if (sendCopy && submitterEmail && isValidEmail(submitterEmail)) {
+    const copyLines = [
+      `Studio name: ${name}`,
+      `Website: ${website}`,
+      `Neighbourhood: ${neighbourhood}`,
+      payload.rate ? `Rate: ${payload.rate}` : null,
+      payload.sqm ? `Size: ${payload.sqm}` : null,
+      payload.ceil ? `Ceiling: ${payload.ceil}` : null,
+      typeof payload.notes === 'string' && payload.notes ? `Notes: ${payload.notes}` : null,
+      '',
+      'Submitted to berlinstudiomaps.com/suggest/',
+    ].filter(Boolean);
+    await sendEmail(env, {
+      to: submitterEmail,
+      subject: `Your studio suggestion: ${name}`,
+      text: copyLines.join('\n'),
+    });
+  }
+
   return Response.json({
     ok: true,
     status,
@@ -217,6 +337,10 @@ export default {
     if (url.pathname === '/api/suggest' && request.method === 'POST') {
       const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
       return handleSuggest(request, env, ip);
+    }
+    if (url.pathname === '/api/contact' && request.method === 'POST') {
+      const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+      return handleContact(request, env, ip);
     }
     return env.ASSETS.fetch(request);
   },
