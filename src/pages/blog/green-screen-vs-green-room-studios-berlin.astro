@@ -1,0 +1,55 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+const greenRoomList = (studios as any[]).filter(s => s.greenRoom).sort((a, b) => a.name.localeCompare(b.name));
+const chromaList = (studios as any[]).filter(s =>
+  (s.extras || []).some((e: string) => /green ?screen|chroma/i.test(e))
+);
+const cicloramaCount = (studios as any[]).filter(s => s.ciclorama).length;
+const title = "Green Screen vs. Green Room Studios in Berlin: What's the Difference | Berlin Studio Map";
+const description = "Green screen and green room are not the same thing. Here's what each means, and which Berlin studios actually offer a chroma key backdrop versus a private prep room.";
+const canonical = "https://berlinstudiomaps.com/blog/green-screen-vs-green-room-studios-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Green Screen vs. Green Room Studios in Berlin: What's the Difference",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
+---
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Green Screen vs. Green Room</div>
+  <h1>Green Screen vs. Green Room Studios in Berlin: What's the Difference</h1>
+  <p>These two terms get mixed up constantly when people search for a studio, and they mean completely different things. Get the wrong one and you'll book a studio that can't do what you need.</p>
+
+  <h2>Green screen means a chroma key backdrop</h2>
+  <p>A green screen is a solid green background used for chroma key work, where the green is removed in post and replaced with different footage or a different background. It's for video production, virtual sets, and compositing, not for still photography backdrops in the usual sense. Very few Berlin rental studios keep a permanent green screen set up, because most photography clients want a white or grey infinity cyclorama instead. On Berlin Studio Map, {chromaList.length > 0 ? `${chromaList.map((s: any) => s.name).join(', ')} lists a permanent greenscreen set among its studio options.` : 'no listed studio currently advertises a permanent chroma key greenscreen set, though studios with an infinity cyclorama can often rig a green backdrop roll or gel their lights green on request, worth asking directly.'} If chroma key is non-negotiable, contact the studio directly and confirm before booking.</p>
+
+  <h2>Green room means a private prep space</h2>
+  <p>A green room, in the traditional theatre and TV sense, is a private room for talent to wait, change, or get ready away from the set. It has nothing to do with the colour green. {greenRoomList.length} studios on Berlin Studio Map have one of these, useful for shoots with wardrobe changes, clients sitting in, or several people cycling through hair and makeup between setups.</p>
+
+  <h2>Studios with a green room (prep space)</h2>
+  <div class="studio-grid">
+    {greenRoomList.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood}, {s.area} Berlin · {s.rate}</div>
+        <div>
+          {s.makeup && <span class="tag">Makeup room</span>}
+          {s.kitchen && <span class="tag">Kitchen</span>}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <p>Need an actual seamless backdrop instead, in white, black, or colour? Berlin has {cicloramaCount} studios with an infinity cyclorama, <a href="/features/infinity-cyclorama-studios/">listed here</a>.</p>
+
+  <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+</div>
+</PageLayout>

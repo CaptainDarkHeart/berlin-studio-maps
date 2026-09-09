@@ -5,6 +5,8 @@ import studios from '../../data/studios.json';
 const total = studios.length;
 const daylight = (studios as any[]).filter(s => s.daylight).length;
 const ciclorama = (studios as any[]).filter(s => s.ciclorama).length;
+const makeup = (studios as any[]).filter(s => s.makeup).length;
+const greenRoom = (studios as any[]).filter(s => s.greenRoom).length;
 const areas = new Set((studios as any[]).map(s => s.area)).size;
 ---
 <PageLayout
@@ -29,6 +31,18 @@ const areas = new Set((studios as any[]).map(s => s.area)).size;
     <a href="/blog/studios-with-infinity-coves-berlin/" class="studio-link">
       <h3>Photography Studios with Infinity Cycloramas in Berlin</h3>
       <div class="meta">{ciclorama} studios with infinity cycloramas. Dimensions and specs compared.</div>
+    </a>
+    <a href="/blog/cheap-photography-studios-berlin/" class="studio-link">
+      <h3>Cheap Photography Studios to Rent in Berlin</h3>
+      <div class="meta">Studios renting for €50/hr or less, cheapest first.</div>
+    </a>
+    <a href="/blog/studios-with-makeup-room-berlin/" class="studio-link">
+      <h3>Photography Studios with a Makeup Room in Berlin</h3>
+      <div class="meta">{makeup} studios with a dedicated makeup or hair and makeup area.</div>
+    </a>
+    <a href="/blog/green-screen-vs-green-room-studios-berlin/" class="studio-link">
+      <h3>Green Screen vs. Green Room Studios in Berlin</h3>
+      <div class="meta">What each term actually means, and {greenRoom} studios with a private prep room.</div>
     </a>
   </div>
 </div>

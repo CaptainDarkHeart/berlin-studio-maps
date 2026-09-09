@@ -47,6 +47,9 @@ export const GET: APIRoute = () => {
   lines.push(`- [The Complete Guide to Photography Studio Hire in Berlin](${base}/blog/complete-guide-photography-studio-hire-berlin/)`);
   lines.push(`- [Best Daylight Photography Studios in Berlin](${base}/blog/best-daylight-studios-berlin/): ${daylightCount} daylight studios compared.`);
   lines.push(`- [Photography Studios with Infinity Cycloramas in Berlin](${base}/blog/studios-with-infinity-coves-berlin/): ${cicloramaCount} studios with infinity cycloramas.`);
+  lines.push(`- [Cheap Photography Studios to Rent in Berlin](${base}/blog/cheap-photography-studios-berlin/): studios renting for €50/hr or less, cheapest first.`);
+  lines.push(`- [Photography Studios with a Makeup Room in Berlin](${base}/blog/studios-with-makeup-room-berlin/): ${list.filter(s => s.makeup).length} studios with a dedicated makeup or hair and makeup area.`);
+  lines.push(`- [Green Screen vs. Green Room Studios in Berlin](${base}/blog/green-screen-vs-green-room-studios-berlin/): clears up the difference between a chroma key backdrop and a private prep room, with ${list.filter(s => s.greenRoom).length} studios that have a green room.`);
   lines.push('');
   lines.push('## Data');
   lines.push(`- [studios.json](${base}/studios.json): raw structured data backing every page on this site (id, name, area, neighbourhood, coordinates, rate, and feature flags).`);

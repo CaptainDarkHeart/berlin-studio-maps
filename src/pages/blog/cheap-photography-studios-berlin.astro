@@ -1,0 +1,58 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+function hourlyRate(rate: string): number | null {
+  const m = rate.match(/€(\d+)\s*\/\s*(?:1)?hr/i) || rate.match(/from €(\d+)\/hr/i);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+const withRate = (studios as any[])
+  .map(s => ({ ...s, hourly: hourlyRate(s.rate) }))
+  .filter(s => s.hourly !== null)
+  .sort((a, b) => a.hourly - b.hourly);
+
+const budget = withRate.filter(s => s.hourly <= 50);
+const cheapest = withRate[0];
+const title = "Cheap Photography Studios to Rent in Berlin (Under €50/hr) | Berlin Studio Map";
+const description = `${budget.length} Berlin photography studios renting for €50/hr or less, sorted cheapest first. Real rates, no enquire-only listings.`;
+const canonical = "https://berlinstudiomaps.com/blog/cheap-photography-studios-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Cheap Photography Studios to Rent in Berlin",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
+---
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Cheap Studios</div>
+  <h1>Cheap Photography Studios to Rent in Berlin</h1>
+  <p>{budget.length} studios on Berlin Studio Map rent for €50/hr or less. {cheapest.name} in {cheapest.neighbourhood} is the cheapest listed at {cheapest.rate}. These are published hourly rates from each studio's own site, not "enquire for pricing" estimates.</p>
+
+  <h2>Why rates vary so much</h2>
+  <p>Ceiling height, cyclorama size, and location all push the price up. A blackout box in Lichtenberg or Weissensee will usually undercut a daylight loft in Mitte or Prenzlauer Berg, and a studio with a full kitchen, makeup room, and green room costs more to run than a bare shell. If you don't need a cyclorama or drive-in access, a budget studio with just a paper roll and lighting kit is often enough.</p>
+
+  <h2>Watch the minimum booking</h2>
+  <p>Several budget studios set a minimum booking of 3 to 5 hours, so the headline hourly rate isn't always what you'll actually pay. Check each studio's page here for the minimum before you book.</p>
+
+  <h2>Budget studios, cheapest first</h2>
+  <div class="studio-grid">
+    {budget.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood}, {s.area} Berlin · {s.rate}</div>
+        {s.daylight && <span class="tag">Daylight</span>}
+        {s.blackout && <span class="tag">Blackout</span>}
+      </a>
+    ))}
+  </div>
+
+  <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+</div>
+</PageLayout>

@@ -1,0 +1,51 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import studios from '../../data/studios.json';
+import { slugify } from '../../lib/slug';
+
+const list = (studios as any[]).filter(s => s.makeup).sort((a, b) => a.name.localeCompare(b.name));
+const bothFacilities = list.filter(s => s.kitchen && s.greenRoom).length;
+const title = "Photography Studios with a Makeup Room in Berlin | Berlin Studio Map";
+const description = `${list.length} Berlin photography studios with a dedicated makeup or hair and makeup area, for portrait, beauty, and headshot shoots.`;
+const canonical = "https://berlinstudiomaps.com/blog/studios-with-makeup-room-berlin/";
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Photography Studios with a Makeup Room in Berlin",
+  "description": description,
+  "url": canonical,
+  "author": { "@type": "Organization", "name": "Berlin Studio Map" },
+  "publisher": { "@type": "Organization", "name": "Berlin Studio Map" }
+};
+---
+<PageLayout title={title} description={description} canonical={canonical} type="article">
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / <a href="/blog/">Blog</a> / Makeup Room Studios</div>
+  <h1>Photography Studios with a Makeup Room in Berlin</h1>
+  <p>{list.length} studios on Berlin Studio Map have a dedicated makeup or hair and makeup area. Worth having on a shoot list day for headshots, beauty, or any booking with more than one or two people cycling through hair and makeup between setups.</p>
+
+  <h2>Why it matters for headshots and portraits</h2>
+  <p>A corporate headshot day or a beauty shoot with several looks needs somewhere for makeup touch-ups that isn't the set itself. Without a separate room, the whole studio stops while one person gets ready, which slows down a multi-person booking fast. {bothFacilities} of the studios below also have both a kitchen and a green room (a private changing and prep space, not a chroma key backdrop), which matters most on full-day bookings with a crew.</p>
+
+  <h2>Makeup room or send a mobile MUA?</h2>
+  <p>If you're booking a mobile hair and makeup artist anyway, a plain corner with a mirror and good light is usually enough. A dedicated makeup room earns its keep when you've got back to back subjects, a wardrobe change involved, or a client sitting in on the shoot who needs somewhere private to wait.</p>
+
+  <h2>Studios with a makeup room</h2>
+  <div class="studio-grid">
+    {list.map((s: any) => (
+      <a href={`/studios/${slugify(s)}/`} class="studio-link">
+        <h3>{s.name}</h3>
+        <div class="meta">{s.neighbourhood}, {s.area} Berlin · {s.rate}</div>
+        <div>
+          {s.kitchen && <span class="tag">Kitchen</span>}
+          {s.greenRoom && <span class="tag">Green room</span>}
+          {s.daylight && <span class="tag">Daylight</span>}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+</div>
+</PageLayout>

@@ -1,0 +1,55 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+---
+<PageLayout
+  title="Contact | Berlin Studio Map"
+  description="Get in touch with Berlin Studio Map: questions, corrections, partnerships, or press."
+  canonical="https://berlinstudiomaps.com/contact/"
+>
+<div class="container">
+  <div class="breadcrumb"><a href="/">Home</a> / Contact</div>
+  <h1>Contact</h1>
+  <p>Questions, corrections, partnerships, or press enquiries, use the form below or email <a href="mailto:hello@berlinstudiomaps.com">hello@berlinstudiomaps.com</a> directly.</p>
+  <p>Studio owner with a listing to add or fix? Use <a href="/suggest/">Suggest a Studio</a> instead, it routes straight to review.</p>
+
+  <form id="contact-form">
+    <input type="text" name="company" tabindex="-1" autocomplete="off" class="hp-field" />
+
+    <label>Name *<input type="text" name="name" required maxlength="120" /></label>
+    <label>Email *<input type="email" name="email" required maxlength="200" /></label>
+    <label>Message *<textarea name="message" required maxlength="2000" rows="6"></textarea></label>
+
+    <button type="submit">Send message</button>
+    <p id="contact-result" role="status"></p>
+  </form>
+</div>
+
+<style>
+  form { display: flex; flex-direction: column; gap: 1rem; max-width: 480px; margin: 2rem 0; }
+  form label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.95rem; }
+  form input[type="text"], form input[type="email"], form textarea { padding: 0.5rem; font: inherit; }
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  form button { padding: 0.6rem 1.2rem; cursor: pointer; width: fit-content; }
+  #contact-result { font-size: 0.9rem; }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const resultEl = document.getElementById('contact-result') as HTMLParagraphElement;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    if (String(fd.get('company') || '').trim() !== '') return;
+
+    const name = String(fd.get('name') || '');
+    const email = String(fd.get('email') || '');
+    const message = String(fd.get('message') || '');
+
+    const body = `${message}\n\n---\nFrom: ${name} (${email})\nSent via berlinstudiomaps.com/contact/`;
+    const mailto = `mailto:hello@berlinstudiomaps.com?subject=${encodeURIComponent('Contact form: ' + name)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+    resultEl.textContent = 'Opening your email app...';
+  });
+</script>
+</PageLayout>
