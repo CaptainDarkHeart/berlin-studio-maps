@@ -1,0 +1,530 @@
+<title>Instagram Launch Calendar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root{
+    --paper:#EEF0F0;
+    --paper-raised:#FFFFFF;
+    --ink:#1B1B18;
+    --ink-soft:#54534C;
+    --line:#D6D8D6;
+    --accent:#C1442D;
+    --accent-soft:#F3DCD5;
+    --teal:#1F6F6B;
+    --teal-soft:#D9E9E6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#17191A;
+      --paper-raised:#1F2224;
+      --ink:#EDEBE4;
+      --ink-soft:#A7A59C;
+      --line:#33362F;
+      --accent:#E1583B;
+      --accent-soft:#3A241D;
+      --teal:#4CB0A8;
+      --teal-soft:#1B3532;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17191A;
+    --paper-raised:#1F2224;
+    --ink:#EDEBE4;
+    --ink-soft:#A7A59C;
+    --line:#33362F;
+    --accent:#E1583B;
+    --accent-soft:#3A241D;
+    --teal:#4CB0A8;
+    --teal-soft:#1B3532;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:56px 24px 96px;}
+
+  header.top{margin-bottom:44px;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(32px,5vw,46px);
+    margin:0 0 14px;
+    text-wrap:balance;
+    letter-spacing:-.01em;
+  }
+  .dek{
+    max-width:62ch;
+    color:var(--ink-soft);
+    font-size:16px;
+    margin:0 0 26px;
+  }
+
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:8px;
+  }
+  .tag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:5px 10px;
+    border-radius:100px;
+    border:1px solid var(--line);
+  }
+  .tag .dot{width:7px;height:7px;border-radius:50%;}
+  .tag.berlin .dot{background:var(--teal);}
+  .tag.london .dot{background:var(--accent);}
+  .tag.both .dot{background:linear-gradient(90deg,var(--teal) 50%,var(--accent) 50%);}
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+    margin:32px 0 48px;
+  }
+  .stat{
+    background:var(--paper-raised);
+    padding:16px 18px;
+  }
+  .stat .n{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:26px;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .l{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  .month{
+    margin-bottom:8px;
+  }
+  .month-head{
+    position:sticky;
+    top:0;
+    background:var(--paper);
+    padding:14px 0 10px;
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+    border-bottom:2px solid var(--ink);
+    margin-top:40px;
+    z-index:1;
+  }
+  .month-head h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0;
+  }
+  .month-head .range{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+
+  .row{
+    display:grid;
+    grid-template-columns:88px 30px 1fr;
+    gap:16px;
+    padding:16px 0;
+    border-bottom:1px solid var(--line);
+    align-items:start;
+  }
+  .row:last-child{border-bottom:none;}
+  .row.milestone{
+    background:var(--accent-soft);
+    margin:8px -16px;
+    padding:14px 16px;
+    border-radius:8px;
+    border-bottom:none;
+  }
+  .row.milestone + .row{margin-top:0;}
+
+  .date{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-variant-numeric:tabular-nums;
+    line-height:1.4;
+    padding-top:2px;
+  }
+  .date .day{
+    display:block;
+    color:var(--ink-soft);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .owner{
+    display:flex;
+    justify-content:center;
+    padding-top:3px;
+  }
+  .owner .dot{
+    width:9px;height:9px;border-radius:50%;
+    box-shadow:0 0 0 3px var(--paper);
+  }
+  .owner.berlin .dot{background:var(--teal);}
+  .owner.london .dot{background:var(--accent);}
+  .owner.both .dot{background:linear-gradient(90deg,var(--teal) 50%,var(--accent) 50%);}
+
+  .action h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:16.5px;
+    margin:0 0 4px;
+  }
+  .action p{
+    margin:0;
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:56ch;
+  }
+  .format{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  footer{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:560px){
+    .row{grid-template-columns:70px 22px 1fr;gap:10px;}
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">Berlin Studio Map &middot; Social Plan</div>
+    <h1>Instagram, three months out</h1>
+    <p class="dek">Launch through 9 December 2026. Two posts a week, Wednesday and Saturday, split between Beto shooting on the ground in Berlin and Dan handling copy, scheduling and the site tie-ins from London.</p>
+
+    <div class="legend">
+      <span class="tag berlin"><span class="dot"></span>Beto &middot; Berlin</span>
+      <span class="tag london"><span class="dot"></span>Dan &middot; London</span>
+      <span class="tag both"><span class="dot"></span>Joint</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">13</div><div class="l">weeks</div></div>
+      <div class="stat"><div class="n">26</div><div class="l">scheduled posts</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">studio spotlights</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">neighbourhood guides</div></div>
+    </div>
+  </header>
+
+  <div class="month">
+    <div class="month-head"><h2>September</h2><span class="range">setup &amp; launch</span></div>
+
+    <div class="row milestone">
+      <div class="date">9&ndash;13<span class="day">Tue&ndash;Sun</span></div>
+      <div class="owner both"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Account setup</h3>
+        <p>Dan builds the handle, bio, link-in-bio to the map, and highlight covers (Studios / Neighbourhoods / Book). Beto scouts three launch studios and confirms shoot access.</p>
+        <span class="format">Prep week, no posts</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">16<span class="day">Wed</span></div>
+      <div class="owner both"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Launch reel: "We mapped Berlin's studios"</h3>
+        <p>Beto films quick glimpses across the three scouted studios. Dan cuts captions and pins it to the profile grid.</p>
+        <span class="format">Reel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">19<span class="day">Sat</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #1</h3>
+        <p>First full profile carousel, pulled straight from the studio's map listing. Beto shoots stills on site.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">23<span class="day">Wed</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Neighbourhood guide: Kreuzberg</h3>
+        <p>Map-driven carousel of every Kreuzberg studio, built from existing listing data and copy Dan already has on file.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">26<span class="day">Sat</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #2</h3>
+        <p>Second profile. Alternate cyclorama vs. daylight studios to show range early.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">30<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Behind the shoot: Studio Stellar</h3>
+        <p>Beto shadows a real booking at the newly listed Kreuzberg studio, films setup-to-shot.</p>
+        <span class="format">Reel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="month">
+    <div class="month-head"><h2>October</h2><span class="range">rhythm &amp; range</span></div>
+
+    <div class="row">
+      <div class="date">3<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>New on the map: Studio Stellar</h3>
+        <p>Announcement post tied to the listing going live on the site. Dan writes it straight off the studio page copy.</p>
+        <span class="format">Single image + link sticker</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">7<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #3</h3>
+        <p>Third profile carousel.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">10<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Community repost</h3>
+        <p>Find and credit a photographer who's already tagged a mapped studio. First test of UGC as a content source.</p>
+        <span class="format">Repost + credit</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">14<span class="day">Wed</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Neighbourhood guide: Prenzlauer Berg</h3>
+        <p>Second guide in the series.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">17<span class="day">Sat</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>"A day renting a studio"</h3>
+        <p>Beto follows one booking start to finish: arrival, setup, strike.</p>
+        <span class="format">Reel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">21<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #4</h3>
+        <p>Fourth profile carousel.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">24<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Poll recap: "Which studio next?"</h3>
+        <p>Story poll run through the week, recapped as a feed post naming the winning studio for next spotlight.</p>
+        <span class="format">Static post</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">28<span class="day">Wed</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Styling a shoot for Halloween</h3>
+        <p>Seasonal tie-in: which mapped studios suit horror/editorial styling, cyc walls and colour gels.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">31<span class="day">Sat</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Behind the shoot: the winning studio</h3>
+        <p>Follow-through on the 24th's poll result.</p>
+        <span class="format">Reel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="month">
+    <div class="month-head"><h2>November</h2><span class="range">depth &amp; upsell</span></div>
+
+    <div class="row">
+      <div class="date">4<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #5</h3>
+        <p>Fifth profile carousel.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">7<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Neighbourhood guide: Mitte</h3>
+        <p>Third guide in the series.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">11<span class="day">Wed</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>New listings roundup</h3>
+        <p>Every studio added to the map since launch, in one post. Doubles as a soft pitch to unlisted studios watching.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">14<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Community repost</h3>
+        <p>Second UGC feature.</p>
+        <span class="format">Repost + credit</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">18<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #6</h3>
+        <p>Sixth profile carousel.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">21<span class="day">Sat</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Chasing winter light</h3>
+        <p>Which studios hold onto daylight as the afternoons shorten. Practical, seasonal, genuinely useful to bookers.</p>
+        <span class="format">Reel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">25<span class="day">Wed</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Black Friday cross-promo</h3>
+        <p>Any studios running November offers get bundled into one post. Coordinate direct with studios beforehand, natural moment to raise Dan's PR/copy services with them too.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">28<span class="day">Sat</span></div>
+      <div class="owner london"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Neighbourhood guide: Friedrichshain</h3>
+        <p>Fourth guide in the series.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="month">
+    <div class="month-head"><h2>December</h2><span class="range">close the quarter</span></div>
+
+    <div class="row">
+      <div class="date">2<span class="day">Wed</span></div>
+      <div class="owner berlin"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Studio spotlight #7</h3>
+        <p>Seventh and final scheduled profile of the quarter.</p>
+        <span class="format">Carousel</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="date">5<span class="day">Sat</span></div>
+      <div class="owner both"><span class="dot"></span></div>
+      <div class="action">
+        <h3>"Best of 2026" teaser</h3>
+        <p>Announce the year-end roundup is coming, ask followers to nominate a favourite mapped studio in comments.</p>
+        <span class="format">Static post</span>
+      </div>
+    </div>
+
+    <div class="row milestone">
+      <div class="date">9<span class="day">Wed</span></div>
+      <div class="owner both"><span class="dot"></span></div>
+      <div class="action">
+        <h3>Quarter one review</h3>
+        <p>Recap post: follower growth, best-performing formats, which studios drove the most site clicks. Dan pulls the numbers, decides the next quarter's cadence and formats with Beto.</p>
+        <span class="format">Static post + internal review</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Cadence: Wednesday and Saturday, weekly. Spotlights and reels shot on site in Berlin by Beto; guides, announcements and scheduling handled remotely from London by Dan. Review and adjust cadence at each month close.
+  </footer>
+
+</div>

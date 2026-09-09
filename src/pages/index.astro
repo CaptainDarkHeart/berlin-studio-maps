@@ -60,7 +60,8 @@
 @font-face{font-family:'Alpaca Scarlett';src:url('/fonts/AlpacaScarlett.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap}
 :root{--bg:#000000;--surface:#161616;--surface-2:#222222;--border:#333333;--text:#ffffff;--text-dim:#9a9a9a;--accent:#a855f7;--accent-dim:#8b3ee0;--daylight:#c084fc;--ciclorama:#7eb8da;--green:#7ebd73;--red:#d47272;--font:'PT Sans',-apple-system,sans-serif;--mono:'PT Mono',monospace}
 html.light{--bg:#ffffff;--surface:#f7f7f7;--surface-2:#ececec;--border:#dddddd;--text:#000000;--text-dim:#666666;--accent:#7c3aed;--accent-dim:#6d28d9;--daylight:#9333ea;--ciclorama:#2a6898;--green:#3a7a30;--red:#c04040}
-body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
+html{height:100%;overflow:hidden;overscroll-behavior:none}
+body{font-family:var(--font);background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column;transition:background-color 2s ease,color 1s ease}
 header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--bg);z-index:1000;flex-shrink:0;transition:background-color 2s ease,border-color 2s ease}
 .logo{display:flex;align-items:baseline;gap:8px}
 .logo a{text-decoration:none;color:inherit;display:flex;align-items:baseline;gap:8px}

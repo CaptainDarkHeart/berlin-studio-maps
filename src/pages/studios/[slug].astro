@@ -87,6 +87,15 @@ const breadcrumbLd = {
     <p style="font-family:var(--mono);font-size:13px;color:var(--text-dim)">{s.neighbourhood}, {s.area} Berlin</p>
     <a href={`/?studio=${s.id}`} style="font-family:var(--mono);font-size:13px;color:var(--accent);white-space:nowrap">View on Map →</a>
   </div>
+  {s.instagram && (
+    <a href={s.instagram} target="_blank" rel="noopener" aria-label={`${s.name} on Instagram`} style="display:inline-flex;margin-top:8px;color:var(--text-dim)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+        <circle cx="12" cy="12" r="4.5"></circle>
+        <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle>
+      </svg>
+    </a>
+  )}
 
   <div style="margin:20px 0">
     {s.daylight && <span class="tag daylight">Daylight{s.facing ? ` · ${s.facing}` : ''}</span>}
@@ -114,7 +123,6 @@ const breadcrumbLd = {
   ))}
 
   {s.web && <p style="margin-top:24px"><a href={s.web.startsWith('http') ? s.web : `https://${s.web}`} target="_blank" rel="noopener" style="font-family:var(--mono);font-size:13px">{s.web.replace(/^https?:\/\//,'')} →</a></p>}
-  {s.instagram && <p style="margin-top:8px"><a href={s.instagram} target="_blank" rel="noopener" style="font-family:var(--mono);font-size:13px">Instagram →</a></p>}
 
   <div class="enquiry-form">
     <h2>Send an enquiry</h2>
