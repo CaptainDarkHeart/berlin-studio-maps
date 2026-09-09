@@ -60,7 +60,10 @@ const jsonLd = {
     { "@type": "LocationFeatureSpecification", "name": "Green room", "value": s.greenRoom },
     { "@type": "LocationFeatureSpecification", "name": "WiFi", "value": s.wifi }
   ],
-  "sameAs": s.web ? [s.web.startsWith('http') ? s.web : `https://${s.web}`] : []
+  "sameAs": [
+    ...(s.web ? [s.web.startsWith('http') ? s.web : `https://${s.web}`] : []),
+    ...(s.instagram ? [s.instagram] : [])
+  ]
 };
 const breadcrumbLd = {
   "@context": "https://schema.org",
@@ -111,6 +114,7 @@ const breadcrumbLd = {
   ))}
 
   {s.web && <p style="margin-top:24px"><a href={s.web.startsWith('http') ? s.web : `https://${s.web}`} target="_blank" rel="noopener" style="font-family:var(--mono);font-size:13px">{s.web.replace(/^https?:\/\//,'')} →</a></p>}
+  {s.instagram && <p style="margin-top:8px"><a href={s.instagram} target="_blank" rel="noopener" style="font-family:var(--mono);font-size:13px">Instagram →</a></p>}
 
   <div class="enquiry-form">
     <h2>Send an enquiry</h2>

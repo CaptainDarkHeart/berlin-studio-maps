@@ -28,7 +28,8 @@
     "web": "fotostyle-berlin.de",
     "v": 1,
     "email": "fotostyle-berlin@hotmail.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/mietstudio_fotostyle_berlin/"
   },
   {
     "id": 2,
@@ -58,15 +59,16 @@
     "web": "sepistudio.de",
     "v": 1,
     "email": "info@produktfoto-atelier.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/sepi_fotostudio/"
   },
   {
     "id": 3,
     "name": "Lynxstudio Berlin",
     "area": "Kreuzberg",
     "neighbourhood": "Kreuzberg",
-    "lat": 52.488,
-    "lng": 13.426,
+    "lat": 52.4889334,
+    "lng": 13.4210127,
     "sqm": 260,
     "ceil": null,
     "rate": "Enquire",
@@ -87,7 +89,8 @@
     "web": "lynxstudio.berlin",
     "v": 1,
     "email": "info@lynxstudio.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/lynxstudio.berlin/"
   },
   {
     "id": 4,
@@ -117,7 +120,8 @@
     "web": "sophiebrand-studio.de",
     "v": 1,
     "email": "info@sophiebrand.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/sophie_brand_studio/"
   },
   {
     "id": 5,
@@ -152,8 +156,8 @@
     "name": "Prinzessinnenstudio",
     "area": "Kreuzberg",
     "neighbourhood": "Kreuzberg",
-    "lat": 52.497,
-    "lng": 13.418,
+    "lat": 52.5026882,
+    "lng": 13.4112331,
     "sqm": 168,
     "ceil": null,
     "rate": "from €80/hr",
@@ -174,7 +178,8 @@
     "web": "prinzessinnenstudio.com",
     "v": 1,
     "email": "mail@prinzessinnenstudio.com",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/prinzessinnenstudio/"
   },
   {
     "id": 7,
@@ -202,15 +207,16 @@
     "web": "studioweissensee.berlin",
     "v": 1,
     "email": "info@studioweissensee.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/studioweissensee/"
   },
   {
     "id": 8,
     "name": "Neon Island Studio",
     "area": "Kreuzberg",
     "neighbourhood": "Kreuzberg",
-    "lat": 52.494,
-    "lng": 13.409,
+    "lat": 52.4903169,
+    "lng": 13.4020384,
     "sqm": 266,
     "ceil": null,
     "rate": "Enquire",
@@ -230,7 +236,8 @@
     "web": "neonisland.studio",
     "v": 1,
     "email": "hello@neonisland.studio",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/neonislandstudio/"
   },
   {
     "id": 9,
@@ -259,15 +266,16 @@
     "web": "oceanstudioberlin.de",
     "v": 1,
     "email": "hello@oceanstudioberlin.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/oceanstudioberlin/"
   },
   {
     "id": 10,
     "name": "Glashaus Studio",
     "area": "Wedding",
-    "neighbourhood": "Wedding",
-    "lat": 52.549,
-    "lng": 13.366,
+    "neighbourhood": "Gesundbrunnen",
+    "lat": 52.5580428,
+    "lng": 13.3741217,
     "sqm": 110,
     "ceil": "3.5m",
     "rate": "Enquire",
@@ -288,7 +296,8 @@
     "web": "glashaus-studio.com",
     "v": 1,
     "email": "info@glashaus-studio.com",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/glashaus_studio/"
   },
   {
     "id": 11,
@@ -316,15 +325,16 @@
     "web": "letova.de",
     "v": 1,
     "email": "lolitafedorovapro@gmail.com",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/letova_point/"
   },
   {
     "id": 12,
     "name": "Spacewalk Studio",
     "area": "Charlottenburg",
     "neighbourhood": "Charlottenburg",
-    "lat": 52.517,
-    "lng": 13.309,
+    "lat": 52.5059127,
+    "lng": 13.3141027,
     "sqm": 80,
     "ceil": "4m",
     "rate": "Enquire",
@@ -343,7 +353,8 @@
     "web": "spacewalkstudio.de",
     "v": 1,
     "email": null,
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/spcwlkstudio/"
   },
   {
     "id": 13,
@@ -403,7 +414,8 @@
     "web": "westudio.de/studio/white-infinity",
     "v": 1,
     "email": "info@westudio.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/westudio.de/"
   },
   {
     "id": 15,
@@ -434,15 +446,16 @@
     "web": "qre8.studio",
     "v": 1,
     "email": "hello@qre8.studio",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/qre8.studio/"
   },
   {
     "id": 16,
     "name": "raw studios. — Studio 1",
     "area": "Tempelhof",
     "neighbourhood": "Mariendorf",
-    "lat": 52.428,
-    "lng": 13.385,
+    "lat": 52.4294014,
+    "lng": 13.3784696,
     "sqm": 335,
     "ceil": "4.1m",
     "rate": "Enquire",
@@ -465,7 +478,8 @@
     "web": "raw-studios.de",
     "v": 1,
     "email": "office@raw-studios.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/rawstudiosberlin/"
   },
   {
     "id": 17,
@@ -490,7 +504,8 @@
     "web": null,
     "v": 1,
     "email": "hi@metastudio.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/metastudioberlin/"
   },
   {
     "id": 18,
@@ -515,15 +530,16 @@
     "web": null,
     "v": 1,
     "email": "maja@e-picprojects.com",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/epic_projects_berlin/"
   },
   {
     "id": 19,
     "name": "Allmost Studio",
     "area": "Kreuzberg",
     "neighbourhood": "Kreuzberg",
-    "lat": 52.496,
-    "lng": 13.43,
+    "lat": 52.4975071,
+    "lng": 13.428026,
     "sqm": null,
     "ceil": null,
     "rate": "from €78/hr",
@@ -540,7 +556,8 @@
     "web": null,
     "v": 1,
     "email": "info@allmostudio.com",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/allmostudio/"
   },
   {
     "id": 20,
@@ -574,8 +591,8 @@
     "name": "VISIONARY Berlin",
     "area": "Mitte",
     "neighbourhood": "Mitte",
-    "lat": 52.53,
-    "lng": 13.385,
+    "lat": 52.5238982,
+    "lng": 13.3858428,
     "sqm": null,
     "ceil": null,
     "rate": "from €50/hr",
@@ -592,7 +609,8 @@
     "web": null,
     "v": 1,
     "email": "hello@visionary.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/visionary.berlin/"
   },
   {
     "id": 23,
@@ -649,8 +667,8 @@
     "name": "studio65 Berlin",
     "area": "Alt-Treptow",
     "neighbourhood": "Alt-Treptow",
-    "lat": 52.495,
-    "lng": 13.455,
+    "lat": 52.4851033,
+    "lng": 13.4548689,
     "sqm": null,
     "ceil": null,
     "rate": "from €70/hr",
@@ -667,15 +685,16 @@
     "web": null,
     "v": 1,
     "email": "mail@studio65.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/studio65_berlin/"
   },
   {
     "id": 27,
     "name": "waveDOTS",
     "area": "Lichtenberg",
     "neighbourhood": "Lichtenberg",
-    "lat": 52.515,
-    "lng": 13.495,
+    "lat": 52.5151765,
+    "lng": 13.4984721,
     "sqm": null,
     "ceil": null,
     "rate": "from €85/hr",
@@ -692,15 +711,16 @@
     "web": null,
     "v": 1,
     "email": "information@wavedots.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/wave_dots/"
   },
   {
     "id": 29,
     "name": "The Control Studio",
-    "area": "Charlottenburg",
-    "neighbourhood": "Charlottenburg",
-    "lat": 52.505,
-    "lng": 13.309,
+    "area": "Wilmersdorf",
+    "neighbourhood": "Halensee",
+    "lat": 52.4958499,
+    "lng": 13.2860913,
     "sqm": null,
     "ceil": null,
     "rate": "from €75/hr",
@@ -717,7 +737,8 @@
     "web": null,
     "v": 1,
     "email": "contact@thecontrol.studio",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/thecontrolstudio/"
   },
   {
     "id": 31,
@@ -745,15 +766,16 @@
     "web": "studioberlin.eu",
     "v": 1,
     "email": "mail@studioberlin.eu",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/studioberlin/"
   },
   {
     "id": 32,
     "name": "Ikonic Studio",
     "area": "Neukölln",
     "neighbourhood": "Neukölln",
-    "lat": 52.429,
-    "lng": 13.438,
+    "lat": 52.4641737,
+    "lng": 13.4361718,
     "sqm": 310,
     "ceil": "3.8m",
     "rate": "from €800/day",
@@ -776,7 +798,8 @@
     "web": "ikonic.studio",
     "v": 1,
     "email": "contact@ikonic.studio",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/ikonic.studio/"
   },
   {
     "id": 33,
@@ -801,15 +824,16 @@
     "web": null,
     "v": 1,
     "email": "info@sophiebrand.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/sophie_brand_studio/"
   },
   {
     "id": 34,
     "name": "Mietstudio Berlin Steglitz",
     "area": "Tempelhof-Schöneberg",
-    "neighbourhood": "Schöneberg",
-    "lat": 52.4826,
-    "lng": 13.354,
+    "neighbourhood": "Friedenau",
+    "lat": 52.4659654,
+    "lng": 13.3304071,
     "sqm": null,
     "ceil": null,
     "rate": "Enquire",
@@ -856,7 +880,8 @@
     "web": "westudio.de",
     "v": 1,
     "email": "info@westudio.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/westudio.de/"
   },
   {
     "id": 36,
@@ -888,7 +913,8 @@
     "web": "birkenstudio.de",
     "v": 1,
     "email": "mail@birkenstudio.de",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/birkenstudio_berlin/"
   },
   {
     "id": 37,
@@ -919,6 +945,7 @@
     "web": "studiostellar.berlin",
     "v": 1,
     "email": "contact@studiostellar.berlin",
-    "badge": false
+    "badge": false,
+    "instagram": "https://www.instagram.com/studiostellar.berlin/"
   }
 ]
