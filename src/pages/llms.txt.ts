@@ -3,6 +3,8 @@ import studios from '../data/studios.json';
 import { slugify, areaSlug } from '../lib/slug';
 import { FEATURES } from '../lib/features';
 
+const loc = (s: any) => s.neighbourhood === s.area ? `${s.area}, Berlin` : `${s.neighbourhood}, ${s.area} Berlin`;
+
 export const GET: APIRoute = () => {
   const list = studios as any[];
   const areas = Array.from(new Set(list.map(s => s.area))).sort();
@@ -28,7 +30,7 @@ export const GET: APIRoute = () => {
       s.blackout && 'blackout',
       s.driveIn && 'drive-in',
     ].filter(Boolean).join(', ');
-    lines.push(`- [${s.name}](${base}/studios/${slugify(s)}/): ${s.neighbourhood}, ${s.area} Berlin. ${s.rate}.${feats ? ` Features: ${feats}.` : ''}`);
+    lines.push(`- [${s.name}](${base}/studios/${slugify(s)}/): ${loc(s)}. ${s.rate}.${feats ? ` Features: ${feats}.` : ''}`);
   }
   lines.push('');
   lines.push('## Areas');
@@ -50,6 +52,10 @@ export const GET: APIRoute = () => {
   lines.push(`- [Cheap Photography Studios to Rent in Berlin](${base}/blog/cheap-photography-studios-berlin/): studios renting for €50/hr or less, cheapest first.`);
   lines.push(`- [Photography Studios with a Makeup Room in Berlin](${base}/blog/studios-with-makeup-room-berlin/): ${list.filter(s => s.makeup).length} studios with a dedicated makeup or hair and makeup area.`);
   lines.push(`- [Green Screen vs. Green Room Studios in Berlin](${base}/blog/green-screen-vs-green-room-studios-berlin/): clears up the difference between a chroma key backdrop and a private prep room, with ${list.filter(s => s.greenRoom).length} studios that have a green room.`);
+  lines.push('');
+  lines.push('## Optional');
+  lines.push(`- [Full studio details](${base}/llms-full.txt): every studio with size, ceiling height, rate, all feature flags, notes, website and coordinates in one plain-text file.`);
+  lines.push(`- [Contact](${base}/contact/): general enquiries. Studio corrections: hello@berlinstudiomap.com.`);
   lines.push('');
   lines.push('## Data');
   lines.push(`- [studios.json](${base}/studios.json): raw structured data backing every page on this site (id, name, area, neighbourhood, coordinates, rate, and feature flags).`);

@@ -17,6 +17,17 @@ const itemListJsonLd = {
     "url": `https://berlinstudiomap.com/studios/${slugify(s)}/`
   }))
 };
+const datasetJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Berlin photography studios for hire",
+  "description": "Structured data for photography studios for hire in Berlin: location, area, rate and feature flags (daylight, blackout, infinity cyclorama, drive-in, kitchen, makeup, green room, WiFi). Each listing is manually checked against the studio's own site.",
+  "url": "https://berlinstudiomap.com/studios/",
+  "creator": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/" },
+  "dateModified": "2026-10-12",
+  "spatialCoverage": "Berlin, Germany",
+  "distribution": [{ "@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://berlinstudiomap.com/studios.json" }]
+};
 ---
 <PageLayout
   title="All Photography Studios in Berlin | Berlin Studio Map"
@@ -24,6 +35,7 @@ const itemListJsonLd = {
   canonical="https://berlinstudiomap.com/studios/"
 >
 <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(datasetJsonLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / Studios</div>
   <h1>Photography Studios in Berlin</h1>
