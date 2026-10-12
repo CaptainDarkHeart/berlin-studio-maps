@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
+import Faq from '../../components/Faq.astro';
 
 const list = (studios as any[]).filter(s => s.makeup).sort((a, b) => a.name.localeCompare(b.name));
 const bothFacilities = list.filter(s => s.kitchen && s.greenRoom).length;
@@ -25,6 +26,11 @@ const articleJsonLd = {
   "image": "https://berlinstudiomap.com/og-image.png",
   "publisher": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/", "logo": { "@type": "ImageObject", "url": "https://berlinstudiomap.com/favicon.jpg" } }
 };
+const faqs = [
+  { q: "How many Berlin photography studios have a makeup room?", a: `${list.length} studios on Berlin Studio Map have a dedicated makeup or hair and makeup area.` },
+  { q: "Do I need a studio with a makeup room?", a: "It earns its keep with back to back subjects, wardrobe changes, or a client sitting in who needs somewhere private to wait. If you are booking a mobile hair and makeup artist anyway, a plain corner with a mirror and good light is usually enough." },
+  { q: "Which makeup room studios also have a kitchen and green room?", a: `${bothFacilities} of the ${list.length} studios with a makeup room also have both a kitchen and a green room (a private changing and prep space, not a chroma key backdrop), which matters most on full-day bookings with a crew.` }
+];
 ---
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
@@ -55,5 +61,6 @@ const articleJsonLd = {
   </div>
 
   <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+  <Faq items={faqs} />
 </div>
 </PageLayout>

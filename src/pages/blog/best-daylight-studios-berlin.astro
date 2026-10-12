@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
+import Faq from '../../components/Faq.astro';
 
 const list = (studios as any[]).filter(s => s.daylight).sort((a,b) => a.name.localeCompare(b.name));
 const title = "Best Daylight Photography Studios in Berlin | Berlin Studio Map";
@@ -24,6 +25,11 @@ const articleJsonLd = {
   "image": "https://berlinstudiomap.com/og-image.png",
   "publisher": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/", "logo": { "@type": "ImageObject", "url": "https://berlinstudiomap.com/favicon.jpg" } }
 };
+const faqs = [
+  { q: "How many Berlin photography studios have natural daylight?", a: `${list.length} studios on Berlin Studio Map offer natural daylight.` },
+  { q: "What matters most when choosing a daylight studio?", a: "Window orientation matters more than square footage. South-facing and skylight studios hold usable light longest through the day, especially in winter." },
+  { q: "How much daylight do Berlin studios get in winter?", a: "Berlin's winter cuts daylight to 7 to 8 hours a day in December. Every studio page on Berlin Studio Map shows a daylight hours table by month." }
+];
 ---
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
@@ -41,5 +47,6 @@ const articleJsonLd = {
       </a>
     ))}
   </div>
+  <Faq items={faqs} />
 </div>
 </PageLayout>

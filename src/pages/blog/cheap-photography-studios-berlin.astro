@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
+import Faq from '../../components/Faq.astro';
 
 function hourlyRate(rate: string): number | null {
   const m = rate.match(/€(\d+)\s*\/\s*(?:1)?hr/i) || rate.match(/from €(\d+)\/hr/i);
@@ -35,6 +36,11 @@ const articleJsonLd = {
   "image": "https://berlinstudiomap.com/og-image.png",
   "publisher": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/", "logo": { "@type": "ImageObject", "url": "https://berlinstudiomap.com/favicon.jpg" } }
 };
+const faqs = [
+  { q: "How much does a cheap photography studio cost to rent in Berlin?", a: `${budget.length} studios on Berlin Studio Map rent for €50/hr or less. The cheapest listed is ${cheapest.name} in ${cheapest.neighbourhood} at ${cheapest.rate}.` },
+  { q: "Why do Berlin studio rental rates vary so much?", a: "Ceiling height, cyclorama size, and location all push the price up. A blackout box in Lichtenberg or Weissensee will usually undercut a daylight loft in Mitte or Prenzlauer Berg, and a studio with a full kitchen, makeup room, and green room costs more to run than a bare shell." },
+  { q: "Is the hourly rate the full cost of a cheap studio?", a: "Not always. Several budget studios set a minimum booking of 3 to 5 hours, so the headline hourly rate isn't always what you'll pay. Check the minimum on each studio's page before you book." }
+];
 ---
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
@@ -62,5 +68,6 @@ const articleJsonLd = {
   </div>
 
   <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+  <Faq items={faqs} />
 </div>
 </PageLayout>

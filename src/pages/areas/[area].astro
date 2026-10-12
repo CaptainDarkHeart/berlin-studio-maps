@@ -24,6 +24,15 @@ const itemListJsonLd = {
     "url": `https://berlinstudiomap.com/studios/${slugify(s)}/`
   }))
 };
+const breadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://berlinstudiomap.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Studios", "item": "https://berlinstudiomap.com/studios/" },
+    { "@type": "ListItem", "position": 3, "name": area, "item": `https://berlinstudiomap.com/areas/${areaSlug(area)}/` }
+  ]
+};
 ---
 <PageLayout
   title={`Photography Studios in ${area}, Berlin | Berlin Studio Map`}
@@ -31,6 +40,7 @@ const itemListJsonLd = {
   canonical={`https://berlinstudiomap.com/areas/${areaSlug(area)}/`}
 >
 <script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
 <div class="container">
   <div class="breadcrumb"><a href="/">Home</a> / <a href="/studios/">Studios</a> / {area}</div>
 

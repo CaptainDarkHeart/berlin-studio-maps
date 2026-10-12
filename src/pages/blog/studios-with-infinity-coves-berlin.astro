@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
+import Faq from '../../components/Faq.astro';
 
 const list = (studios as any[]).filter(s => s.ciclorama).sort((a,b) => a.name.localeCompare(b.name));
 const title = "Photography Studios with Infinity Cycloramas in Berlin | Berlin Studio Map";
@@ -24,6 +25,11 @@ const articleJsonLd = {
   "image": "https://berlinstudiomap.com/og-image.png",
   "publisher": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/", "logo": { "@type": "ImageObject", "url": "https://berlinstudiomap.com/favicon.jpg" } }
 };
+const faqs = [
+  { q: "How many Berlin photography studios have an infinity cyclorama?", a: `${list.length} studios on Berlin Studio Map have a dedicated infinity cyclorama: ${list.map((s: any) => s.name).join(', ')}.` },
+  { q: "Which Berlin cyclorama studios have drive-in access for cars?", a: `${list.filter((s: any) => s.driveIn).length} of the ${list.length} cyclorama studios offer drive-in vehicle access: ${list.filter((s: any) => s.driveIn).map((s: any) => s.name).join(', ')}.` },
+  { q: "What should I check before booking a cyclorama studio?", a: "Cyclorama sizes vary widely. Check ceiling height for lighting rigs and headroom, and drive-in access if you are shooting vehicles." }
+];
 ---
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
@@ -42,5 +48,6 @@ const articleJsonLd = {
       </a>
     ))}
   </div>
+  <Faq items={faqs} />
 </div>
 </PageLayout>

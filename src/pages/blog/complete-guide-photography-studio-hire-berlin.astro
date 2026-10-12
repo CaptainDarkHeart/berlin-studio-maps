@@ -2,6 +2,7 @@
 import PageLayout from '../../layouts/PageLayout.astro';
 import studios from '../../data/studios.json';
 import { slugify } from '../../lib/slug';
+import Faq from '../../components/Faq.astro';
 
 const total = studios.length;
 const areas = Array.from(new Set((studios as any[]).map(s => s.area))).sort();
@@ -28,6 +29,12 @@ const articleJsonLd = {
   "image": "https://berlinstudiomap.com/og-image.png",
   "publisher": { "@type": "Organization", "name": "Berlin Studio Map", "url": "https://berlinstudiomap.com/", "logo": { "@type": "ImageObject", "url": "https://berlinstudiomap.com/favicon.jpg" } }
 };
+const faqs = [
+  { q: "How many photography studios can I hire in Berlin?", a: `Berlin Studio Map lists ${total} photography studios across ${areas.length} areas: ${areas.join(', ')}. ${daylight} have natural daylight, ${ciclorama} have an infinity cyclorama, and ${driveIn} offer drive-in vehicle access.` },
+  { q: "Should I book a daylight or a blackout studio in Berlin?", a: "Daylight studios suit editorial and lifestyle work, but Berlin's winter cuts that light to 7 to 8 hours a day in December. Blackout studios give you full control year-round instead." },
+  { q: "How do I find a studio with a seamless background?", a: `Look for a studio with an infinity cyclorama rather than a paper backdrop. ${ciclorama} Berlin studios have one, from tight 6x6m setups to full 10x10m cycloramas with drive-in access for car and motorbike shoots.` },
+  { q: "Does Berlin Studio Map charge a commission or take bookings?", a: "No. It is a free directory with no booking system or commission. Each listing links to the studio's own contact channel, so you deal with the studio directly." }
+];
 ---
 <PageLayout title={title} description={description} canonical={canonical} type="article">
 <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
@@ -56,5 +63,6 @@ const articleJsonLd = {
   </div>
 
   <p style="margin-top:24px"><a href="/studios/">See the full A–Z list →</a></p>
+  <Faq items={faqs} />
 </div>
 </PageLayout>
