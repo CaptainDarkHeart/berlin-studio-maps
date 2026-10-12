@@ -14,7 +14,7 @@ export const GET: APIRoute = () => {
   lines.push('');
   lines.push(`> ${list.length} photography studios for hire in Berlin across ${areas.length} areas. Each listing is manually checked against the studio's own site. Berlin Studio Map is a free directory with no booking system or commission: contact each studio directly. Short index: ${base}/llms.txt. Structured data: ${base}/studios.json.`);
   lines.push('');
-  lines.push('Rates are as listed on each studio's own site when checked and can change. Confirm with the studio before booking.');
+  lines.push("Rates are as listed on each studio's own site when checked and can change. Confirm with the studio before booking.");
   lines.push('');
   for (const s of list) {
     lines.push(`## ${s.name}`);
