@@ -17,6 +17,9 @@
 		{ "pattern": "berlinstudiomap.com", "custom_domain": true },
 		{ "pattern": "www.berlinstudiomap.com", "custom_domain": true }
 	],
+	"analytics_engine_datasets": [
+		{ "binding": "ANALYTICS", "dataset": "eventmap_events" }
+	],
 	"d1_databases": [
 		{
 			"binding": "DB",

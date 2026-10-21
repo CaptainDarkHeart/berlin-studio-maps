@@ -1,3 +1,5 @@
+// @ts-ignore shared JS module (agents/analytics)
+import { handleTrack } from './track-handler.js';
 import studios from './data/studios.json';
 
 interface D1Result<T> {
@@ -17,6 +19,7 @@ interface D1Database {
 
 interface Env {
   ASSETS: { fetch: typeof fetch };
+  ANALYTICS?: { writeDataPoint(d: unknown): void };
   DB: D1Database;
   TURNSTILE_SITEKEY: string;
   TURNSTILE_SECRET: string;
@@ -336,6 +339,7 @@ export default {
       url.hostname = CANONICAL_HOST;
       return Response.redirect(url.toString(), 301);
     }
+    if (url.pathname === '/api/e' && request.method === 'POST') return handleTrack(request, env);
     const redirectTo = REDIRECTS[url.pathname];
     if (redirectTo) {
       url.pathname = redirectTo;
